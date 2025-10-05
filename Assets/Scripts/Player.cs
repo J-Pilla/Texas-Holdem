@@ -62,6 +62,12 @@ public class Player
         DealerIndex = dealerIndex;
     }
 
+    public static void ResetCount()
+    {
+        Count = 0;
+        DealerIndex = 0;
+    }
+
     // non-static methods
     public void AddCard(int cardId)
     {

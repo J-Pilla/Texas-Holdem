@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         if (GameState == State.Reset)
-            GameState = State.None;
+            GameReset();
 
         if (nextState.WasPressedThisFrame())
             NextState();
@@ -118,6 +118,16 @@ public class GameManager : MonoBehaviour
                 board[CardIndex - playerCardCount] = new Card(CardIds[CardIndex]);
             }
         }
+    }
+
+    void GameReset()
+    {
+        GameState = State.None;
+
+        Player.ResetCount();
+
+        for (int index = 0; index < MAX_PLAYERS / 2; index++) // test loop replacing players
+            players[index] = new Player($"Player {index + 1}");
     }
     // enums
     public enum State : byte
