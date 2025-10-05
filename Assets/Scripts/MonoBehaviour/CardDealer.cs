@@ -36,13 +36,13 @@ public class CardDealer : MonoBehaviour
         }
     }
 
-    public void InstantiateCards()
+    public void InstantiateCard(int playerIndex, int transformIndex)
     {
-        for (int index = 0; index < Player.Count; index++)
-            foreach (Transform transform in playerTargets[index])
-                Instantiate(m_cardPrefab, transform);
+        Instantiate(m_cardPrefab, playerTargets[playerIndex][transformIndex]);
+    }
 
-        foreach (Transform transform in boardTargets)
-            Instantiate(m_cardPrefab, transform);
+    public void InstantiateCard(int index)
+    {
+        Instantiate(m_cardPrefab, boardTargets[index]);
     }
 }

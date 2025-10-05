@@ -6,7 +6,6 @@ public class FileGenerator : MonoBehaviour
 {
     const int iterations = 1000;
     const string FILE = "data.json";
-    Deck deck = new Deck();
     Player player = new Player("Jason");
     Card[] board = new Card[BOARD_SIZE];
     string[] holeCards = new string[Hole.SIZE];
@@ -30,18 +29,18 @@ public class FileGenerator : MonoBehaviour
             id = (i + 1).ToString();
 
             for (int index = 0; index < 3; index++)
-                deck.Shuffle();
+                Deck.Shuffle();
 
             for (int index = 0; index < HAND_SIZE; index++)
             {
                 if (index < Hole.SIZE)
                 {
-                    player.Hole.Cards[index] = new Card(deck.CardIds[index], true);
+                    player.Hole.Cards[index] = new Card(Deck.CardIds[index], true);
                     holeCards[index] = player.Hole.Cards[index].Name;
                 }
                 else
                 {
-                    board[index - Hole.SIZE] = new Card(deck.CardIds[index], false);
+                    board[index - Hole.SIZE] = new Card(Deck.CardIds[index], false);
                     boardCards[index - Hole.SIZE] = board[index - Hole.SIZE].Name;
                 }
             }

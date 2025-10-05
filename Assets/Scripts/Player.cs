@@ -18,6 +18,7 @@ public class Player
     public int Bet { get; set; }
     public Blind Blind { get; set; }
     public Hole Hole { get; set; }
+    public int CardCount { get { return Hole.CardCount; } }
     public Hand Hand { get; private set; }
     public string FullHand
     {

@@ -1,23 +1,32 @@
 ﻿using System;
 
-public class Deck
+public static class Deck
 {
-    // static members
+    // members & properties
     public const byte SIZE = 52;
     public const byte SHUFFLE_COUNT = 4;
 
-    // non-static members & properties
-    int[] cardIds;
-    public int[] CardIds { get { return cardIds; } }
+    public static int[] CardIds { get; private set; } = new int[SIZE];
+    public static int CardIndex { get; set; } = 0;
 
-    // non-static methods
+    // methods
+    /// <summary>
+    /// initializes the deck so each element carries a card id equal to the index
+    /// </summary>
+    public static void InitializeDeck()
+    {
+        for (int index = 0; index < SIZE; index++)
+            CardIds[index] = index;
+    }
     /// <summary>
     /// randomize the order of the card ids in the deck
     /// and sets deckIndex back down to 0
     /// </summary>
-    public void Shuffle()
+    public static void Shuffle()
     {
         Random randomNumber = new Random();
+
+        CardIndex = 0;
 
         for (int ctr = 0; ctr < SHUFFLE_COUNT; ctr++)
         {
@@ -27,14 +36,14 @@ public class Deck
             for (int index = 0; index < SIZE; index++)
             {
                 int randomIndex = randomNumber.Next(index, SIZE - 1);
-                int tempId = cardIds[index];
-                cardIds[index] = cardIds[randomIndex];
-                cardIds[randomIndex] = tempId;
+                int tempId = CardIds[index];
+                CardIds[index] = CardIds[randomIndex];
+                CardIds[randomIndex] = tempId;
             }
         }
     }
 
-    void Cut()
+    static void Cut()
     {
         Random randomNumber = new Random();
         int cutPoint = randomNumber.Next(22, 29);
@@ -42,30 +51,14 @@ public class Deck
         int[] lowerIds = new int[cutPoint];
 
         for (int index = 0; index < cutPoint; index++)
-            lowerIds[index] = cardIds[index];
+            lowerIds[index] = CardIds[index];
 
         for (int index = 0; index < SIZE; index++)
         {
             if (index < remainingCards)
-                cardIds[index] = cardIds[index + cutPoint];
+                CardIds[index] = CardIds[index + cutPoint];
             else
-                cardIds[index] = lowerIds[index - remainingCards];
+                CardIds[index] = lowerIds[index - remainingCards];
         }
-    }
-
-    // constructors
-    public Deck()
-    {
-        cardIds = new int[SIZE];
-        InitializeDeck();
-    }
-
-    /// <summary>
-    /// initializes the deck so each element carries a card id equal to the index
-    /// </summary>
-    void InitializeDeck()
-    {
-        for (int index = 0; index < SIZE; index++)
-            cardIds[index] = index;
     }
 }
