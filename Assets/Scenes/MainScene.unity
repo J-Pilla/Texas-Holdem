@@ -129,7 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 56328314}
   m_Layer: 0
-  m_Name: Target 3
+  m_Name: Flop Target 3
   m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -148,7 +148,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 339175267}
+  m_Father: {fileID: 1239136932}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &82957592
 GameObject:
@@ -312,7 +312,7 @@ Transform:
   m_GameObject: {fileID: 216925609}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.25, y: 0, z: 0}
+  m_LocalPosition: {x: 0.25, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -343,7 +343,7 @@ Transform:
   m_GameObject: {fileID: 277517232}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.25, y: 0, z: 0}
+  m_LocalPosition: {x: 0.25, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -374,7 +374,7 @@ Transform:
   m_GameObject: {fileID: 277922158}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.25, y: 0, z: 0}
+  m_LocalPosition: {x: 0.25, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -390,7 +390,7 @@ GameObject:
   m_Component:
   - component: {fileID: 290833696}
   m_Layer: 0
-  m_Name: Target 1
+  m_Name: Flop Target 1
   m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -409,7 +409,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 339175267}
+  m_Father: {fileID: 1239136932}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &293449906
 GameObject:
@@ -527,7 +527,7 @@ Transform:
   m_GameObject: {fileID: 335622625}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.25, y: 0, z: 0}
+  m_LocalPosition: {x: -0.25, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -545,8 +545,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1bccbb95d9c7aa4d9494fc01eea6087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardFlipper
-  m_cardDealer: {fileID: 0}
-  m_cardIndex: 1
+  m_gameManager: {fileID: 0}
 --- !u!1 &337638845
 GameObject:
   m_ObjectHideFlags: 0
@@ -572,45 +571,11 @@ Transform:
   m_GameObject: {fileID: 337638845}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.25, y: 0, z: 0}
+  m_LocalPosition: {x: 0.25, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1755343323}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &339175266
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 339175267}
-  m_Layer: 0
-  m_Name: Flop
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &339175267
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 339175266}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 290833696}
-  - {fileID: 398539796}
-  - {fileID: 56328314}
-  m_Father: {fileID: 1239136932}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &340159850
 GameObject:
@@ -638,7 +603,7 @@ Transform:
   m_GameObject: {fileID: 340159850}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.25, y: 0, z: 0}
+  m_LocalPosition: {x: -0.25, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -656,8 +621,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1bccbb95d9c7aa4d9494fc01eea6087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardFlipper
-  m_cardDealer: {fileID: 0}
-  m_cardIndex: 1
+  m_gameManager: {fileID: 0}
 --- !u!1 &398539795
 GameObject:
   m_ObjectHideFlags: 0
@@ -668,7 +632,7 @@ GameObject:
   m_Component:
   - component: {fileID: 398539796}
   m_Layer: 0
-  m_Name: Target 2
+  m_Name: Flop Target 2
   m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -687,7 +651,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 339175267}
+  m_Father: {fileID: 1239136932}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &438321665
 GameObject:
@@ -715,7 +679,7 @@ Transform:
   m_GameObject: {fileID: 438321665}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.25, y: 0, z: 0}
+  m_LocalPosition: {x: -0.25, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -733,8 +697,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1bccbb95d9c7aa4d9494fc01eea6087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardFlipper
-  m_cardDealer: {fileID: 0}
-  m_cardIndex: 1
+  m_gameManager: {fileID: 0}
 --- !u!1 &442707691
 GameObject:
   m_ObjectHideFlags: 0
@@ -892,12 +855,71 @@ Transform:
   m_GameObject: {fileID: 606650644}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.25, y: 0, z: 0}
+  m_LocalPosition: {x: 0.25, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1189358175}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &704968190
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 704968191}
+  - component: {fileID: 704968192}
+  m_Layer: 0
+  m_Name: Card Dealer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &704968191
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 704968190}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1624398786}
+  - {fileID: 1239136932}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &704968192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 704968190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32d7ff3f88876c04a978fd874a05f603, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardDealer
+  m_cardPrefab: {fileID: 8199653303839364018, guid: 71861fd840ce9f9429c459872afe4c85, type: 3}
+  m_players:
+  - {fileID: 1189358174}
+  - {fileID: 477823178}
+  - {fileID: 1755343322}
+  - {fileID: 1261467093}
+  - {fileID: 442707691}
+  - {fileID: 450257198}
+  - {fileID: 491944351}
+  - {fileID: 2011043177}
+  - {fileID: 869523810}
+  - {fileID: 1559196506}
+  m_board: {fileID: 1239136931}
 --- !u!1 &772880213
 GameObject:
   m_ObjectHideFlags: 0
@@ -924,7 +946,7 @@ Transform:
   m_GameObject: {fileID: 772880213}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.25, y: 0, z: 0}
+  m_LocalPosition: {x: -0.25, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -942,8 +964,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1bccbb95d9c7aa4d9494fc01eea6087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardFlipper
-  m_cardDealer: {fileID: 0}
-  m_cardIndex: 1
+  m_gameManager: {fileID: 0}
 --- !u!1 &850030193
 GameObject:
   m_ObjectHideFlags: 0
@@ -1053,7 +1074,7 @@ Transform:
   m_GameObject: {fileID: 856496043}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.25, y: 0, z: 0}
+  m_LocalPosition: {x: 0.25, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1085,7 +1106,7 @@ Transform:
   m_GameObject: {fileID: 865461144}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.25, y: 0, z: 0}
+  m_LocalPosition: {x: -0.25, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1103,8 +1124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1bccbb95d9c7aa4d9494fc01eea6087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardFlipper
-  m_cardDealer: {fileID: 0}
-  m_cardIndex: 1
+  m_gameManager: {fileID: 0}
 --- !u!1 &869523810
 GameObject:
   m_ObjectHideFlags: 0
@@ -1164,7 +1184,7 @@ Transform:
   m_GameObject: {fileID: 985701539}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.25, y: 0, z: 0}
+  m_LocalPosition: {x: -0.25, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1182,8 +1202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1bccbb95d9c7aa4d9494fc01eea6087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardFlipper
-  m_cardDealer: {fileID: 0}
-  m_cardIndex: 1
+  m_gameManager: {fileID: 0}
 --- !u!1 &1173276123
 GameObject:
   m_ObjectHideFlags: 0
@@ -1213,6 +1232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea5ef7291a60ded48bad537007a73ca6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  m_cardDealer: {fileID: 704968192}
 --- !u!4 &1173276125
 Transform:
   m_ObjectHideFlags: 0
@@ -1253,7 +1273,7 @@ Transform:
   m_GameObject: {fileID: 1186569900}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.25, y: 0, z: 0}
+  m_LocalPosition: {x: 0.25, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1316,15 +1336,17 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1239136931}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 339175267}
+  - {fileID: 290833696}
+  - {fileID: 398539796}
+  - {fileID: 56328314}
   - {fileID: 2136954625}
   - {fileID: 1444544798}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 704968191}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1261467093
 GameObject:
@@ -1385,7 +1407,7 @@ Transform:
   m_GameObject: {fileID: 1427110148}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.25, y: 0, z: 0}
+  m_LocalPosition: {x: -0.25, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1403,8 +1425,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1bccbb95d9c7aa4d9494fc01eea6087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardFlipper
-  m_cardDealer: {fileID: 0}
-  m_cardIndex: 1
+  m_gameManager: {fileID: 0}
 --- !u!1 &1444544797
 GameObject:
   m_ObjectHideFlags: 0
@@ -1462,7 +1483,7 @@ Transform:
   m_GameObject: {fileID: 1537876481}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.25, y: 0, z: 0}
+  m_LocalPosition: {x: -0.25, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1480,8 +1501,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1bccbb95d9c7aa4d9494fc01eea6087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardFlipper
-  m_cardDealer: {fileID: 0}
-  m_cardIndex: 1
+  m_gameManager: {fileID: 0}
 --- !u!1 &1559196506
 GameObject:
   m_ObjectHideFlags: 0
@@ -1539,7 +1559,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1624398785}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1554,7 +1574,7 @@ Transform:
   - {fileID: 2011043178}
   - {fileID: 869523811}
   - {fileID: 1559196507}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 704968191}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1634226777
 GameObject:
@@ -1581,7 +1601,7 @@ Transform:
   m_GameObject: {fileID: 1634226777}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.25, y: 0, z: 0}
+  m_LocalPosition: {x: 0.25, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1645,7 +1665,7 @@ Transform:
   m_GameObject: {fileID: 1783477127}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.25, y: 0, z: 0}
+  m_LocalPosition: {x: 0.25, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1677,7 +1697,7 @@ Transform:
   m_GameObject: {fileID: 1807160915}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.25, y: 0, z: 0}
+  m_LocalPosition: {x: -0.25, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1695,8 +1715,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1bccbb95d9c7aa4d9494fc01eea6087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardFlipper
-  m_cardDealer: {fileID: 0}
-  m_cardIndex: 1
+  m_gameManager: {fileID: 0}
 --- !u!1 &1836828906
 GameObject:
   m_ObjectHideFlags: 0
@@ -1813,7 +1832,7 @@ Transform:
   m_GameObject: {fileID: 2004767782}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.25, y: 0, z: 0}
+  m_LocalPosition: {x: -0.25, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1831,8 +1850,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1bccbb95d9c7aa4d9494fc01eea6087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardFlipper
-  m_cardDealer: {fileID: 0}
-  m_cardIndex: 1
+  m_gameManager: {fileID: 0}
 --- !u!1 &2007146910
 GameObject:
   m_ObjectHideFlags: 0
@@ -1858,7 +1876,7 @@ Transform:
   m_GameObject: {fileID: 2007146910}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.25, y: 0, z: 0}
+  m_LocalPosition: {x: 0.25, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1937,5 +1955,4 @@ SceneRoots:
   - {fileID: 850030195}
   - {fileID: 1836828908}
   - {fileID: 293449908}
-  - {fileID: 1239136932}
-  - {fileID: 1624398786}
+  - {fileID: 704968191}

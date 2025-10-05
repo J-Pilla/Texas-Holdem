@@ -37,7 +37,7 @@ public class Card
         Suit = (Suit)(Id % 4);
         InPlayerHand = inPlayerHand;
     }
-     public Card (Rank rank, Suit suit, bool inPlayerHand)
+    public Card (Rank rank, Suit suit, bool inPlayerHand)
     {
         Id += (int)suit;
         Rank = rank;

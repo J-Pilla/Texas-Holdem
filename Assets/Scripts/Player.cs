@@ -18,6 +18,7 @@ public class Player
     public int Bet { get; set; }
     public Blind Blind { get; set; }
     public Hole Hole { get; set; }
+    public int CardCount { get { return Hole.CardCount; } }
     public Hand Hand { get; private set; }
     public string FullHand
     {
@@ -48,7 +49,7 @@ public class Player
     }
 
     // static method
-    public void NextDealer()
+    public static void NextDealer()
     {
         if (DealerIndex < Count)
             DealerIndex++;
@@ -56,9 +57,15 @@ public class Player
             DealerIndex = 0;
     }
 
-    public void SetInitialDealer(int dealerIndex)
+    public static void SetInitialDealer(int dealerIndex)
     {
         DealerIndex = dealerIndex;
+    }
+
+    public static void ResetCount()
+    {
+        Count = 0;
+        DealerIndex = 0;
     }
 
     // non-static methods
