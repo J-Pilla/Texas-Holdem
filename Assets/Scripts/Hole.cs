@@ -1,5 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using static GameManager;
+﻿using static GameManager;
 
 public class Hole
 {

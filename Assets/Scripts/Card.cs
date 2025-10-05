@@ -30,7 +30,7 @@ public class Card
     }
 
     // constructors
-    public Card(int id, bool inPlayerHand)
+    public Card(int id, bool inPlayerHand = false)
     {
         Id = id;
         Rank = (Rank)(Id % 13 + 2);

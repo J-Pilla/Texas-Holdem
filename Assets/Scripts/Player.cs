@@ -1,14 +1,16 @@
-using System;
-using System.Runtime.ConstrainedExecution;
 using System.Text.RegularExpressions;
-using System.Xml.Serialization;
 using static GameManager;
-using static UnityEngine.InputSystem.InputControlScheme.MatchResult;
 
 public class Player
 {
     // static members & properties
+    static int dealerIndex = 0;
     public static byte Count { get; private set; } = 0;
+    public static int DealerIndex
+    {
+        get { return dealerIndex; }
+        set {  dealerIndex = value < Count ? value : 0; }
+    }
     
     // non-static members & properties
     public string Name { get; private set; }
@@ -45,6 +47,25 @@ public class Player
         }
     }
 
+    // static method
+    public void NextDealer()
+    {
+        if (DealerIndex < Count)
+            DealerIndex++;
+        else
+            DealerIndex = 0;
+    }
+
+    public void SetInitialDealer(int dealerIndex)
+    {
+        DealerIndex = dealerIndex;
+    }
+
+    // non-static methods
+    public void AddCard(int cardId)
+    {
+        Hole.AddCard(cardId);
+    }
 
     // combine community cards with players hand
     void CombineCards(Card[] board, Card[] combined)

@@ -3,7 +3,8 @@
 public class Deck
 {
     // static members
-    public const int SIZE = 52;
+    public const byte SIZE = 52;
+    public const byte SHUFFLE_COUNT = 4;
 
     // non-static members & properties
     int[] cardIds;
@@ -18,12 +19,37 @@ public class Deck
     {
         Random randomNumber = new Random();
 
+        for (int ctr = 0; ctr < SHUFFLE_COUNT; ctr++)
+        {
+            if (ctr == SHUFFLE_COUNT - 1)
+                Cut();
+
+            for (int index = 0; index < SIZE; index++)
+            {
+                int randomIndex = randomNumber.Next(index, SIZE - 1);
+                int tempId = cardIds[index];
+                cardIds[index] = cardIds[randomIndex];
+                cardIds[randomIndex] = tempId;
+            }
+        }
+    }
+
+    void Cut()
+    {
+        Random randomNumber = new Random();
+        int cutPoint = randomNumber.Next(22, 29);
+        int remainingCards = SIZE - cutPoint;
+        int[] lowerIds = new int[cutPoint];
+
+        for (int index = 0; index < cutPoint; index++)
+            lowerIds[index] = cardIds[index];
+
         for (int index = 0; index < SIZE; index++)
         {
-            int randomIndex = randomNumber.Next(index, SIZE - 1);
-            int tempId = cardIds[index];
-            cardIds[index] = cardIds[randomIndex];
-            cardIds[randomIndex] = tempId;
+            if (index < remainingCards)
+                cardIds[index] = cardIds[index + cutPoint];
+            else
+                cardIds[index] = lowerIds[index - remainingCards];
         }
     }
 
