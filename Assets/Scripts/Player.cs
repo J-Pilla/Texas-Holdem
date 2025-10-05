@@ -124,7 +124,7 @@ public class Player
         if (Hand < Hand.Straight)
         {
             for (int ctr = HAND_SIZE - 1; cards[ctr].Rank == Rank.Ace; ctr--)
-            {
+            { // chacking for an ace - 5 straight
                 if (!cards[ctr].InPlayerHand)
                     continue; // if the card isn't in the player's hand, skip the iteration
 
@@ -153,46 +153,45 @@ public class Player
     void CheckStraightFlush(Card[] cards)
     {
         int length; // length of the straight
-        Rank highCard;
 
-        for (int ctr = HAND_SIZE - 1; ctr >= 0; ctr--)
+        for (int ctr = HAND_SIZE - 1, holeCount = 0; holeCount < 2; ctr--)
         {
             if (!cards[ctr].InPlayerHand)
                 continue; // if the card isn't in the player's hand, skip the iteration
 
+            holeCount++;
             length = 1; // reset length to 1
-            highCard = cards[ctr].Rank;
+            Rank highCard = cards[ctr].Rank; // the highest card of the straight
 
             for (int index = ctr + 1; index < HAND_SIZE && length < 5; index++)
             {
                 if (cards[index].Rank - cards[index - 1].Rank > 1)
                     break; // break if the card isn't the next in the sequence for straights or a dupe
 
-                if (cards[index].Suit != cards[ctr].Suit)
-                    continue;  // if the card doesn't match the suit, skip the iteration, this also skips dupes
-
-                length++;
-                highCard = cards[index].Rank;
+                if (cards[index].Suit == cards[ctr].Suit)
+                { // if the card matches suits, increase length and update the high card
+                    length++;
+                    highCard = cards[index].Rank;
+                }
             }
 
             if (length < 5)
             {
-                Rank lowCard = cards[ctr].Rank;
-
+                Rank lowCard = cards[ctr].Rank; // the lowest card of the straight
                 for (int index = ctr - 1; index >= 0 && length < 5; index--)
                 {
                     if (cards[index + 1].Rank - cards[index].Rank > 1)
                         break; // break if the card isn't the next in the sequence for straights or a dupe
 
-                    if (cards[index].Suit != cards[ctr].Suit)
-                        continue;  // if the card doesn't match the suit, skip the iteration, this also skips dupes
-
-                    length++;
-                    lowCard = cards[index].Rank;
+                    if (cards[index].Suit == cards[ctr].Suit)
+                    { // if the card matches suits, increase length and update the low card
+                        length++;
+                        lowCard = cards[index].Rank;
+                    }
                 }
 
                 if (length == 4 && lowCard == Rank.Two)
-                {
+                { // chacking for an ace - 5 straight flush
                     for (int index = HAND_SIZE - 1; cards[index].Rank == Rank.Ace; index--)
                     {
                         if (cards[index].Suit == cards[ctr].Suit)
@@ -213,7 +212,7 @@ public class Player
         }
 
         if (Hand < Hand.StraightFlush)
-        {
+        { // chacking for an ace - 5 straight flush
             for (int ctr = HAND_SIZE - 1; cards[ctr].Rank == Rank.Ace; ctr--)
             {
                 if (!cards[ctr].InPlayerHand)
@@ -226,10 +225,8 @@ public class Player
                     if (cards[index].Rank - Rank.LowAce > length)
                         break; // break if the card isn't the next in the sequence for straights or a dupe
 
-                    if (cards[index].Suit != cards[ctr].Suit)
-                        continue;  // if the card doesn't match the suit, skip the iteration, this also skips dupes
-
-                    length++;
+                    if (cards[index].Suit == cards[ctr].Suit)
+                        length++; // if the card matches suits, increase length
                 }
 
                 if (length == 5)
