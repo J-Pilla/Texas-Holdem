@@ -3,9 +3,11 @@ using UnityEngine.InputSystem;
 
 public class CardFlipper : MonoBehaviour
 {
+    // serialized members
+    [SerializeField] GameManager m_gameManager;
+    //[SerializeField] CardDealer m_cardDealer;
+    // private members
     SpriteRenderer m_spriteRenderer;
-    [SerializeField] CardDealer m_cardDealer;
-    [SerializeField] int m_cardIndex = 0;
     InputAction flip;
     int flipCount = 0;
     bool isFlipped = false;
@@ -21,10 +23,10 @@ public class CardFlipper : MonoBehaviour
     void LateUpdate()
     {
         if (flip.WasPressedThisFrame())
-        {
+        {/*
             if (!isFlipped)
             {
-                m_spriteRenderer.sprite = Resources.Load($"Playing Cards\\{m_cardDealer.Cards[m_cardIndex].File}", typeof(Sprite)) as Sprite;
+                //m_spriteRenderer.sprite = Resources.Load($"Playing Cards\\{m_cardDealer.Cards[m_cardIndex].File}", typeof(Sprite)) as Sprite;
                 m_spriteRenderer.sortingOrder = m_spriteRenderer.sortingOrder == 0 ? 1 : 0;
                 flipCount++;
             }
@@ -32,7 +34,7 @@ public class CardFlipper : MonoBehaviour
             {
                 m_spriteRenderer.sprite = Resources.Load($"Playing Cards\\card-back{flipCount % 4 + 1}", typeof(Sprite)) as Sprite;
                 m_spriteRenderer.sortingOrder = m_spriteRenderer.sortingOrder == 0 ? 1 : 0;
-            }
+            }*/
 
             isFlipped = !isFlipped;
         }

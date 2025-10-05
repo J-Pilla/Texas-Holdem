@@ -1,76 +1,48 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 using static GameManager;
 
 public class CardDealer : MonoBehaviour
 {
-    Deck deck = new Deck();
-    Card[] cards;
-    public Card[] Cards { get { return cards; } }
-    InputAction flip;
-    bool isFlipped = false;
+    // serialized members
+    [SerializeField] GameObject m_cardPrefab;
+    [SerializeField] GameObject[] m_players;
+    [SerializeField] GameObject m_board;
+    // private members
+    Transform[][] playerTargets = new Transform[MAX_PLAYERS][];
+    Transform[] boardTargets = new Transform[BOARD_SIZE];
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
+    private void Start()
     {
-        cards = new Card[HAND_SIZE];
-        for (int index = 0; index < 3; index++)
-            deck.Shuffle();
+        for (int index = 0; index < MAX_PLAYERS; index++)
+            SetTargets(ref playerTargets[index], m_players[index]);
 
-        for (int index = 0;index < HAND_SIZE; index++)
-            cards[index] = new Card(deck.CardIds[index], index < Hole.SIZE);
-
-        cards[0] = new Card(Rank.Jack, Suit.Spades, true);
-        cards[1] = new Card(Rank.Five, Suit.Hearts, true);
-        cards[2] = new Card(Rank.Seven, Suit.Clubs, false);
-        cards[3] = new Card(Rank.Ace, Suit.Hearts, false);
-        cards[4] = new Card(Rank.Six, Suit.Hearts, false);
-        cards[5] = new Card(Rank.King, Suit.Clubs, false);
-        cards[6] = new Card(Rank.Four, Suit.Clubs, false);
-
-
-        /*
-           "id": 217,
-            "hole": [
-                "Jack of Spades",
-                "Five of Hearts",
-            ],
-            "board": [
-                "Seven of Clubs",
-                "Ace of Hearts",
-                "Six of Hearts",
-                "King of Clubs",
-                "Four of Clubs",
-            ],
-            "hand": "Straight",
-            "highCard": "Five",
-            "kicker": "Jack"
-        */
-
+        SetTargets(ref boardTargets, m_board);
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void SetTargets(ref Transform[] targets, GameObject gameObject)
     {
-        flip = InputSystem.actions.FindAction("Jump");
-    }
+        Transform[] transforms = gameObject.GetComponentsInChildren<Transform>();
 
+        targets = gameObject == m_board ?
+            new Transform[BOARD_SIZE] : new Transform[Hole.SIZE];
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (flip.WasPressedThisFrame())
+        for (int ctr = 0, index = 0; index < targets.Length; ctr++)
         {
-            if (isFlipped)
+            if (transforms[ctr].gameObject != gameObject)
             {
-                for (int index = 0; index < 3; index++)
-                    deck.Shuffle();
-
-                for (int index = 0; index < HAND_SIZE; index++)
-                    cards[index] = new Card(deck.CardIds[index], index < Hole.SIZE);
+                targets[index] = transforms[ctr];
+                index++;
             }
-
-            isFlipped = !isFlipped;
         }
+    }
+
+    public void InstantiateCards()
+    {
+        for (int index = 0; index < Player.Count; index++)
+            foreach (Transform transform in playerTargets[index])
+                Instantiate(m_cardPrefab, transform);
+
+        foreach (Transform transform in boardTargets)
+            Instantiate(m_cardPrefab, transform);
     }
 }

@@ -48,7 +48,7 @@ public class Player
     }
 
     // static method
-    public void NextDealer()
+    public static void NextDealer()
     {
         if (DealerIndex < Count)
             DealerIndex++;
@@ -56,7 +56,7 @@ public class Player
             DealerIndex = 0;
     }
 
-    public void SetInitialDealer(int dealerIndex)
+    public static void SetInitialDealer(int dealerIndex)
     {
         DealerIndex = dealerIndex;
     }

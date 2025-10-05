@@ -1,70 +1,52 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
-    // card ranks
-    public enum Rank : byte
-    {
-        LowAce = 1,
-        Two,
-        Three,
-        Four,
-        Five,
-        Six,
-        Seven,
-        Eight,
-        Nine,
-        Ten,
-        Jack,
-        Queen,
-        King,
-        Ace
-    }
-    // card suits
-    public enum Suit : byte
-    {
-        Clubs,
-        Diamonds,
-        Hearts,
-        Spades
-    }
-    // hand combinations
-    public enum Hand : byte
-    {
-        Fold,
-        NoPair,
-        OnePair,
-        TwoPair,
-        ThreeOAK,
-        Straight,
-        Flush,
-        FullHouse,
-        FourOAK,
-        StraightFlush,
-        RoyalFlush
-    }
-
-    public enum Blind : byte
-    {
-        None,
-        Small,
-        Big
-    }
     // constants
     public const byte MAX_PLAYERS = 10;
     public const byte BOARD_SIZE = 5;
     public const byte HAND_SIZE = BOARD_SIZE + Hole.SIZE;
+    // serialized members
+    [SerializeField] CardDealer m_cardDealer;
     // private members
+    int gameState = 0;
+    InputAction nextState;
+
     Deck deck = new Deck();
     Card[] board = new Card[BOARD_SIZE];
     Player[] players = new Player[MAX_PLAYERS];
-
+    // properties
+    public int GameState { get { return gameState; } }
+    // unity messages
     private void Awake()
     {
         Application.targetFrameRate = 60;
 
         for (int index = 0; index < MAX_PLAYERS; index++) // test loop adding players
             players[index] = new Player($"Player {index + 1}");
+    }
+
+    private void Start()
+    {
+        nextState = InputSystem.actions.FindAction("Jump");
+    }
+
+    private void Update()
+    {
+        if (nextState.WasPressedThisFrame())
+            NextState();
+    }
+    // private methods
+    void NextState()
+    {
+        switch(gameState)
+        {
+            case 0:
+                m_cardDealer.InstantiateCards();
+                break;
+        }
+        gameState++;
     }
 
     void DetermineOpeningDealer()
@@ -127,5 +109,54 @@ public class GameManager : MonoBehaviour
             else
                 board[cardIndex - playerCardCount] = new Card(deck.CardIds[cardIndex]);
         }
+    }
+    // enums
+    // card ranks
+    public enum Rank : byte
+    {
+        LowAce = 1,
+        Two,
+        Three,
+        Four,
+        Five,
+        Six,
+        Seven,
+        Eight,
+        Nine,
+        Ten,
+        Jack,
+        Queen,
+        King,
+        Ace
+    }
+    // card suits
+    public enum Suit : byte
+    {
+        Clubs,
+        Diamonds,
+        Hearts,
+        Spades
+    }
+    // hand combinations
+    public enum Hand : byte
+    {
+        Fold,
+        NoPair,
+        OnePair,
+        TwoPair,
+        ThreeOAK,
+        Straight,
+        Flush,
+        FullHouse,
+        FourOAK,
+        StraightFlush,
+        RoyalFlush
+    }
+
+    public enum Blind : byte
+    {
+        None,
+        Small,
+        Big
     }
 }

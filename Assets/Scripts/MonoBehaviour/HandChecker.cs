@@ -19,12 +19,12 @@ public class HandChecker : MonoBehaviour
         flip = InputSystem.actions.FindAction("Jump");
 
         for (int index = 0; index < HAND_SIZE; index++)
-        {
+        {/*
             if (index < Hole.SIZE)
                 player.Hole.Cards[index] = m_cardDealer.Cards[index];
             else
                 board[index - Hole.SIZE] = m_cardDealer.Cards[index];
-        }
+        /*/}
     }
 
     // Update is called once per frame
@@ -35,14 +35,14 @@ public class HandChecker : MonoBehaviour
             if (!isFlipped)
                 player.SetHand(board);
             else
-            {
+            {/*
                 for (int index = 0; index < HAND_SIZE; index++)
                 {
                     if (index < Hole.SIZE)
                         player.Hole.Cards[index] = m_cardDealer.Cards[index];
                     else
                         board[index - Hole.SIZE] = m_cardDealer.Cards[index];
-                }
+                }*/
             }
             isFlipped = !isFlipped;
         }
