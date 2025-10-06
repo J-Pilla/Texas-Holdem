@@ -16,9 +16,12 @@ public class Player
     public string Name { get; private set; }
     public int Chips { get; private set; }
     public int Bet { get; set; }
+    public bool HasBestHand { get; set; }
     public Blind Blind { get; set; }
     public Hole Hole { get; set; }
     public int CardCount { get { return Hole.CardCount; } }
+    public Rank HighCard { get { return Hole.HighCard; } }
+    public Rank Kicker { get { return Hole.Kicker; } }
     public Hand Hand { get; private set; }
     public string FullHand
     {
@@ -445,6 +448,8 @@ public class Player
         Count++;
         Name = name;
         Chips = 0;
+        Bet = 0;
+        HasBestHand = false;
         Hole = new Hole();
         Hand = Hand.NoPair;
     }

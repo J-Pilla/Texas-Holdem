@@ -510,7 +510,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 335622626}
-  - component: {fileID: 335622627}
   m_Layer: 0
   m_Name: Target 2
   m_TagString: Untagged
@@ -533,19 +532,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2011043178}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &335622627
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 335622625}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1bccbb95d9c7aa4d9494fc01eea6087, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CardFlipper
-  m_gameManager: {fileID: 0}
 --- !u!1 &337638845
 GameObject:
   m_ObjectHideFlags: 0
@@ -586,7 +572,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 340159851}
-  - component: {fileID: 340159852}
   m_Layer: 0
   m_Name: Target 2
   m_TagString: Untagged
@@ -609,19 +594,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 442707692}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &340159852
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 340159850}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1bccbb95d9c7aa4d9494fc01eea6087, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CardFlipper
-  m_gameManager: {fileID: 0}
 --- !u!1 &398539795
 GameObject:
   m_ObjectHideFlags: 0
@@ -662,7 +634,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 438321666}
-  - component: {fileID: 438321667}
   m_Layer: 0
   m_Name: Target 2
   m_TagString: Untagged
@@ -685,19 +656,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 450257199}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &438321667
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 438321665}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1bccbb95d9c7aa4d9494fc01eea6087, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CardFlipper
-  m_gameManager: {fileID: 0}
 --- !u!1 &442707691
 GameObject:
   m_ObjectHideFlags: 0
@@ -929,7 +887,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 772880214}
-  - component: {fileID: 772880215}
   m_Layer: 0
   m_Name: Target 2
   m_TagString: Untagged
@@ -952,19 +909,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 869523811}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &772880215
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 772880213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1bccbb95d9c7aa4d9494fc01eea6087, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CardFlipper
-  m_gameManager: {fileID: 0}
 --- !u!1 &850030193
 GameObject:
   m_ObjectHideFlags: 0
@@ -1089,7 +1033,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 865461145}
-  - component: {fileID: 865461146}
   m_Layer: 0
   m_Name: Target 2
   m_TagString: Untagged
@@ -1112,19 +1055,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1755343323}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &865461146
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 865461144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1bccbb95d9c7aa4d9494fc01eea6087, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CardFlipper
-  m_gameManager: {fileID: 0}
 --- !u!1 &869523810
 GameObject:
   m_ObjectHideFlags: 0
@@ -1167,7 +1097,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 985701540}
-  - component: {fileID: 985701541}
   m_Layer: 0
   m_Name: Target 2
   m_TagString: Untagged
@@ -1190,19 +1119,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1559196507}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &985701541
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 985701539}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1bccbb95d9c7aa4d9494fc01eea6087, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CardFlipper
-  m_gameManager: {fileID: 0}
 --- !u!1 &1173276123
 GameObject:
   m_ObjectHideFlags: 0
@@ -1390,7 +1306,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1427110149}
-  - component: {fileID: 1427110150}
   m_Layer: 0
   m_Name: Target 2
   m_TagString: Untagged
@@ -1413,19 +1328,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1261467094}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1427110150
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1427110148}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1bccbb95d9c7aa4d9494fc01eea6087, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CardFlipper
-  m_gameManager: {fileID: 0}
 --- !u!1 &1444544797
 GameObject:
   m_ObjectHideFlags: 0
@@ -1466,7 +1368,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1537876482}
-  - component: {fileID: 1537876483}
   m_Layer: 0
   m_Name: Target 2
   m_TagString: Untagged
@@ -1489,19 +1390,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 491944352}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1537876483
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1537876481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1bccbb95d9c7aa4d9494fc01eea6087, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CardFlipper
-  m_gameManager: {fileID: 0}
 --- !u!1 &1559196506
 GameObject:
   m_ObjectHideFlags: 0
@@ -1680,7 +1568,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1807160916}
-  - component: {fileID: 1807160917}
   m_Layer: 0
   m_Name: Target 2
   m_TagString: Untagged
@@ -1703,19 +1590,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 477823179}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1807160917
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1807160915}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1bccbb95d9c7aa4d9494fc01eea6087, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CardFlipper
-  m_gameManager: {fileID: 0}
 --- !u!1 &1836828906
 GameObject:
   m_ObjectHideFlags: 0
@@ -1815,7 +1689,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2004767783}
-  - component: {fileID: 2004767784}
   m_Layer: 0
   m_Name: Target 2
   m_TagString: Untagged
@@ -1838,19 +1711,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1189358175}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2004767784
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2004767782}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1bccbb95d9c7aa4d9494fc01eea6087, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CardFlipper
-  m_gameManager: {fileID: 0}
 --- !u!1 &2007146910
 GameObject:
   m_ObjectHideFlags: 0
