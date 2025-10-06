@@ -1,6 +1,7 @@
 using System.IO;
 using UnityEngine;
 using static GameManager;
+using static Deck;
 
 public class FileGenerator : MonoBehaviour
 {
@@ -23,25 +24,26 @@ public class FileGenerator : MonoBehaviour
 
     private void Start()
     {
-
+        InitializeDeck();
         for (int i = 0; i < iterations; i++)
         {
             id = (i + 1).ToString();
 
-            for (int index = 0; index < 3; index++)
-                Deck.Shuffle();
+            Shuffle();
 
-            for (int index = 0; index < HAND_SIZE; index++)
+            for (; CardIndex < HAND_SIZE; CardIndex++)
             {
-                if (index < Hole.SIZE)
+                if (CardIndex < Hole.SIZE)
                 {
-                    player.Hole.Cards[index] = new Card(Deck.CardIds[index], true);
-                    holeCards[index] = player.Hole.Cards[index].Name;
+                    player.Hole.Cards[CardIndex] = new Card(CardIds[CardIndex], true);
+                    holeCards[CardIndex] = player.Hole.Cards[CardIndex].Name;
+                    print(CardIds[CardIndex].ToString());
                 }
                 else
                 {
-                    board[index - Hole.SIZE] = new Card(Deck.CardIds[index], false);
-                    boardCards[index - Hole.SIZE] = board[index - Hole.SIZE].Name;
+                    board[CardIndex - Hole.SIZE] = new Card(CardIds[CardIndex], false);
+                    boardCards[CardIndex - Hole.SIZE] = board[CardIndex - Hole.SIZE].Name;
+                    print(CardIndex.ToString());
                 }
             }
 
