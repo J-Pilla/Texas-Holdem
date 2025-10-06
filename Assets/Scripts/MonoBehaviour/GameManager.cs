@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static Deck;
@@ -54,6 +55,9 @@ public class GameManager : MonoBehaviour
                 SetBlinds();
                 Shuffle();
                 Deal();
+                break;
+            case State.Flip:
+                DetermineWinner();
                 break;
         }
     }
@@ -120,13 +124,67 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void DetermineWinner()
+    {
+        Hand bestHand;
+        Rank highCard, kicker;
+        int potDivision = 0;
+
+        players[0].SetHand(board);
+        print($"{players[0].Name}: {players[0].FullHand} : {players[0].HighCard} : {players[0].Kicker}");
+
+        bestHand = players[0].Hand;
+        highCard = players[0].HighCard;
+        kicker = players[0].Kicker;
+
+        for (int index = 1; index < Player.Count; index++)
+        {
+            players[index].SetHand(board);
+            print($"{players[index].Name}: {players[index].FullHand}");
+
+            if (players[index].Hand > bestHand)
+            {
+                bestHand = players[index].Hand;
+                highCard = players[index].HighCard;
+                kicker = players[index].Kicker;
+            }
+            else if (players[index].Hand == bestHand)
+            {
+                if (players[index].HighCard > highCard)
+                {
+                    highCard = players[index].HighCard;
+                    kicker = players[index].Kicker;
+                }
+                else if (players[index].HighCard == highCard &&
+                    players[index].Kicker > kicker)
+                    kicker = players[index].Kicker;
+            }
+        }
+
+        print($"best hand: {bestHand}, high card: {highCard}, kicker: {kicker}");
+
+        for (int index = 0; index < Player.Count; index++)
+        {
+            if (players[index].Hand == bestHand &&
+                players[index].HighCard == highCard &&
+                players[index].Kicker == kicker)
+            {
+                players[index].HasBestHand = true;
+                potDivision++;
+                print($"{players[index].Name} has the best hand");
+            }
+        }
+
+        print("pot is divided " + potDivision + (potDivision == 1 ? " way" : " ways"));
+    }
+
     void GameReset()
     {
         GameState = State.None;
 
         Player.ResetCount();
 
-        for (int index = 0; index < MAX_PLAYERS / 2; index++) // test loop replacing players
+        for (int index = 0; index < MAX_PLAYERS; index++) // test loop replacing players
             players[index] = new Player($"Player {index + 1}");
     }
     // enums

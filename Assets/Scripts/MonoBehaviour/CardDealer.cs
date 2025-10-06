@@ -38,7 +38,6 @@ public class CardDealer : MonoBehaviour
 
     public void InstantiateCard(int playerIndex, int transformIndex)
     {
-        print($"{playerIndex}:{transformIndex}");
         Instantiate(m_cardPrefab, playerTargets[playerIndex][transformIndex]);
     }
 
