@@ -3,9 +3,11 @@ using static GameManager;
 
 public class Player
 {
-    // static members & properties
+    // static members
     static int dealerIndex = 0;
-    public static byte Count { get; private set; } = 0;
+
+    // static properties
+    public static int Count { get; private set; } = 0;
     public static int DealerIndex
     {
         get { return dealerIndex; }
@@ -51,7 +53,7 @@ public class Player
         }
     }
 
-    // static method
+    // static methods
     public static void NextDealer()
     {
         if (DealerIndex < Count)
@@ -75,6 +77,38 @@ public class Player
     public void AddCard(int cardId)
     {
         Hole.AddCard(cardId);
+    }
+
+    // run through algorithms to find the value of the hand
+    public void SetHand(Card[] board)
+    {
+        Card[] combined = new Card[HAND_SIZE]; // temporary "hand" with both the player's cards
+        CombineCards(board, combined); // and the community cards
+
+        SortCards(combined);
+
+        if (Hand != Hand.Fold)
+        {
+            Hand = Hand.NoPair;
+            CheckStraightFlush(combined);
+
+            if (Hand < Hand.FourOAK)
+                checkSets(combined);
+
+            if (Hand < Hand.Flush)
+                CheckFlush(combined);
+
+            if (Hand < Hand.Straight)
+                CheckStraight(combined);
+
+            if (Hand == Hand.NoPair)
+                Hole.HighCard = Hole.Cards[0].Rank >= Hole.Cards[1].Rank ? Hole.Cards[0].Rank : Hole.Cards[1].Rank;
+
+            if (Hole.HighCard > Rank.LowAce)
+                Hole.Kicker = Hole.HighCard == Hole.Cards[0].Rank ? Hole.Cards[1].Rank : Hole.Cards[0].Rank;
+            else
+                Hole.Kicker = Rank.Ace == Hole.Cards[0].Rank ? Hole.Cards[1].Rank : Hole.Cards[0].Rank;
+        }
     }
 
     // combine community cards with players hand
@@ -411,38 +445,7 @@ public class Player
         }
     }
 
-    // run through algorithms to find the value of the hand
-    public void SetHand(Card[] board)
-    {
-        Card[] combined = new Card[HAND_SIZE]; // temporary "hand" with both the player's cards
-        CombineCards(board, combined); // and the community cards
-
-        SortCards(combined);
-
-        if (Hand != Hand.Fold)
-        {
-            Hand = Hand.NoPair;
-            CheckStraightFlush(combined);
-
-            if (Hand < Hand.FourOAK)
-                checkSets(combined);
-
-            if (Hand < Hand.Flush)
-                CheckFlush(combined);
-
-            if (Hand < Hand.Straight)
-                CheckStraight(combined);
-
-            if (Hand == Hand.NoPair)
-                Hole.HighCard = Hole.Cards[0].Rank >= Hole.Cards[1].Rank ? Hole.Cards[0].Rank : Hole.Cards[1].Rank;
-
-            if (Hole.HighCard > Rank.LowAce)
-                Hole.Kicker = Hole.HighCard == Hole.Cards[0].Rank ? Hole.Cards[1].Rank : Hole.Cards[0].Rank;
-            else
-                Hole.Kicker = Rank.Ace == Hole.Cards[0].Rank ? Hole.Cards[1].Rank : Hole.Cards[0].Rank;
-        }
-    }
-
+    // constructors
     public Player(string name)
     {
         Count++;

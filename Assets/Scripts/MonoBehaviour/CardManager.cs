@@ -5,19 +5,20 @@ using static Deck;
 
 public class CardManager : MonoBehaviour
 {
-    // private members
-    SpriteRenderer m_spriteRenderer;
+    // non-static members
+    SpriteRenderer spriteRenderer;
     InputAction checkState;
     string cardFile = new Card(CardIds[CardIndex]).File;
     int orderInLayer = CardIndex < Player.Count ? 0 : 1;
 
+    // unity messages
     private void Start()
     {
-        m_spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         checkState = InputSystem.actions.FindAction("Jump");
 
-        m_spriteRenderer.sortingLayerName = "Card";
-        m_spriteRenderer.sortingOrder = orderInLayer;
+        spriteRenderer.sortingLayerName = "Card";
+        spriteRenderer.sortingOrder = orderInLayer;
     }
 
     private void LateUpdate()
@@ -26,13 +27,14 @@ public class CardManager : MonoBehaviour
             CheckState();
     }
 
+    // non-static methods
     void CheckState()
     {
         switch(GameState)
         {
             case State.Flip:
-                m_spriteRenderer.sprite = Resources.Load($"Playing Cards\\{cardFile}", typeof(Sprite)) as Sprite;
-                m_spriteRenderer.sortingOrder = m_spriteRenderer.sortingOrder == 0 ? 1 : 0;
+                spriteRenderer.sprite = Resources.Load($"Playing Cards\\{cardFile}", typeof(Sprite)) as Sprite;
+                spriteRenderer.sortingOrder = spriteRenderer.sortingOrder == 0 ? 1 : 0;
                 break;
             case State.Reset:
                 Destroy(gameObject);

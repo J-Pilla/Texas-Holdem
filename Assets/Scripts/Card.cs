@@ -11,7 +11,7 @@ public class Card
         get { return id; }
         set
         {
-            if (value >= 0)
+            if (value >= 0 && value < Deck.SIZE)
                 id = value;
             else
                 id = 0;
@@ -25,7 +25,7 @@ public class Card
     {
         get
         {
-            return ($"card-{Suit}-{(int)(Rank == Rank.Ace ? Rank.LowAce: Rank)}").ToLower();
+            return $"card-{Suit}-{(int)(Rank == Rank.Ace ? Rank.LowAce: Rank)}".ToLower();
         }
     }
 
@@ -39,7 +39,7 @@ public class Card
     }
     public Card (Rank rank, Suit suit, bool inPlayerHand)
     {
-        Id += (int)suit;
+        Id += ((int)rank - 2) * ((int)suit + 1);
         Rank = rank;
         Suit = suit;
         InPlayerHand = inPlayerHand;

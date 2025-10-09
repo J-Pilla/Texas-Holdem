@@ -2,29 +2,30 @@
 
 public class Hole
 {
-    // static members & properties
-    public const byte SIZE = 2;
+    // constant fields
+    public const int SIZE = 2;
 
-    // non-static members & properties
-    Card[] cards;
-    byte cardCount;
-    public Card[] Cards { get { return cards; } }
-    public byte CardCount { get { return cardCount; } }
+    // non-static properties
+    public Card[] Cards { get; private set; }
+    public int CardCount { get; private set; }
     public Rank HighCard { get; set; }
     public Rank Kicker { get; set; }
 
     // non-static methods
     public void AddCard(int cardId)
     {
-        cards[cardCount] = new Card(cardId, true);
-        cardCount++;
+        if (CardCount < SIZE)
+        {
+            Cards[CardCount] = new Card(cardId, true);
+            CardCount++;
+        }
     }
 
     // constructors
     public Hole()
     {
-        cards = new Card[SIZE];
-        cardCount = 0;
+        Cards = new Card[SIZE];
+        CardCount = 0;
         HighCard = Rank.LowAce;
         Kicker = Rank.LowAce;
     }

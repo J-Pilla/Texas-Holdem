@@ -5,15 +5,18 @@ using static Deck;
 
 public class FileGenerator : MonoBehaviour
 {
-    const int iterations = 1000;
+    // constant fields
+    const int ITERATIONS = 1000;
     const string FILE = "data.json";
+
+    // non-static members
     Player player = new Player("Jason");
     Card[] board = new Card[BOARD_SIZE];
     string[] holeCards = new string[Hole.SIZE];
     string[] boardCards = new string [BOARD_SIZE];
     string id, hand, highCard, kicker;
 
-    // Start ias called once before the first execution of Update after the MonoBehaviour is created
+    // unity messages
     void Awake()
     {
         if (File.Exists(FILE))
@@ -22,12 +25,11 @@ public class FileGenerator : MonoBehaviour
         File.Create(FILE);
     }
 
-    private void Start()
+    void Start()
     {
-        InitializeDeck();
-        for (int i = 0; i < iterations; i++)
+        for (int ctr = 1; ctr <= ITERATIONS; ctr++)
         {
-            id = (i + 1).ToString();
+            id = (ctr).ToString();
 
             Shuffle();
 
@@ -59,6 +61,7 @@ public class FileGenerator : MonoBehaviour
         Application.Quit();
     }
 
+    // non-static methods
     void SerializeData()
     {
         string json = $"{{\n\t\"id\": {id},\n\t\"hole\": [\n\t";
