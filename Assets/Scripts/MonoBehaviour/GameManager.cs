@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
 
         Shuffle();
 
-        for (; CardIndex < Player.Count; CardIndex++)
+        for (; CardIndex < Player.Count; NextCard())
             cards[CardIndex] = new Card(CardIds[CardIndex]);
 
         for (int index = 1; index < Player.Count; index++)
@@ -105,7 +105,7 @@ public class GameManager : MonoBehaviour
 
         Shuffle();
 
-        for (int playerIndex = Player.DealerIndex + 1; CardIndex < BOARD_SIZE + playerCardCount; CardIndex++)
+        for (int playerIndex = Player.DealerIndex + 1; CardIndex < BOARD_SIZE + playerCardCount; NextCard())
         {
             if (CardIndex < playerCardCount)
             {

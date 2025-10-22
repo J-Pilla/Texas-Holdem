@@ -33,7 +33,7 @@ public class FileGenerator : MonoBehaviour
 
             Shuffle();
 
-            for (; CardIndex < HAND_SIZE; CardIndex++)
+            for (; CardIndex < HAND_SIZE; NextCard())
             {
                 if (CardIndex < Hole.SIZE)
                 {

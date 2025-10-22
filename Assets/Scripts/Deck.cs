@@ -8,21 +8,10 @@ public static class Deck
 
     // members
     static bool isInitialized = false;
-    static int cardIndex;
 
     // properties
     public static int[] CardIds { get; private set; } = new int[SIZE];
-    public static int CardIndex
-    {
-        get { return cardIndex; }
-        set
-        {
-            if (value >= 0 && value < SIZE)
-                cardIndex = value;
-            else
-                cardIndex = 0;
-        }
-    }
+    public static int CardIndex { get; private set; } = 0;
 
     // methods
         /// <summary>
@@ -31,7 +20,7 @@ public static class Deck
         /// </summary>
     public static void Shuffle()
     {
-        cardIndex = 0;
+        CardIndex = 0;
 
         if (!isInitialized)
             InitializeDeck();
@@ -75,5 +64,12 @@ public static class Deck
             else
                 CardIds[index] = lowerIds[index - remainingCards];
         }
+    }
+
+    public static void NextCard()
+    {
+        CardIndex++;
+        if (CardIndex == SIZE)
+            CardIndex = 0;
     }
 }

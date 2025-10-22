@@ -14,7 +14,7 @@ public class Player
         set {  dealerIndex = value < Count ? value : 0; }
     }
     
-    // non-static members & properties
+    // non-static properties
     public string Name { get; private set; }
     public int Chips { get; private set; }
     public int Bet { get; set; }
