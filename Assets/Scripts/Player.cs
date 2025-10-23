@@ -1,6 +1,9 @@
 using System.Text.RegularExpressions;
 using static GameManager;
 
+/// <summary>
+/// class representing a player
+/// </summary>
 public class Player
 {
     // static members

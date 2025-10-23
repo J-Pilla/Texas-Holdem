@@ -2,6 +2,11 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using static Deck;
 
+/// <summary>
+/// MonoBehaviour in charge of moving the game
+/// forward and executing game play logic,
+/// this class also contains enumeration types
+/// </summary>
 public class GameManager : MonoBehaviour
 {
     // static members

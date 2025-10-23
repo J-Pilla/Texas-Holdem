@@ -1,5 +1,9 @@
 ﻿using static GameManager;
 
+/// <summary>
+/// class representing a "hole" in Texas Holdem,
+/// the two cards each player is dealt
+/// </summary>
 public class Hole
 {
     // static members

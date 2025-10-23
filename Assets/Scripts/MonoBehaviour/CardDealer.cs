@@ -1,6 +1,9 @@
 using UnityEngine;
 using static GameManager;
 
+/// <summary>
+/// MonoBehaviour in charge of instantiating cards visually
+/// </summary>
 public class CardDealer : MonoBehaviour
 {
     // non-static members

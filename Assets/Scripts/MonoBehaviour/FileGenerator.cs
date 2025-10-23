@@ -3,6 +3,11 @@ using UnityEngine;
 using static GameManager;
 using static Deck;
 
+/// <summary>
+/// MonoBehaviour in charge of generating json files for
+/// batch tests of generating hands for Texas Holdem
+/// </summary>
+[System.Obsolete]
 public class FileGenerator : MonoBehaviour
 {
     // non-static fields

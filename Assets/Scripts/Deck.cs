@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// static class representing a deck of cards,
+/// uses an array of integers to initialize unique Card objects
+/// </summary>
 public static class Deck
 {
     // fields
@@ -55,8 +59,9 @@ public static class Deck
     }
 
     /// <summary>
-    /// finds a random point close to the centre of the deck,
-    /// then moves the 
+    /// finds a random point close to the centre of the CardId array,
+    /// then moves the ids after the point to the start of the array,
+    /// bumping the ids before the point to the end of the array
     /// </summary>
     static void Cut()
     {

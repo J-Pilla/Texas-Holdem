@@ -3,6 +3,9 @@ using UnityEngine.InputSystem;
 using static GameManager;
 using static Deck;
 
+/// <summary>
+/// MonoBehaviour in charge of displaying the face of cards
+/// </summary>
 public class CardManager : MonoBehaviour
 {
     // non-static members

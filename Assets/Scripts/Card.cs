@@ -1,5 +1,9 @@
 ﻿using static GameManager;
 
+/// <summary>
+/// class representing a card, uses CardIds
+/// from Deck.cs to initialize unique cards
+/// </summary>
 public class Card
 {
     // fields
@@ -43,6 +47,14 @@ public class Card
         Suit = (Suit)(Id % 4);
         InPlayerHand = inPlayerHand;
     }
+
+    /// <summary>
+    /// used to force cards for testing purposes
+    /// </summary>
+    /// <param name="rank"></param>
+    /// <param name="suit"></param>
+    /// <param name="inPlayerHand"></param>
+    [System.Obsolete]
     public Card (Rank rank, Suit suit, bool inPlayerHand)
     {
         Id += ((int)rank - 2) * ((int)suit + 1);
