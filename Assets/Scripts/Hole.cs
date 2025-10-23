@@ -22,8 +22,9 @@ public class Hole
     {
         return $"Hole: {CardCount} cards, High Card: {HighCard}, Kicker {Kicker}";
     }
+
     /// <summary>
-    /// Adds a Card to the Cards array
+    /// adds a Card to the Cards array
     /// </summary>
     /// <param name="cardId"></param>
     public void AddCard(int cardId)

@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
 
     // methods
     /// <summary>
-    /// moves the game into the next state and calls functions dependant on the state
+    /// moves the game into the next state and calls functions dependaning on the state
     /// </summary>
     void NextState()
     {
@@ -131,13 +131,13 @@ public class GameManager : MonoBehaviour
                 if (playerIndex == Player.Count)
                     playerIndex = 0;
 
-                cardDealer.InstantiateCard(playerIndex, Players[playerIndex].CardCount);
+                cardDealer.InstantiatePlayerCard(playerIndex, Players[playerIndex].CardCount);
                 Players[playerIndex].AddCard(CardIds[CardIndex]);
                 playerIndex++;
             }
             else
             {
-                cardDealer.InstantiateCard(CardIndex - playerCardCount);
+                cardDealer.InstantiateBoardCard(CardIndex - playerCardCount);
                 board[CardIndex - playerCardCount] = new Card(CardIds[CardIndex]);
             }
         }

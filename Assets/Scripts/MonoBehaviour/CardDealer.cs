@@ -23,16 +23,30 @@ public class CardDealer : MonoBehaviour
     }
 
     // non-static methods
-    public void InstantiateCard(int playerIndex, int transformIndex)
+    /// <summary>
+    /// instantiates a player's card visually
+    /// </summary>
+    /// <param name="playerIndex"></param>
+    /// <param name="transformIndex"></param>
+    public void InstantiatePlayerCard(int playerIndex, int transformIndex)
     {
         Instantiate(cardPrefab, playerTargets[playerIndex][transformIndex]);
     }
 
-    public void InstantiateCard(int index)
+    /// <summary>
+    /// instatiates a card on the board visually
+    /// </summary>
+    /// <param name="index"></param>
+    public void InstantiateBoardCard(int index)
     {
         Instantiate(cardPrefab, boardTargets[index]);
     }
 
+    /// <summary>
+    /// find and sets positions for the cards to be instantiated visually
+    /// </summary>
+    /// <param name="targets"></param>
+    /// <param name="gameObject"></param>
     void SetTargets(ref Transform[] targets, GameObject gameObject)
     {
         Transform[] transforms = gameObject.GetComponentsInChildren<Transform>();

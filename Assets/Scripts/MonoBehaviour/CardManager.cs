@@ -31,6 +31,9 @@ public class CardManager : MonoBehaviour
     }
 
     // non-static methods
+    /// <summary>
+    /// checks the game's state and calls functions dependaning on the state
+    /// </summary>
     void CheckState()
     {
         switch(GameState)

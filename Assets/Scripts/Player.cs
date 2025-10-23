@@ -103,6 +103,10 @@ public class Player
         return $"Player: {Name}, Chips: {Chips}, Bet: {Bet}, Best Hand: {HasBestHand}, Blind: {Blind}, {Hole}, Hand: {FullHand}";
     }
 
+    /// <summary>
+    /// adds a Card to the Cards array
+    /// </summary>
+    /// <param name="cardId"></param>
     public void AddCard(int cardId)
     {
         Hole.AddCard(cardId);
