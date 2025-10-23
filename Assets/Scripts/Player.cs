@@ -4,26 +4,60 @@ using static GameManager;
 public class Player
 {
     // static members
+    // fields
     static int dealerIndex = 0;
 
-    // static properties
+    // constants
+    public const int MAX = 10;
+
+    // properties
     public static int Count { get; private set; } = 0;
     public static int DealerIndex
     {
         get { return dealerIndex; }
-        set {  dealerIndex = value < Count ? value : 0; }
+        set { dealerIndex = value < Count ? value : 0; }
     }
-    
-    // non-static properties
+
+    // methods
+    public static void NextDealer()
+    {
+        if (DealerIndex < Count)
+            DealerIndex++;
+        else
+            DealerIndex = 0;
+    }
+
+    public static void SetInitialDealer(int dealerIndex)
+    {
+        DealerIndex = dealerIndex;
+    }
+
+    public static void ResetCount()
+    {
+        Count = 0;
+        DealerIndex = 0;
+    }
+
+    // non-static members
+    // properties
     public string Name { get; private set; }
     public int Chips { get; private set; }
     public int Bet { get; set; }
     public bool HasBestHand { get; set; }
     public Blind Blind { get; set; }
     public Hole Hole { get; set; }
+    public Card[] Cards {  get { return Hole.Cards; } }
     public int CardCount { get { return Hole.CardCount; } }
-    public Rank HighCard { get { return Hole.HighCard; } }
-    public Rank Kicker { get { return Hole.Kicker; } }
+    public Rank HighCard
+    {
+        get { return Hole.HighCard; }
+        private set { Hole.HighCard = value; }
+    }
+    public Rank Kicker
+    {
+        get { return Hole.Kicker; }
+        private set { Hole.Kicker = value; }
+    }
     public Hand Hand { get; private set; }
     public string FullHand
     {
@@ -53,33 +87,21 @@ public class Player
         }
     }
 
-    // static methods
-    public static void NextDealer()
+    // methods
+    public override string ToString()
     {
-        if (DealerIndex < Count)
-            DealerIndex++;
-        else
-            DealerIndex = 0;
+        return $"Player: {Name}, Chips: {Chips}, Bet: {Bet}, Best Hand: {HasBestHand}, Blind: {Blind}, {Hole}, Hand: {FullHand}";
     }
 
-    public static void SetInitialDealer(int dealerIndex)
-    {
-        DealerIndex = dealerIndex;
-    }
-
-    public static void ResetCount()
-    {
-        Count = 0;
-        DealerIndex = 0;
-    }
-
-    // non-static methods
     public void AddCard(int cardId)
     {
         Hole.AddCard(cardId);
     }
 
-    // run through algorithms to find the value of the hand
+    /// <summary>
+    /// run through algorithms to find the value of the hand
+    /// </summary>
+    /// <param name="board"></param>
     public void SetHand(Card[] board)
     {
         Card[] combined = new Card[HAND_SIZE]; // temporary "hand" with both the player's cards
@@ -93,7 +115,7 @@ public class Player
             CheckStraightFlush(combined);
 
             if (Hand < Hand.FourOAK)
-                checkSets(combined);
+                CheckSets(combined);
 
             if (Hand < Hand.Flush)
                 CheckFlush(combined);
@@ -102,43 +124,45 @@ public class Player
                 CheckStraight(combined);
 
             if (Hand == Hand.NoPair)
-                Hole.HighCard = Hole.Cards[0].Rank >= Hole.Cards[1].Rank ? Hole.Cards[0].Rank : Hole.Cards[1].Rank;
+                HighCard = Cards[0].Rank >= Cards[1].Rank ? Cards[0].Rank : Cards[1].Rank;
 
-            if (Hole.HighCard > Rank.LowAce)
-                Hole.Kicker = Hole.HighCard == Hole.Cards[0].Rank ? Hole.Cards[1].Rank : Hole.Cards[0].Rank;
+            if (HighCard > Rank.LowAce)
+                Kicker = HighCard == Cards[0].Rank ? Cards[1].Rank : Cards[0].Rank;
             else
-                Hole.Kicker = Rank.Ace == Hole.Cards[0].Rank ? Hole.Cards[1].Rank : Hole.Cards[0].Rank;
+                Kicker = Rank.Ace == Cards[0].Rank ? Cards[1].Rank : Cards[0].Rank;
         }
     }
 
-    // combine community cards with players hand
+    /// <summary>
+    /// combine community cards with players hand
+    /// </summary>
+    /// <param name="board"></param>
+    /// <param name="combined"></param>
     void CombineCards(Card[] board, Card[] combined)
     {
         for (int count = 0; count < HAND_SIZE; count++)
         {
             combined[count] = count < Hole.SIZE ?
-                Hole.Cards[count] : board[count - Hole.SIZE];
+                Cards[count] : board[count - Hole.SIZE];
         }
     }
 
-    // sort cards by rank
+    /// <summary>
+    /// sort cards by rank
+    /// </summary>
+    /// <param name="cards"></param>
     void SortCards(Card[] cards)
     {
         for (int index1 = 0; index1 < HAND_SIZE - 1; index1++)
-        {
             for (int index2 = index1 + 1; index2 < HAND_SIZE; index2++)
-            {
                 if (cards[index1].Rank > cards[index2].Rank)
-                {
-                    Card tempCard = cards[index2];
-                    cards[index2] = cards[index1];
-                    cards[index1] = tempCard;
-                }
-            }
-        }
+                    (cards[index1], cards[index2]) = (cards[index2], cards[index1]);
     }
 
-    // checks for a straight
+    /// <summary>
+    /// checks for a straight
+    /// </summary>
+    /// <param name="cards"></param>
     void CheckStraight(Card[] cards)
     {
         int length; // length of the straight
@@ -180,7 +204,7 @@ public class Player
 
             if (length == 5)
             {
-                Hole.HighCard = cards[ctr].Rank;
+                HighCard = cards[ctr].Rank;
                 Hand = Hand.Straight;
                 break;
             }
@@ -206,7 +230,7 @@ public class Player
 
                 if (length == 5)
                 {
-                    Hole.HighCard = Rank.LowAce;
+                    HighCard = Rank.LowAce;
                     Hand = Hand.Straight;
                     break;
                 }
@@ -214,7 +238,10 @@ public class Player
         }
     }
 
-    // checks for a straight flush
+    /// <summary>
+    /// checks for a straight flush
+    /// </summary>
+    /// <param name="cards"></param>
     void CheckStraightFlush(Card[] cards)
     {
         int length; // length of the straight
@@ -270,7 +297,7 @@ public class Player
 
             if (length == 5)
             {
-                Hole.HighCard = cards[ctr].Rank;
+                HighCard = cards[ctr].Rank;
                 Hand = highCard == Rank.Ace ? Hand.RoyalFlush : Hand.StraightFlush;
                 break;
             }
@@ -296,7 +323,7 @@ public class Player
 
                 if (length == 5)
                 {
-                    Hole.HighCard = Rank.LowAce;
+                    HighCard = Rank.LowAce;
                     Hand = Hand.StraightFlush;
                     break;
                 }
@@ -304,8 +331,11 @@ public class Player
         }
     }
 
-    // checks for sets (matching ranks)
-    void checkSets(Card[] cards)
+    /// <summary>
+    /// checks for sets (matching ranks)
+    /// </summary>
+    /// <param name="cards"></param>
+    void CheckSets(Card[] cards)
     {
         int[] matchCounts = new int[Hole.SIZE]; // tallys matches for each card in your hand
         Rank[] matches = new Rank[Hole.SIZE]; // tracks the ranks of the matches
@@ -328,7 +358,7 @@ public class Player
 
                 if (matchCounts[matchIndex] == 3)
                 { // if there's three matches it's four of a kind
-                    Hole.HighCard = matches[matchIndex];
+                    HighCard = matches[matchIndex];
                     Hand = Hand.FourOAK;
                     break; // four is the strongest hand in this function, break
                 }
@@ -345,13 +375,17 @@ public class Player
             // set matchIndex to the higher count, default 0
             matchIndex = matchCounts[0] >= matchCounts[1] ? 0 : 1;
 
-            Hole.HighCard = matches[matchIndex];
+            HighCard = matches[matchIndex];
             // send the higher count to check for full house and two pair
             CheckComboSets(cards, matchCounts[matchIndex]);
         }
     }
 
-    // checks for a full house or two pair
+    /// <summary>
+    /// checks for a full house or two pair
+    /// </summary>
+    /// <param name="cards"></param>
+    /// <param name="setMatches"></param>
     void CheckComboSets(Card[] cards, int setMatches)
     {
         int[] matchCounts = new int[BOARD_SIZE]; // tallys matches for each possible comparison
@@ -360,7 +394,7 @@ public class Player
 
         for (int ctr = HAND_SIZE - 1; ctr >= 0; ctr--)
         { // matchIndex is not used outside the loop so I made it local
-            if (cards[ctr].Rank == Hole.HighCard)
+            if (cards[ctr].Rank == HighCard)
                 continue; // if the card matches the rank you already have a match of, skip the iteration
 
             matchCounts[matchIndex] = 0;
@@ -413,7 +447,10 @@ public class Player
         }
     }
 
-    // checks for a flush
+    /// <summary>
+    /// checks for a flush
+    /// </summary>
+    /// <param name="cards"></param>
     void CheckFlush(Card[] cards)
     {
         int matchCount; // tallys matching suits
@@ -434,7 +471,7 @@ public class Player
 
                 if (matchCount == 4)
                 { // if there's four matches it's a flush
-                    Hole.HighCard = cards[ctr].Rank;
+                    HighCard = cards[ctr].Rank;
                     Hand = Hand.Flush;
                     break;
                 }

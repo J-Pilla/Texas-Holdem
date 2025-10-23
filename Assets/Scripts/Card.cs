@@ -2,10 +2,10 @@
 
 public class Card
 {
-    // non-static members
+    // fields
     int id;
 
-    // non-static properties
+    // properties
     public int Id
     {
         get { return id; }
@@ -27,6 +27,12 @@ public class Card
         {
             return $"card-{Suit}-{(int)(Rank == Rank.Ace ? Rank.LowAce: Rank)}".ToLower();
         }
+    }
+
+    // methods
+    public override string ToString()
+    {
+        return $"Card: {Name}, Id: {Id}, Player Card: {InPlayerHand}";
     }
 
     // constructors

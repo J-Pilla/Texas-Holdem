@@ -4,28 +4,29 @@ using static Deck;
 
 public class GameManager : MonoBehaviour
 {
+    // static members
     // constants
-    public const int MAX_PLAYERS = 10;
     public const int BOARD_SIZE = 5;
     public const int HAND_SIZE = BOARD_SIZE + Hole.SIZE;
 
-    // static properties
+    // properties
     public static State GameState { get; private set; } = State.None;
 
     // non-static members
+    // fields
     [SerializeField] CardDealer cardDealer;
     InputAction nextState;
-    Card[] board = new Card[BOARD_SIZE];
+    readonly Card[] board = new Card[BOARD_SIZE];
 
-    // non-static properties
-    public Player[] Players { get; private set; } = new Player[MAX_PLAYERS];
+    // properties
+    public Player[] Players { get; private set; } = new Player[Player.MAX];
 
     // unity messages
     void Awake()
     {
         Application.targetFrameRate = 60;
 
-        for (int index = 0; index < MAX_PLAYERS; index++) // test loop adding Players
+        for (int index = 0; index < Player.MAX; index++) // test loop adding Players
             Players[index] = new Player($"Player {index + 1}");
     }
 
@@ -43,7 +44,10 @@ public class GameManager : MonoBehaviour
             NextState();
     }
 
-    // non-static methods
+    // methods
+    /// <summary>
+    /// moves the game into the next state and calls functions dependant on the state
+    /// </summary>
     void NextState()
     {
         GameState++;
@@ -62,6 +66,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// determine the opening dealer by dealing out a card
+    /// to each player, the high card is the dealer
+    /// </summary>
     void DetermineOpeningDealer()
     {
         Card[] cards = new Card[Player.Count];
@@ -80,6 +88,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// sets big and small blinds following the dealer
+    /// </summary>
     void SetBlinds()
     {
         switch (Player.Count - Player.DealerIndex)
@@ -99,6 +110,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// deals two cards to each player
+    /// </summary>
     void Deal()
     {
         int playerCardCount = Hole.SIZE * Player.Count;
@@ -124,6 +138,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// finds the best hand among the players and settles the pot
+    /// </summary>
     void DetermineWinner()
     {
         Hand bestHand;
@@ -178,17 +195,23 @@ public class GameManager : MonoBehaviour
         print("pot is divided " + potDivision + (potDivision == 1 ? " way" : " ways"));
     }
 
+    /// <summary>
+    /// resets the game to the initial state
+    /// </summary>
     void GameReset()
     {
         GameState = State.None;
 
         Player.ResetCount();
 
-        for (int index = 0; index < MAX_PLAYERS; index++) // test loop replacing Players
+        for (int index = 0; index < Player.MAX; index++) // test loop replacing Players
             Players[index] = new Player($"Player {index + 1}");
     }
 
     // enums
+    /// <summary>
+    /// game states
+    /// </summary>
     public enum State
     {
         None,
@@ -197,7 +220,9 @@ public class GameManager : MonoBehaviour
         Reset
     }
 
-    // card ranks
+    /// <summary>
+    /// card ranks
+    /// </summary>
     public enum Rank
     {
         LowAce = 1,
@@ -216,7 +241,9 @@ public class GameManager : MonoBehaviour
         Ace
     }
 
-    // card suits
+    /// <summary>
+    /// card suits
+    /// </summary>
     public enum Suit
     {
         Clubs,
@@ -225,7 +252,9 @@ public class GameManager : MonoBehaviour
         Spades
     }
 
-    // hand combinations
+    /// <summary>
+    /// hand combinations
+    /// </summary>
     public enum Hand
     {
         Fold,
@@ -241,6 +270,9 @@ public class GameManager : MonoBehaviour
         RoyalFlush
     }
 
+    /// <summary>
+    /// blind state
+    /// </summary>
     public enum Blind
     {
         None,

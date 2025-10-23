@@ -8,8 +8,8 @@ public class CardManager : MonoBehaviour
     // non-static members
     SpriteRenderer spriteRenderer;
     InputAction checkState;
-    string cardFile = new Card(CardIds[CardIndex]).File;
-    int orderInLayer = CardIndex < Player.Count ? 0 : 1;
+    readonly string cardFile = new Card(CardIds[CardIndex]).File;
+    readonly int orderInLayer = CardIndex < Player.Count ? 0 : 1;
 
     // unity messages
     private void Start()

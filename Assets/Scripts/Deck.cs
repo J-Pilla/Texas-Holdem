@@ -2,22 +2,27 @@
 
 public static class Deck
 {
-    // constant fields
+    // fields
+    static bool isInitialized = false;
+    static int cardIndex = 0;
+
+    // constants
     public const int SIZE = 52;
     public const int SHUFFLE_COUNT = 4;
 
-    // members
-    static bool isInitialized = false;
-
     // properties
     public static int[] CardIds { get; private set; } = new int[SIZE];
-    public static int CardIndex { get; private set; } = 0;
+    public static int CardIndex
+    {
+        get { return cardIndex; }
+        private set { cardIndex = value < SIZE ? value : 0; }
+    }
 
     // methods
-        /// <summary>
-        /// randomize the order of the card ids in the deck
-        /// and sets deckIndex back down to 0
-        /// </summary>
+    /// <summary>
+    /// randomize the order of the card ids in the deck
+    /// and sets deckIndex back down to 0
+    /// </summary>
     public static void Shuffle()
     {
         CardIndex = 0;
@@ -33,24 +38,31 @@ public static class Deck
             for (int index = 0; index < SIZE; index++)
             {
                 int randomIndex = Random.Range(index, SIZE - 1);
-                int tempId = CardIds[index];
-                CardIds[index] = CardIds[randomIndex];
-                CardIds[randomIndex] = tempId;
+                (CardIds[index], CardIds[randomIndex]) = (CardIds[randomIndex], CardIds[index]);
             }
         }
     }
+
     /// <summary>
     /// initializes the deck so each element carries a card id equal to the index
     /// </summary>
     static void InitializeDeck()
     {
+        isInitialized = true;
+
         for (int index = 0; index < SIZE; index++)
             CardIds[index] = (byte)index;
     }
 
+    /// <summary>
+    /// finds a random point close to the centre of the deck,
+    /// then moves the 
+    /// </summary>
     static void Cut()
     {
-        int cutPoint = Random.Range(22, 29);
+        int midPoint = SIZE / 2 - 1;
+        int variance = 4;
+        int cutPoint = Random.Range(midPoint - variance, midPoint + variance);
         int remainingCards = SIZE - cutPoint;
         int[] lowerIds = new int[cutPoint];
 
@@ -66,10 +78,11 @@ public static class Deck
         }
     }
 
+    /// <summary>
+    /// increments CardIndex, set CardIndex to 0 if it equals SIZE
+    /// </summary>
     public static void NextCard()
     {
         CardIndex++;
-        if (CardIndex == SIZE)
-            CardIndex = 0;
     }
 }

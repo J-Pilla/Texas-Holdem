@@ -7,13 +7,13 @@ public class CardDealer : MonoBehaviour
     [SerializeField] GameObject cardPrefab;
     [SerializeField] GameObject[] players;
     [SerializeField] GameObject board;
-    Transform[][] playerTargets = new Transform[MAX_PLAYERS][];
+    readonly Transform[][] playerTargets = new Transform[Player.MAX][];
     Transform[] boardTargets = new Transform[BOARD_SIZE];
 
     // unity messages
     void Start()
     {
-        for (int index = 0; index < MAX_PLAYERS; index++)
+        for (int index = 0; index < Player.MAX; index++)
             SetTargets(ref playerTargets[index], players[index]);
 
         SetTargets(ref boardTargets, board);

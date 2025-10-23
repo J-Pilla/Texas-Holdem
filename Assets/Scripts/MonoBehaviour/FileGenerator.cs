@@ -5,16 +5,16 @@ using static Deck;
 
 public class FileGenerator : MonoBehaviour
 {
-    // constant fields
-    const int ITERATIONS = 1000;
-    const string FILE = "data.json";
-
-    // non-static members
+    // non-static fields
     Player player = new Player("Jason");
     Card[] board = new Card[BOARD_SIZE];
     string[] holeCards = new string[Hole.SIZE];
-    string[] boardCards = new string [BOARD_SIZE];
+    string[] boardCards = new string[BOARD_SIZE];
     string id, hand, highCard, kicker;
+
+    // constants
+    const int ITERATIONS = 1000;
+    const string FILE = "data.json";
 
     // unity messages
     void Awake()
@@ -62,6 +62,9 @@ public class FileGenerator : MonoBehaviour
     }
 
     // non-static methods
+    /// <summary>
+    /// serializes data into a .json format that isn't a single line per entry
+    /// </summary>
     void SerializeData()
     {
         string json = $"{{\n\t\"id\": {id},\n\t\"hole\": [\n\t";
