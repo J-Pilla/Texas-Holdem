@@ -15,27 +15,34 @@ public class Player
     public static int DealerIndex
     {
         get { return dealerIndex; }
-        set { dealerIndex = value < Count ? value : 0; }
+        private set { dealerIndex = value < Count ? value : 0; }
     }
 
     // methods
-    public static void NextDealer()
+    /// <summary>
+    /// resets Count and DealerIndex to 0, only needed for testing
+    /// </summary>
+    public static void ResetCount()
     {
-        if (DealerIndex < Count)
-            DealerIndex++;
-        else
-            DealerIndex = 0;
+        Count = 0;
+        DealerIndex = 0;
     }
 
+    /// <summary>
+    /// sets the initial dealer, should only be called on the first round
+    /// </summary>
+    /// <param name="dealerIndex"></param>
     public static void SetInitialDealer(int dealerIndex)
     {
         DealerIndex = dealerIndex;
     }
 
-    public static void ResetCount()
+    /// <summary>
+    /// increments DealerIndex
+    /// </summary>
+    public static void NextDealer()
     {
-        Count = 0;
-        DealerIndex = 0;
+        DealerIndex++;
     }
 
     // non-static members

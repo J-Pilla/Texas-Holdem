@@ -79,7 +79,7 @@ public static class Deck
     }
 
     /// <summary>
-    /// increments CardIndex, set CardIndex to 0 if it equals SIZE
+    /// increments CardIndex
     /// </summary>
     public static void NextCard()
     {

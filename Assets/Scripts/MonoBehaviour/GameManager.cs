@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
             if (cards[index].Rank > cards[Player.DealerIndex].Rank ||
                 cards[index].Rank == cards[Player.DealerIndex].Rank &&
                 cards[index].Suit > cards[Player.DealerIndex].Suit)
-                Player.DealerIndex = index;
+                Player.SetInitialDealer(index);
         }
     }
 
