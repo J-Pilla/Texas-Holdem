@@ -39,12 +39,20 @@ public class CardManager : MonoBehaviour
         switch(GameState)
         {
             case State.Flip:
-                spriteRenderer.sprite = Resources.Load($"Playing Cards\\{cardFile}", typeof(Sprite)) as Sprite;
-                spriteRenderer.sortingOrder = spriteRenderer.sortingOrder == 0 ? 1 : 0;
+                FlipCard();
                 break;
             case State.Reset:
                 Destroy(gameObject);
                 break;
         }
+    }
+
+    /// <summary>
+    /// changes the appearance of the card to display the face
+    /// </summary>
+    void FlipCard()
+    {
+        spriteRenderer.sprite = Resources.Load($"Playing Cards\\{cardFile}", typeof(Sprite)) as Sprite;
+        spriteRenderer.sortingOrder = spriteRenderer.sortingOrder == 0 ? 1 : 0;
     }
 }
