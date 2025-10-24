@@ -131,8 +131,8 @@ public class GameManager : MonoBehaviour
                 if (playerIndex == Player.Count)
                     playerIndex = 0;
 
-                cardDealer.InstantiatePlayerCard(playerIndex, Players[playerIndex].CardCount);
                 Players[playerIndex].AddCard(CardIds[CardIndex]);
+                cardDealer.InstantiatePlayerCard(playerIndex, Players[playerIndex].CardCount == 1);
                 playerIndex++;
             }
             else

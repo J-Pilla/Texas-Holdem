@@ -866,17 +866,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardDealer
   cardPrefab: {fileID: 8199653303839364018, guid: 71861fd840ce9f9429c459872afe4c85, type: 3}
-  players:
-  - {fileID: 1189358174}
-  - {fileID: 477823178}
-  - {fileID: 1755343322}
-  - {fileID: 1261467093}
-  - {fileID: 442707691}
-  - {fileID: 450257198}
-  - {fileID: 491944351}
-  - {fileID: 2011043177}
-  - {fileID: 869523810}
-  - {fileID: 1559196506}
+  player: {fileID: 1624398785}
   board: {fileID: 1239136931}
 --- !u!1 &772880213
 GameObject:
@@ -1810,9 +1800,9 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1173276125}
   - {fileID: 82957595}
   - {fileID: 850030195}
   - {fileID: 1836828908}
+  - {fileID: 1173276125}
   - {fileID: 293449908}
   - {fileID: 704968191}
