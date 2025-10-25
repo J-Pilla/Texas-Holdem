@@ -46,12 +46,15 @@ namespace TexasHoldem
         void Start()
         {
             nextState = InputSystem.actions.FindAction("Jump");
+
+            Shuffle();
+            DetermineOpeningDealer();
         }
 
         void Update()
         {
             if (GameState == State.Reset)
-                GameReset();
+                NextRound();
 
             if (nextState.WasPressedThisFrame())
                 NextState();
@@ -64,11 +67,17 @@ namespace TexasHoldem
         void NextState()
         {
             GameState++;
+
+
             switch (GameState)
             {
-                case State.Deal:
-                    Shuffle();
+                case State.OpeningDeal:
                     DetermineOpeningDealer();
+                    Player.SetBlinds();
+                    cardDealer.InstantiateButtons();
+                    GameState++;
+                    break;
+                case State.Deal:
                     SetBlinds();
                     Shuffle();
                     Deal();
@@ -99,9 +108,6 @@ namespace TexasHoldem
                     cards[index].Suit > cards[Player.DealerIndex].Suit)
                     Player.SetInitialDealer(index);
             }
-
-            cardDealer.InstantiateDealerButton(Player.DealerIndex);
-            print($"Opening dealer is {Players[Player.DealerIndex].Name}");
         }
 
         /// <summary>
@@ -109,21 +115,8 @@ namespace TexasHoldem
         /// </summary>
         void SetBlinds()
         {
-            switch (Player.Count - Player.DealerIndex)
-            {
-                case 1:
-                    Players[0].Blind = Blind.Small;
-                    Players[1].Blind = Blind.Big;
-                    break;
-                case 2:
-                    Players[Player.Count - 1].Blind = Blind.Small;
-                    Players[0].Blind = Blind.Big;
-                    break;
-                default:
-                    Players[Player.DealerIndex + 1].Blind = Blind.Small;
-                    Players[Player.DealerIndex + 2].Blind = Blind.Big;
-                    break;
-            }
+            Players[Player.SmallBlindIndex].Blind = Blind.Small;
+            Players[Player.BigBlindIndex].Blind = Blind.Big;
         }
 
         /// <summary>
@@ -164,7 +157,7 @@ namespace TexasHoldem
             int potDivision = 0;
 
             Players[0].SetHand(board);
-            print($"{Players[0].Name}: {Players[0].Hand.GetName()} : {Players[0].HighCard} : {Players[0].Kicker}");
+            //print($"{Players[0].Name}: {Players[0].Hand.GetName()} : {Players[0].HighCard} : {Players[0].Kicker}");
 
             bestHand = Players[0].Hand;
             highCard = Players[0].HighCard;
@@ -173,7 +166,7 @@ namespace TexasHoldem
             for (int index = 1; index < Player.Count; index++)
             {
                 Players[index].SetHand(board);
-                print($"{Players[index].Name}: {Players[index].Hand.GetName()}");
+                //print($"{Players[index].Name}: {Players[index].Hand.GetName()}");
 
                 if (Players[index].Hand > bestHand)
                 {
@@ -206,26 +199,28 @@ namespace TexasHoldem
                 {
                     Players[index].HasBestHand = true;
                     potDivision++;
-                    print($"{Players[index].Name} has the best hand");
+                    //print($"{Players[index].Name} has the best hand");
                 }
             }
 
-            print("pot is divided " + potDivision + (potDivision == 1 ? " way" : " ways"));
+            //print("pot is divided " + potDivision + (potDivision == 1 ? " way" : " ways"));
         }
 
         /// <summary>
-        /// resets the game to the initial state
+        /// resets gameState to RoundStart
         /// </summary>
-        void GameReset()
+        void NextRound()
         {
-            GameState = State.None;
+            GameState = State.RoundStart;
 
             Player.ResetCount();
 #pragma warning disable CS0612
             for (int index = 0; index < Player.MAX; index++) // test loop replacing Players
                 Players[index] = new Player();
 #pragma warning restore CS0612
-            cardDealer.DestroyDealerButton();
+            cardDealer.DestroyButtons();
+            Player.NextDealer();
+            cardDealer.InstantiateButtons();
 
             hand.text = string.Empty;
             highCard.text = string.Empty;
@@ -239,6 +234,8 @@ namespace TexasHoldem
         public enum State
         {
             None,
+            OpeningDeal,
+            RoundStart,
             Deal,
             Flip,
             Reset
