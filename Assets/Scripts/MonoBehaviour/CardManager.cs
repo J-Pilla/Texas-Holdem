@@ -12,19 +12,19 @@ public class CardManager : MonoBehaviour
     SpriteRenderer spriteRenderer;
     InputAction checkState;
     readonly string cardFile = new Card(CardIds[CardIndex]).File;
-    readonly int orderInLayer = CardIndex < Player.Count ? 0 : 1;
+    readonly bool isFirstCard = CardIndex < Player.Count;
 
     // unity messages
-    private void Start()
+    void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         checkState = InputSystem.actions.FindAction("Jump");
 
         spriteRenderer.sortingLayerName = "Card";
-        spriteRenderer.sortingOrder = orderInLayer;
+        spriteRenderer.sortingOrder = isFirstCard ? 0 : 1;
     }
 
-    private void LateUpdate()
+    void LateUpdate()
     {
         if (checkState.WasPressedThisFrame())
             CheckState();
@@ -52,7 +52,7 @@ public class CardManager : MonoBehaviour
     /// </summary>
     void FlipCard()
     {
-        spriteRenderer.sprite = Resources.Load($"Playing Cards\\{cardFile}", typeof(Sprite)) as Sprite;
+        spriteRenderer.sprite = Resources.Load($"{cardFile}", typeof(Sprite)) as Sprite;
         spriteRenderer.sortingOrder = spriteRenderer.sortingOrder == 0 ? 1 : 0;
     }
 }
