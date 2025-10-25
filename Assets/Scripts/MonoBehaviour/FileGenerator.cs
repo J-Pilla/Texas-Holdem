@@ -60,7 +60,7 @@ namespace TexasHoldem
 
                 player.SetHand(board);
 
-                hand = player.FullHand;
+                hand = player.Hand.GetName();
                 highCard = player.HighCard.ToString();
                 kicker = player.Kicker.ToString();
 

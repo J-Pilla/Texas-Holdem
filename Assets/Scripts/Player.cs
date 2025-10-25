@@ -72,38 +72,11 @@ namespace TexasHoldem
             private set { Hole.Kicker = value; }
         }
         public Hand Hand { get; private set; }
-        public string FullHand
-        {
-            get
-            {
-                string fullHand = Hand.ToString();
-
-                switch (Hand)
-                {
-                    case Hand.NoPair:
-                    case Hand.OnePair:
-                    case Hand.TwoPair:
-                    case Hand.FullHouse:
-                    case Hand.StraightFlush:
-                    case Hand.RoyalFlush:
-                        string pattern = @"([a-z])([A-Z])";
-                        string replacement = "$1 $2";
-                        fullHand = Regex.Replace(fullHand, pattern, replacement);
-                        break;
-                    case Hand.ThreeOAK:
-                    case Hand.FourOAK:
-                        fullHand = fullHand.Replace("OAK", " of a Kind");
-                        break;
-                }
-
-                return fullHand;
-            }
-        }
 
         // methods
         public override string ToString()
         {
-            return $"Player: {Name}, Chips: {Chips}, Bet: {Bet}, Best Hand: {HasBestHand}, Blind: {Blind}, {Hole}, Hand: {FullHand}";
+            return $"Player: {Name}, Chips: {Chips}, Bet: {Bet}, Best Hand: {HasBestHand}, Blind: {Blind}, {Hole}, Hand: {Hand.GetName()}";
         }
 
         /// <summary>
@@ -543,6 +516,37 @@ namespace TexasHoldem
         FourOAK,
         StraightFlush,
         RoyalFlush
+    }
+
+    /// <summary>
+    /// entensions for Hand enum
+    /// </summary>
+    public static class RankExtensions
+    {
+        public static string GetName(this Hand hand)
+        {
+            string name = hand.ToString();
+
+            switch (hand)
+            {
+                case Hand.NoPair:
+                case Hand.OnePair:
+                case Hand.TwoPair:
+                case Hand.FullHouse:
+                case Hand.StraightFlush:
+                case Hand.RoyalFlush:
+                    string pattern = @"([a-z])([A-Z])";
+                    string replacement = "$1 $2";
+                    name = Regex.Replace(name, pattern, replacement);
+                    break;
+                case Hand.ThreeOAK:
+                case Hand.FourOAK:
+                    name = name.Replace("OAK", " of a Kind");
+                    break;
+            }
+
+            return name;
+        }
     }
 
     /// <summary>

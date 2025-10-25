@@ -164,7 +164,7 @@ namespace TexasHoldem
             int potDivision = 0;
 
             Players[0].SetHand(board);
-            print($"{Players[0].Name}: {Players[0].FullHand} : {Players[0].HighCard} : {Players[0].Kicker}");
+            print($"{Players[0].Name}: {Players[0].Hand.GetName()} : {Players[0].HighCard} : {Players[0].Kicker}");
 
             bestHand = Players[0].Hand;
             highCard = Players[0].HighCard;
@@ -173,7 +173,7 @@ namespace TexasHoldem
             for (int index = 1; index < Player.Count; index++)
             {
                 Players[index].SetHand(board);
-                print($"{Players[index].Name}: {Players[index].FullHand}");
+                print($"{Players[index].Name}: {Players[index].Hand.GetName()}");
 
                 if (Players[index].Hand > bestHand)
                 {
@@ -194,7 +194,7 @@ namespace TexasHoldem
                 }
             }
 
-            hand.text = $"Winning Hand:\n{bestHand}";
+            hand.text = $"Winning Hand:\n{bestHand.GetName()}";
             this.highCard.text = $"High Card:\n{highCard}";
             this.kicker.text = $"Kicker:\n{kicker}";
 
