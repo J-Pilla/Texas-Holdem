@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4096764171583403522}
   m_Layer: 0
   m_Name: Dealer Button
-  m_TagString: Untagged
+  m_TagString: Dealer Button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
