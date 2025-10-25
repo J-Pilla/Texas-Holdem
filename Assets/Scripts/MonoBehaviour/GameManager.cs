@@ -39,7 +39,7 @@ namespace TexasHoldem
 
             // test loop adding Players
             for (int index = 0; index < Player.MAX; index++)
-                Players[index] = new Player($"Player {index + 1}");
+                Players[index] = new Player();
         }
 
         void Start()
@@ -222,7 +222,7 @@ namespace TexasHoldem
             Player.ResetCount();
 
             for (int index = 0; index < Player.MAX; index++) // test loop replacing Players
-                Players[index] = new Player($"Player {index + 1}");
+                Players[index] = new Player();
 
             cardDealer.DestroyDealerButton();
 

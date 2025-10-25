@@ -20,10 +20,10 @@ namespace TexasHoldem
 
         // non-static members
         // fields
-        Player player = new Player("Jason");
-        Card[] board = new Card[BOARD_SIZE];
-        string[] holeCards = new string[Hole.SIZE];
-        string[] boardCards = new string[BOARD_SIZE];
+        readonly Player player = new();
+        readonly Card[] board = new Card[BOARD_SIZE];
+        readonly string[] holeCards = new string[Hole.SIZE];
+        readonly string[] boardCards = new string[BOARD_SIZE];
         string id, hand, highCard, kicker;
 
 
@@ -48,23 +48,21 @@ namespace TexasHoldem
                 {
                     if (CardIndex < Hole.SIZE)
                     {
-                        player.Hole.Cards[CardIndex] = new Card(CardIds[CardIndex], true);
-                        holeCards[CardIndex] = player.Hole.Cards[CardIndex].Name;
-                        print(CardIds[CardIndex].ToString());
+                        player.Cards[CardIndex] = new Card(CardIds[CardIndex], true);
+                        holeCards[CardIndex] = player.Cards[CardIndex].Name;
                     }
                     else
                     {
                         board[CardIndex - Hole.SIZE] = new Card(CardIds[CardIndex], false);
                         boardCards[CardIndex - Hole.SIZE] = board[CardIndex - Hole.SIZE].Name;
-                        print(CardIndex.ToString());
                     }
                 }
 
                 player.SetHand(board);
 
                 hand = player.FullHand;
-                highCard = player.Hole.HighCard.ToString();
-                kicker = player.Hole.Kicker.ToString();
+                highCard = player.HighCard.ToString();
+                kicker = player.Kicker.ToString();
 
                 SerializeData();
             }

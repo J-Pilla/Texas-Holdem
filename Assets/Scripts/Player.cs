@@ -510,6 +510,21 @@ namespace TexasHoldem
             Hole = new Hole();
             Hand = Hand.NoPair;
         }
+
+        /// <summary>
+        /// default constructor used for testing
+        /// </summary>
+        [System.Obsolete]
+        public Player()
+        {
+            Count++;
+            Name = $"Player {Count}";
+            Chips = 0;
+            Bet = 0;
+            HasBestHand = false;
+            Hole = new Hole();
+            Hand = Hand.NoPair;
+        }
     }
 
     /// <summary>
