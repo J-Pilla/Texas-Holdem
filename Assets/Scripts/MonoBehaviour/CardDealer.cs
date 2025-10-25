@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace TexasHoldem
@@ -12,6 +13,10 @@ namespace TexasHoldem
         // non-static members
         [SerializeField] GameObject dealerButtonPrefab;
         GameObject dealerButton;
+        [SerializeField] GameObject smallBlindButtonPrefab;
+        GameObject smallBlindButton;
+        [SerializeField] GameObject bigBlindButtonPrefab;
+        GameObject bigBlindButton;
         [SerializeField] GameObject cardPrefab;
         [SerializeField] GameObject seats;
         [SerializeField] GameObject board;
@@ -30,10 +35,37 @@ namespace TexasHoldem
         /// instantiates the dealer button visually
         /// </summary>
         /// <param name="index"></param>
-        public void InstantiateDealerButton(int index)
+        public void InstantiateButtons()
         {
-            dealerButton = Instantiate(dealerButtonPrefab, seatTargets[index]);
-            dealerButton.transform.localPosition += new Vector3(-.9f, .3f);
+            InstantiateButton(Player.DealerIndex);
+            InstantiateButton(Player.SmallBlindIndex, Blind.Small);
+            InstantiateButton(Player.BigBlindIndex, Blind.Big);
+        }
+
+        void InstantiateButton(int index, Blind blind = Blind.None)
+        {
+            GameObject buttonPrefab = blind switch
+            {
+                Blind.Small => smallBlindButtonPrefab,
+                Blind.Big => bigBlindButtonPrefab,
+                _ => dealerButtonPrefab
+            };
+            GameObject button = Instantiate(buttonPrefab, seatTargets[index]);
+
+            button.transform.localPosition += new Vector3(-.9f, .3f);
+
+            switch (blind)
+            {
+                case Blind.Small:
+                    smallBlindButton = button;
+                    break;
+                case Blind.Big:
+                    bigBlindButton = button;
+                    break;
+                default:
+                    dealerButton = button;
+                    break;
+            }
         }
 
         /// <summary>
@@ -60,9 +92,11 @@ namespace TexasHoldem
         /// <summary>
         /// destroys the dealerButton gameObject
         /// </summary>
-        public void DestroyDealerButton()
+        public void DestroyButtons()
         {
             Destroy(dealerButton);
+            Destroy(smallBlindButton);
+            Destroy(bigBlindButton);
         }
 
         /// <summary>
