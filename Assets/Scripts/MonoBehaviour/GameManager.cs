@@ -1,6 +1,6 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 using static Deck;
 
 /// <summary>
@@ -21,6 +21,9 @@ public class GameManager : MonoBehaviour
     // non-static members
     // fields
     [SerializeField] CardDealer cardDealer;
+    [SerializeField] TMP_Text hand;
+    [SerializeField] TMP_Text highCard;
+    [SerializeField] TMP_Text kicker;
     InputAction nextState;
     readonly Card[] board = new Card[BOARD_SIZE];
 
@@ -188,7 +191,9 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        print($"best hand: {bestHand}, high card: {highCard}, kicker: {kicker}");
+        hand.text = $"Winning Hand:\n{bestHand}";
+        this.highCard.text = $"High Card:\n{highCard}";
+        this.kicker.text = $"Kicker:\n{kicker}";
 
         for (int index = 0; index < Player.Count; index++)
         {
@@ -218,6 +223,10 @@ public class GameManager : MonoBehaviour
             Players[index] = new Player($"Player {index + 1}");
 
         cardDealer.DestroyDealerButton();
+
+        hand.text = string.Empty;
+        highCard.text = string.Empty;
+        kicker.text = string.Empty;
     }
 
     // enums
