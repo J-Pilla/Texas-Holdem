@@ -7,21 +7,32 @@ using static GameManager;
 public class CardDealer : MonoBehaviour
 {
     // non-static members
+    [SerializeField] GameObject dealerButtonPrefab;
+    GameObject dealerButton;
     [SerializeField] GameObject cardPrefab;
-    [SerializeField] GameObject player;
+    [SerializeField] GameObject seats;
     [SerializeField] GameObject board;
-    Transform[] playerTargets = new Transform[Player.MAX];
+    Transform[] seatTargets = new Transform[Player.MAX];
     Transform[] boardTargets = new Transform[BOARD_SIZE];
-    readonly float offset = .25f;
 
     // unity messages
     void Start()
     {
-        SetTargets(ref playerTargets, player);
+        SetTargets(ref seatTargets, seats);
         SetTargets(ref boardTargets, board);
     }
 
     // non-static methods
+    /// <summary>
+    /// instantiates the dealer button visually
+    /// </summary>
+    /// <param name="index"></param>
+    public void InstantiateDealerButton(int index)
+    {
+        dealerButton = Instantiate(dealerButtonPrefab, seatTargets[index]);
+        dealerButton.transform.localPosition += new Vector3(0f, 1.25f);
+    }
+
     /// <summary>
     /// instantiates a player's card visually
     /// </summary>
@@ -29,46 +40,9 @@ public class CardDealer : MonoBehaviour
     /// <param name="transformIndex"></param>
     public void InstantiatePlayerCard(int index, bool isFirstCard)
     {
-        /// formula for position so far
-        /// position.x = offset - Rx
-        /// eularAngles.z <= 180
-        /// R <= 90
-        /// position.y = 0 + Rx
-        /// R > 90
-        /// position.y = Xoffset - (R - 90)x
-        /// eularAngles.z > 180
-        /// R <= 90
-        /// position.y = 0 - Rx
-        /// R > 90
-        /// position.y = -Xoffset + (R - 90)x
-        /// where offset = .25, R = angle, and x = offset / 90 degrees
-        Vector3 offset =
-            new(isFirstCard ? this.offset : -this.offset,
-            isFirstCard ? this.offset : -this.offset);
-
-        float angle = playerTargets[index].rotation.eulerAngles.z <= 180 ?
-            playerTargets[index].rotation.eulerAngles.z :
-            360f - playerTargets[index].rotation.eulerAngles.z;
-
-        Vector3 position;
-        position.x = offset.x - angle * offset.x / 90f;
-        if (playerTargets[index].rotation.eulerAngles.z <= 180)
-        {
-            position.y = angle <= 90 ?
-                0f + angle * offset.y / 90f :
-                offset.x - (angle - 90) * offset.y / 90f;
-        }
-        else
-        {
-            position.y = angle <= 90 ?
-                0f - angle * offset.y / 90f :
-                -offset.x + (angle - 90) * offset.y / 90f;
-        }
-        position.z = 0f;
-
-        Instantiate(cardPrefab,
-            playerTargets[index].position + position,
-            playerTargets[index].rotation);
+        Vector3 offset = new(.2f, -.02f);
+        GameObject card = Instantiate(cardPrefab, seatTargets[index]);
+        card.transform.localPosition += isFirstCard ? offset : -offset;
     }
 
     /// <summary>
@@ -81,6 +55,14 @@ public class CardDealer : MonoBehaviour
     }
 
     /// <summary>
+    /// destroys the dealerButton gameObject
+    /// </summary>
+    public void DestroyDealerButton()
+    {
+        Destroy(dealerButton);
+    }
+
+    /// <summary>
     /// find and sets positions for the cards to be instantiated visually
     /// </summary>
     /// <param name="targets"></param>
@@ -89,7 +71,7 @@ public class CardDealer : MonoBehaviour
     {
         Transform[] transforms = gameObject.GetComponentsInChildren<Transform>();
 
-        targets = gameObject == player ?
+        targets = gameObject == seats ?
             new Transform[Player.MAX] : new Transform[BOARD_SIZE];
 
         for (int ctr = 0, index = 0; index < targets.Length; ctr++)
