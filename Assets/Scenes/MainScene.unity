@@ -449,7 +449,7 @@ GameObject:
   m_Component:
   - component: {fileID: 442707692}
   m_Layer: 0
-  m_Name: Player 5
+  m_Name: Seat 5
   m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -480,7 +480,7 @@ GameObject:
   m_Component:
   - component: {fileID: 450257199}
   m_Layer: 0
-  m_Name: Player 6
+  m_Name: Seat 6
   m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -511,7 +511,7 @@ GameObject:
   m_Component:
   - component: {fileID: 477823179}
   m_Layer: 0
-  m_Name: Player 2
+  m_Name: Seat 2
   m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -542,7 +542,7 @@ GameObject:
   m_Component:
   - component: {fileID: 491944352}
   m_Layer: 0
-  m_Name: Player 7
+  m_Name: Seat 7
   m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -609,8 +609,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32d7ff3f88876c04a978fd874a05f603, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardDealer
+  dealerButtonPrefab: {fileID: 8663871844464161540, guid: 536fe146565d1e6499c125a4c4b41f8d, type: 3}
   cardPrefab: {fileID: 8199653303839364018, guid: 71861fd840ce9f9429c459872afe4c85, type: 3}
-  player: {fileID: 1624398785}
+  seats: {fileID: 0}
   board: {fileID: 1239136931}
 --- !u!1 &850030193
 GameObject:
@@ -706,7 +707,7 @@ GameObject:
   m_Component:
   - component: {fileID: 869523811}
   m_Layer: 0
-  m_Name: Player 9
+  m_Name: Seat 9
   m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -782,7 +783,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1189358175}
   m_Layer: 0
-  m_Name: Player 1
+  m_Name: Seat 1
   m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -849,7 +850,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1261467094}
   m_Layer: 0
-  m_Name: Player 4
+  m_Name: Seat 4
   m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -911,7 +912,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1559196507}
   m_Layer: 0
-  m_Name: Player 10
+  m_Name: Seat 10
   m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -942,7 +943,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1624398786}
   m_Layer: 0
-  m_Name: Player Targets
+  m_Name: Seat Targets
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -983,7 +984,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1755343323}
   m_Layer: 0
-  m_Name: Player 3
+  m_Name: Seat 3
   m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1104,7 +1105,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2011043178}
   m_Layer: 0
-  m_Name: Player 8
+  m_Name: Seat 8
   m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
