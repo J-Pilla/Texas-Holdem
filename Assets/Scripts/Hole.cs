@@ -36,6 +36,15 @@
             }
         }
 
+        /// <summary>
+        /// removes Cards from Cards array
+        /// </summary>
+        public void Discard()
+        {
+            Cards = new Card[SIZE];
+            CardCount = 0;
+        }
+
         // constructors
         public Hole()
         {

@@ -63,13 +63,13 @@ namespace TexasHoldem
             SetBlinds();
         }
 
+        /// <summary>
+        /// set blinds
+        /// </summary>
         public static void SetBlinds()
         {
             SmallBlindIndex = DealerIndex + 1;
             BigBlindIndex = SmallBlindIndex + 1;
-            UnityEngine.Debug.Log($"Dealer: {DealerIndex}");
-            UnityEngine.Debug.Log($"Small Blind: {SmallBlindIndex}");
-            UnityEngine.Debug.Log($"Big Blind: {BigBlindIndex}");
         }
 
         // non-static members
@@ -107,6 +107,14 @@ namespace TexasHoldem
         public void AddCard(int cardId)
         {
             Hole.AddCard(cardId);
+        }
+
+        /// <summary>
+        /// removes Cards from Cards array
+        /// </summary>
+        public void Discard()
+        {
+            Hole.Discard();
         }
 
         /// <summary>
