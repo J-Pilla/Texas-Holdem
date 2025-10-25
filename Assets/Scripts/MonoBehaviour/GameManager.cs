@@ -36,10 +36,11 @@ namespace TexasHoldem
         void Awake()
         {
             Application.targetFrameRate = 60;
-
+#pragma warning disable CS0612
             // test loop adding Players
             for (int index = 0; index < Player.MAX; index++)
                 Players[index] = new Player();
+#pragma warning restore CS0612
         }
 
         void Start()
@@ -220,10 +221,10 @@ namespace TexasHoldem
             GameState = State.None;
 
             Player.ResetCount();
-
+#pragma warning disable CS0612
             for (int index = 0; index < Player.MAX; index++) // test loop replacing Players
                 Players[index] = new Player();
-
+#pragma warning restore CS0612
             cardDealer.DestroyDealerButton();
 
             hand.text = string.Empty;
