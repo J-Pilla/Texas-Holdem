@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 3
   tags:
   - Target
+  - Card
+  - Dealer Button
   layers:
   - Default
   - TransparentFX
