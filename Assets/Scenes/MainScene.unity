@@ -611,7 +611,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardDealer
   dealerButtonPrefab: {fileID: 8663871844464161540, guid: 536fe146565d1e6499c125a4c4b41f8d, type: 3}
   cardPrefab: {fileID: 8199653303839364018, guid: 71861fd840ce9f9429c459872afe4c85, type: 3}
-  seats: {fileID: 0}
+  seats: {fileID: 1624398785}
   board: {fileID: 1239136931}
 --- !u!1 &850030193
 GameObject:
