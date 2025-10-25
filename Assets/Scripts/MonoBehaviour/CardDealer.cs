@@ -33,7 +33,7 @@ namespace TexasHoldem
         public void InstantiateDealerButton(int index)
         {
             dealerButton = Instantiate(dealerButtonPrefab, seatTargets[index]);
-            dealerButton.transform.localPosition += new Vector3(0f, 1.25f);
+            dealerButton.transform.localPosition += new Vector3(-.9f, .3f);
         }
 
         /// <summary>
