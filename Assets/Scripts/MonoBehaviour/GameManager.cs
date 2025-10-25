@@ -213,11 +213,9 @@ namespace TexasHoldem
         {
             GameState = State.RoundStart;
 
-            Player.ResetCount();
-#pragma warning disable CS0612
-            for (int index = 0; index < Player.MAX; index++) // test loop replacing Players
-                Players[index] = new Player();
-#pragma warning restore CS0612
+            foreach (Player player in Players)
+                player.Discard();
+
             cardDealer.DestroyButtons();
             Player.NextDealer();
             cardDealer.InstantiateButtons();
