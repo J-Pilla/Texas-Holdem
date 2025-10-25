@@ -12,6 +12,8 @@ namespace TexasHoldem
         // static members
         // fields
         static int dealerIndex = 0;
+        static int smallBlindIndex = 0;
+        static int bigBlindIndex = 0;
 
         // constants
         public const int MAX = 10;
@@ -23,6 +25,16 @@ namespace TexasHoldem
             get { return dealerIndex; }
             private set { dealerIndex = value < Count ? value : 0; }
         }
+        public static int SmallBlindIndex
+        {
+            get { return smallBlindIndex; }
+            private set { smallBlindIndex = value < Count ? value : 0; }
+        }
+        public static int BigBlindIndex
+        {
+            get { return bigBlindIndex; }
+            private set { bigBlindIndex = value < Count ? value : 0; }
+        }
 
         // methods
         /// <summary>
@@ -31,7 +43,6 @@ namespace TexasHoldem
         public static void ResetCount()
         {
             Count = 0;
-            DealerIndex = 0;
         }
 
         /// <summary>
@@ -49,6 +60,16 @@ namespace TexasHoldem
         public static void NextDealer()
         {
             DealerIndex++;
+            SetBlinds();
+        }
+
+        public static void SetBlinds()
+        {
+            SmallBlindIndex = DealerIndex + 1;
+            BigBlindIndex = SmallBlindIndex + 1;
+            UnityEngine.Debug.Log($"Dealer: {DealerIndex}");
+            UnityEngine.Debug.Log($"Small Blind: {SmallBlindIndex}");
+            UnityEngine.Debug.Log($"Big Blind: {BigBlindIndex}");
         }
 
         // non-static members
