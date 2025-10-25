@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static Deck;
@@ -31,7 +32,8 @@ public class GameManager : MonoBehaviour
     {
         Application.targetFrameRate = 60;
 
-        for (int index = 0; index < Player.MAX; index++) // test loop adding Players
+        // test loop adding Players
+        for (int index = 0; index < Player.MAX; index++)
             Players[index] = new Player($"Player {index + 1}");
     }
 
@@ -91,6 +93,9 @@ public class GameManager : MonoBehaviour
                 cards[index].Suit > cards[Player.DealerIndex].Suit)
                 Player.SetInitialDealer(index);
         }
+
+        cardDealer.InstantiateDealerButton(Player.DealerIndex);
+        print($"Opening dealer is {Players[Player.DealerIndex].Name}");
     }
 
     /// <summary>
@@ -211,6 +216,8 @@ public class GameManager : MonoBehaviour
 
         for (int index = 0; index < Player.MAX; index++) // test loop replacing Players
             Players[index] = new Player($"Player {index + 1}");
+
+        cardDealer.DestroyDealerButton();
     }
 
     // enums
