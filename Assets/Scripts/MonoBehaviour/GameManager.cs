@@ -16,7 +16,7 @@ namespace TexasHoldem.MonoScripts
     {
         // non-static members
         // fields
-        [SerializeField] CardDealer cardDealer;
+        [SerializeField] ObjectManager objectManager;
         [SerializeField] TMP_Text hand;
         [SerializeField] TMP_Text highCard;
         [SerializeField] TMP_Text kicker;
@@ -31,11 +31,6 @@ namespace TexasHoldem.MonoScripts
         void Awake()
         {
             Application.targetFrameRate = 60;
-
-            for (; Player.Count < Player.MAX;)
-            {
-                Players[Player.Count] = new Player();
-            }
         }
 
         void Start()
@@ -75,7 +70,7 @@ namespace TexasHoldem.MonoScripts
                     DetermineOpeningDealer();
                     Player.SetBlinds();
                     SetBlindStates();
-                    cardDealer.InstantiateButtons();
+                    objectManager.InstantiateButtons();
                     State++;
                     break;
                 case State.Deal:
@@ -137,12 +132,12 @@ namespace TexasHoldem.MonoScripts
                         playerIndex = 0;
 
                     Players[playerIndex].AddCard(CardIds[CardIndex]);
-                    cardDealer.InstantiatePlayerCard(playerIndex, Players[playerIndex].CardCount == 1);
+                    objectManager.InstantiatePlayerCard(playerIndex, Players[playerIndex].CardCount == 1);
                     playerIndex++;
                 }
                 else
                 {
-                    cardDealer.InstantiateBoardCard(CardIndex - playerCardCount);
+                    objectManager.InstantiateBoardCard(CardIndex - playerCardCount);
                     board[CardIndex - playerCardCount] = new Card(CardIds[CardIndex]);
                 }
             }
@@ -217,9 +212,9 @@ namespace TexasHoldem.MonoScripts
             foreach (Player player in Players)
                 player.Discard();
 
-            cardDealer.DestroyButtons();
+            objectManager.DestroyButtons();
             Player.NextDealer();
-            cardDealer.InstantiateButtons();
+            objectManager.InstantiateButtons();
 
             hand.text = string.Empty;
             highCard.text = string.Empty;
