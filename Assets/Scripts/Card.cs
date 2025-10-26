@@ -1,4 +1,6 @@
-﻿namespace TexasHoldem
+﻿using System.Text.RegularExpressions;
+
+namespace TexasHoldem
 {
     /// <summary>
     /// class representing a card, uses CardIds
@@ -83,6 +85,37 @@
         Queen,
         King,
         Ace
+    }
+
+    /// <summary>
+    /// entensions for Rank enum
+    /// </summary>
+    public static class RankExtensions
+    {
+        public static string GetName(this Hand hand)
+        {
+            string name = hand.ToString();
+
+            switch (hand)
+            {
+                case Hand.NoPair:
+                case Hand.OnePair:
+                case Hand.TwoPair:
+                case Hand.FullHouse:
+                case Hand.StraightFlush:
+                case Hand.RoyalFlush:
+                    string pattern = @"([a-z])([A-Z])";
+                    string replacement = "$1 $2";
+                    name = Regex.Replace(name, pattern, replacement);
+                    break;
+                case Hand.ThreeOAK:
+                case Hand.FourOAK:
+                    name = name.Replace("OAK", " of a Kind");
+                    break;
+            }
+
+            return name;
+        }
     }
 
     /// <summary>
