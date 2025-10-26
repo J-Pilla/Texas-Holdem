@@ -18,6 +18,7 @@ namespace TexasHoldem
 
         // constants
         public const int MAX = 10;
+        public const int MIN = 2;
 
         // properties
         public static int Count { get; private set; } = 0;
