@@ -4,6 +4,7 @@
     /// class representing a "hole" in Texas Holdem,
     /// the two cards each player is dealt
     /// </summary>
+    [System.Serializable]
     public class Hole
     {
         // static members
@@ -12,7 +13,7 @@
 
         // non-static members
         // properties
-        public Card[] Cards { get; private set; }
+        [field: UnityEngine.SerializeField] public Card[] Cards { get; private set; }
         public int CardCount { get; private set; }
         public Rank HighCard { get; set; }
         public Rank Kicker { get; set; }

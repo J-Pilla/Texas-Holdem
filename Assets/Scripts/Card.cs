@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using UnityEngine;
+using System.Text.RegularExpressions;
 
 namespace TexasHoldem
 {
@@ -6,12 +7,15 @@ namespace TexasHoldem
     /// class representing a card, uses CardIds
     /// from Deck.cs to initialize unique cards
     /// </summary>
+    [System.Serializable]
     public class Card
     {
         // fields
+        [SerializeField] GameObject cardPrefab;
         int id;
 
         // properties
+        public SpriteRenderer SpriteRenderer { get; set; }
         public int Id
         {
             get { return id; }

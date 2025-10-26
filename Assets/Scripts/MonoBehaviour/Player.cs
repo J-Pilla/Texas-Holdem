@@ -1,4 +1,4 @@
-using System.Text.RegularExpressions;
+using UnityEngine;
 
 namespace TexasHoldem
 {
@@ -7,7 +7,7 @@ namespace TexasHoldem
     /// <summary>
     /// class representing a player
     /// </summary>
-    public class Player
+    public class Player : MonoBehaviour
     {
         // static members
         // fields
@@ -79,7 +79,7 @@ namespace TexasHoldem
         public int Bet { get; set; }
         public bool HasBestHand { get; set; }
         public Blind Blind { get; set; }
-        public Hole Hole { get; set; }
+        [field: SerializeField] public Hole Hole { get; set; }
         public Card[] Cards { get { return Hole.Cards; } }
         public int CardCount { get { return Hole.CardCount; } }
         public Rank HighCard
