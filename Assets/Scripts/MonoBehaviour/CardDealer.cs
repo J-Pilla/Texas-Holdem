@@ -11,15 +11,16 @@ namespace TexasHoldem
     public class CardDealer : MonoBehaviour
     {
         // non-static members
+        // fields
         [SerializeField] GameObject dealerButtonPrefab;
-        GameObject dealerButton;
         [SerializeField] GameObject smallBlindButtonPrefab;
-        GameObject smallBlindButton;
         [SerializeField] GameObject bigBlindButtonPrefab;
-        GameObject bigBlindButton;
         [SerializeField] GameObject cardPrefab;
         [SerializeField] GameObject seats;
         [SerializeField] GameObject board;
+        GameObject dealerButton;
+        GameObject smallBlindButton;
+        GameObject bigBlindButton;
         Transform[] seatTargets = new Transform[Player.MAX];
         Transform[] boardTargets = new Transform[BOARD_SIZE];
 
@@ -30,28 +31,33 @@ namespace TexasHoldem
             SetTargets(ref boardTargets, board);
         }
 
-        // non-static methods
+        // methods
         /// <summary>
-        /// instantiates the dealer button visually
+        /// instantiates the buttons
         /// </summary>
         /// <param name="index"></param>
         public void InstantiateButtons()
         {
-            InstantiateButton(Player.DealerIndex);
-            InstantiateButton(Player.SmallBlindIndex, Blind.Small);
-            InstantiateButton(Player.BigBlindIndex, Blind.Big);
+            InstantiateButton(Blind.Dealer);
+            InstantiateButton(Blind.Small);
+            InstantiateButton(Blind.Big);
         }
 
-        void InstantiateButton(int index, Blind blind = Blind.None)
+        /// <summary>
+        /// instantiates the button based on the Blind set.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="blind"></param>
+        void InstantiateButton(Blind blind)
         {
-            GameObject buttonPrefab = blind switch
+            (int index, GameObject buttonPrefab) = blind switch
             {
-                Blind.Small => smallBlindButtonPrefab,
-                Blind.Big => bigBlindButtonPrefab,
-                _ => dealerButtonPrefab
+                Blind.Small => (Player.SmallBlindIndex, smallBlindButtonPrefab),
+                Blind.Big => (Player.BigBlindIndex, bigBlindButtonPrefab),
+                _ => (Player.DealerIndex, dealerButtonPrefab)
             };
             GameObject button = Instantiate(buttonPrefab, seatTargets[index]);
-
+            
             button.transform.localPosition += new Vector3(-.9f, .3f);
 
             switch (blind)
