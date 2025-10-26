@@ -7,6 +7,7 @@ namespace TexasHoldem
     /// <summary>
     /// class representing a player
     /// </summary>
+    [System.Serializable]
     public class Player
     {
         // static members
