@@ -16,7 +16,6 @@ namespace TexasHoldem
 
         // properties
         public GameObject CardPrefab { get { return cardPrefab; } }
-        public SpriteRenderer SpriteRenderer { get; set; }
         public int Id
         {
             get { return id; }
