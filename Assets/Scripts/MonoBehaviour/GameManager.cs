@@ -74,11 +74,11 @@ namespace TexasHoldem
                     }
                     DetermineOpeningDealer();
                     Player.SetBlinds();
+                    SetBlindStates();
                     cardDealer.InstantiateButtons();
                     GameState++;
                     break;
                 case State.Deal:
-                    SetBlinds();
                     Shuffle();
                     Deal();
                     break;
@@ -111,10 +111,11 @@ namespace TexasHoldem
         }
 
         /// <summary>
-        /// sets big and small blinds following the dealer
+        /// sets blind states
         /// </summary>
-        void SetBlinds()
+        void SetBlindStates()
         {
+            Players[Player.DealerIndex].Blind = Blind.Dealer;
             Players[Player.SmallBlindIndex].Blind = Blind.Small;
             Players[Player.BigBlindIndex].Blind = Blind.Big;
         }
