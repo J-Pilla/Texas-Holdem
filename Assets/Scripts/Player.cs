@@ -391,10 +391,16 @@ namespace TexasHoldem
 
             if (matchCounts[0] > 0 || matchCounts[1] > 0 && Hand < Hand.FourOAK)
             {
-                // set matchIndex to the higher count, default 0
-                matchIndex = matchCounts[0] >= matchCounts[1] ? 0 : 1;
+                // set matchIndex to the higher count, or the higher rank
+                matchIndex = matchCounts[0] - matchCounts[1] switch
+                {
+                    > 0 => 0,
+                    0 => matches[0] > matches[1] ? 0 : 1,
+                    < 0 => 1
+                };
 
                 HighCard = matches[matchIndex];
+
                 // send the higher count to check for full house and two pair
                 CheckComboSets(cards, matchCounts[matchIndex]);
             }
@@ -412,7 +418,7 @@ namespace TexasHoldem
             int matchIndex = 0;
 
             for (int ctr = HAND_SIZE - 1; ctr >= 0; ctr--)
-            { // matchIndex is not used outside the loop so I made it local
+            {
                 if (cards[ctr].Rank == HighCard)
                     continue; // if the card matches the rank you already have a match of, skip the iteration
 
@@ -464,6 +470,8 @@ namespace TexasHoldem
                         break;
                 }
             }
+
+            //!!!!!!!!! ADD CODE TO SWAP HIGH CARD FOR FULL HOUSE IF 
         }
 
         /// <summary>
