@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace TexasHoldem.MonoBehavour
+namespace TexasHoldem.MonoScripts
 {
     using static Game;
     using static Deck;

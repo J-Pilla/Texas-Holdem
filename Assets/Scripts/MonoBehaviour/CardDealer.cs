@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace TexasHoldem.MonoBehavour
+namespace TexasHoldem.MonoScripts
 {
     using static Game;
 
