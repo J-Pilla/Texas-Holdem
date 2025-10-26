@@ -7,7 +7,7 @@ namespace TexasHoldem.MonoScripts
     /// <summary>
     /// MonoBehaviour in charge of instantiating cards visually
     /// </summary>
-    public class CardDealer : MonoBehaviour
+    public class ObjectManager : MonoBehaviour
     {
         // non-static members
         // fields
