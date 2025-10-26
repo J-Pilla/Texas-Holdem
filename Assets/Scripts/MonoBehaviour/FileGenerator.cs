@@ -1,9 +1,9 @@
 using System.IO;
 using UnityEngine;
 
-namespace TexasHoldem
+namespace TexasHoldem.MonoBehavour
 {
-    using static GameManager;
+    using static Game;
     using static Deck;
 
     /// <summary>

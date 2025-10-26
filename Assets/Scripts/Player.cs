@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace TexasHoldem
 {
-    using static GameManager;
+    using static Game;
 
     /// <summary>
     /// class representing a player

@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace TexasHoldem
+namespace TexasHoldem.MonoBehavour
 {
-    using static GameManager;
+    using static Game;
     using static Deck;
 
     /// <summary>
@@ -39,7 +39,7 @@ namespace TexasHoldem
         /// </summary>
         void CheckState()
         {
-            switch (GameState)
+            switch (GameManager.State)
             {
                 case State.Flip:
                     FlipCard();

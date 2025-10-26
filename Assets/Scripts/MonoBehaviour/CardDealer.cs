@@ -1,9 +1,8 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
-namespace TexasHoldem
+namespace TexasHoldem.MonoBehavour
 {
-    using static GameManager;
+    using static Game;
 
     /// <summary>
     /// MonoBehaviour in charge of instantiating cards visually

@@ -2,9 +2,11 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 
-namespace TexasHoldem
+namespace TexasHoldem.MonoBehavour
 {
+    using static Game;
     using static Deck;
+
     /// <summary>
     /// MonoBehaviour in charge of moving the game
     /// forward and executing game play logic,
@@ -12,14 +14,6 @@ namespace TexasHoldem
     /// </summary>
     public class GameManager : MonoBehaviour
     {
-        // static members
-        // constants
-        public const int BOARD_SIZE = 5;
-        public const int HAND_SIZE = BOARD_SIZE + Hole.SIZE;
-
-        // properties
-        public static State GameState { get; private set; } = State.Start;
-
         // non-static members
         // fields
         [SerializeField] CardDealer cardDealer;
@@ -30,6 +24,7 @@ namespace TexasHoldem
         readonly Card[] board = new Card[BOARD_SIZE];
 
         // properties
+        public static State State { get; private set; } = State.Start;
         public Player[] Players { get; private set; } = new Player[Player.MAX];
 
         // unity messages
@@ -53,7 +48,7 @@ namespace TexasHoldem
 
         void Update()
         {
-            if (GameState == State.NextRound)
+            if (State == State.NextRound)
                 NextRound();
 
             if (nextState.WasPressedThisFrame())
@@ -66,22 +61,22 @@ namespace TexasHoldem
         /// </summary>
         void NextState()
         {
-            GameState++;
+            State++;
 
 
-            switch (GameState)
+            switch (State)
             {
                 case State.OpeningDeal:
                     if (Player.Count < 2)
                     {
-                        GameState--;
+                        State--;
                         break;
                     }
                     DetermineOpeningDealer();
                     Player.SetBlinds();
                     SetBlindStates();
                     cardDealer.InstantiateButtons();
-                    GameState++;
+                    State++;
                     break;
                 case State.Deal:
                     Shuffle();
@@ -217,7 +212,7 @@ namespace TexasHoldem
         /// </summary>
         void NextRound()
         {
-            GameState = State.RoundStart;
+            State = State.RoundStart;
 
             foreach (Player player in Players)
                 player.Discard();
@@ -229,20 +224,6 @@ namespace TexasHoldem
             hand.text = string.Empty;
             highCard.text = string.Empty;
             kicker.text = string.Empty;
-        }
-
-        // enums
-        /// <summary>
-        /// game states
-        /// </summary>
-        public enum State
-        {
-            Start,
-            OpeningDeal,
-            RoundStart,
-            Deal,
-            Flip,
-            NextRound
         }
     }
 }
