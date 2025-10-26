@@ -392,14 +392,15 @@ namespace TexasHoldem
             if (matchCounts[0] > 0 || matchCounts[1] > 0 && Hand < Hand.FourOAK)
             {
                 // set matchIndex to the higher count, or the higher rank
-                matchIndex = matchCounts[0] - matchCounts[1] switch
+                matchIndex = (matchCounts[0] - matchCounts[1]) switch
                 {
                     > 0 => 0,
                     0 => matches[0] > matches[1] ? 0 : 1,
                     < 0 => 1
                 };
-
+                Debug.Log($"{matchIndex}, {matchCounts[0]}, {matchCounts[1]}");
                 HighCard = matches[matchIndex];
+                Debug.Log($"{HighCard}, {matches[0]}, {matches[1]}");
 
                 // send the higher count to check for full house and two pair
                 CheckComboSets(cards, matchCounts[matchIndex]);
