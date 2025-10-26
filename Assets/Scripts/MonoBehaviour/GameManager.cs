@@ -36,6 +36,11 @@ namespace TexasHoldem
         void Awake()
         {
             Application.targetFrameRate = 60;
+
+            for (; Player.Count < Player.MAX;)
+            {
+                Players[Player.Count] = new Player();
+            }
         }
 
         void Start()

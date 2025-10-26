@@ -7,7 +7,7 @@ namespace TexasHoldem
     /// <summary>
     /// class representing a player
     /// </summary>
-    public class Player : MonoBehaviour
+    public class Player
     {
         // static members
         // fields
