@@ -44,7 +44,7 @@ namespace TexasHoldem
                 case State.Flip:
                     FlipCard();
                     break;
-                case State.Reset:
+                case State.NextRound:
                     Destroy(gameObject);
                     break;
             }

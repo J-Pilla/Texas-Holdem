@@ -18,7 +18,7 @@ namespace TexasHoldem
         public const int HAND_SIZE = BOARD_SIZE + Hole.SIZE;
 
         // properties
-        public static State GameState { get; private set; } = State.None;
+        public static State GameState { get; private set; } = State.Start;
 
         // non-static members
         // fields
@@ -36,11 +36,6 @@ namespace TexasHoldem
         void Awake()
         {
             Application.targetFrameRate = 60;
-#pragma warning disable CS0612
-            // test loop adding Players
-            for (int index = 0; index < Player.MAX; index++)
-                Players[index] = new Player();
-#pragma warning restore CS0612
         }
 
         void Start()
@@ -53,7 +48,7 @@ namespace TexasHoldem
 
         void Update()
         {
-            if (GameState == State.Reset)
+            if (GameState == State.NextRound)
                 NextRound();
 
             if (nextState.WasPressedThisFrame())
@@ -72,6 +67,11 @@ namespace TexasHoldem
             switch (GameState)
             {
                 case State.OpeningDeal:
+                    if (Player.Count < 2)
+                    {
+                        GameState--;
+                        break;
+                    }
                     DetermineOpeningDealer();
                     Player.SetBlinds();
                     cardDealer.InstantiateButtons();
@@ -231,12 +231,12 @@ namespace TexasHoldem
         /// </summary>
         public enum State
         {
-            None,
+            Start,
             OpeningDeal,
             RoundStart,
             Deal,
             Flip,
-            Reset
+            NextRound
         }
     }
 }
