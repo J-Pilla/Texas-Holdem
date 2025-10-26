@@ -398,9 +398,8 @@ namespace TexasHoldem
                     0 => matches[0] > matches[1] ? 0 : 1,
                     < 0 => 1
                 };
-                Debug.Log($"{matchIndex}, {matchCounts[0]}, {matchCounts[1]}");
+
                 HighCard = matches[matchIndex];
-                Debug.Log($"{HighCard}, {matches[0]}, {matches[1]}");
 
                 // send the higher count to check for full house and two pair
                 CheckComboSets(cards, matchCounts[matchIndex]);
