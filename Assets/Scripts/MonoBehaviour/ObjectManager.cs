@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace TexasHoldem.MonoScripts
 {
@@ -11,12 +12,15 @@ namespace TexasHoldem.MonoScripts
     {
         // non-static members
         // fields
+        [SerializeField] GameObject playerPrefab;
         [SerializeField] GameObject dealerButtonPrefab;
         [SerializeField] GameObject smallBlindButtonPrefab;
         [SerializeField] GameObject bigBlindButtonPrefab;
         [SerializeField] GameObject cardPrefab;
         [SerializeField] GameObject seats;
         [SerializeField] GameObject board;
+        PlayerManager[] players = new PlayerManager[Player.MAX];
+        int initializerIndex;
         GameObject dealerButton;
         GameObject smallBlindButton;
         GameObject bigBlindButton;
@@ -124,6 +128,52 @@ namespace TexasHoldem.MonoScripts
                     index++;
                 }
             }
+        }
+
+        // event methods
+        /// <summary>
+        /// event called by "Add Player" buttons,
+        /// instantiates a player game object
+        /// </summary>
+        /// <param name="seatIndex"></param>
+        public void AddPlayer(int index)
+        {
+            players[index] = Instantiate(playerPrefab, seatTargets[index]).GetComponent<PlayerManager>();
+        }
+
+        /// <summary>
+        /// event called by "Sit" buttons,
+        /// initializes a C# Player object inside a Player Manager component,
+        /// call AFTER SetInitializerIndex() event method
+        /// </summary>
+        /// <param name="name"></param>
+        public void SitAtTable(TMPro.TMP_InputField inputField)
+        {
+            if (inputField.text != string.Empty)
+                players[initializerIndex].InitializePlayer(inputField.text);
+            else
+                throw new System.Exception("Add text to input field");
+        }
+
+        /// <summary>
+        /// event called by "Sit" buttons,
+        /// assignes value to initilizerIndex,
+        /// call BEFORE SitAtTable() event method
+        /// </summary>
+        /// <param name="index"></param>
+        public void SetInitializerIndex(int index)
+        {
+            initializerIndex = index;
+        }
+
+        /// <summary>
+        /// event called by "Leave Table" and "Cancel" buttons,
+        /// destroys a player game object
+        /// </summary>
+        /// <param name="index"></param>
+        public void LeaveTable(int index)
+        {
+            Destroy(players[index]);
         }
     }
 }
