@@ -583,6 +583,7 @@ namespace TexasHoldem
     /// </summary>
     public enum Blind
     {
+        Dealer = -1,
         None,
         Small,
         Big
