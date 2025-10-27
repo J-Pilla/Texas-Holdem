@@ -19,13 +19,15 @@ namespace TexasHoldem.MonoScripts
         [SerializeField] GameObject cardPrefab;
         [SerializeField] GameObject seats;
         [SerializeField] GameObject board;
-        PlayerManager[] players = new PlayerManager[Player.MAX];
         int initializerIndex;
         GameObject dealerButton;
         GameObject smallBlindButton;
         GameObject bigBlindButton;
         Transform[] seatTargets = new Transform[Player.MAX];
         Transform[] boardTargets = new Transform[BOARD_SIZE];
+
+        // properties
+        public PlayerManager[] Players { get; private set; } = new PlayerManager[Player.MAX];
 
         // unity messages
         void Start()
@@ -138,7 +140,7 @@ namespace TexasHoldem.MonoScripts
         /// <param name="seatIndex"></param>
         public void AddPlayer(int index)
         {
-            players[index] = Instantiate(playerPrefab, seatTargets[index]).GetComponent<PlayerManager>();
+            Players[index] = Instantiate(playerPrefab, seatTargets[index]).GetComponent<PlayerManager>();
         }
 
         /// <summary>
@@ -150,7 +152,7 @@ namespace TexasHoldem.MonoScripts
         public void SitAtTable(TMPro.TMP_InputField inputField)
         {
             if (inputField.text != string.Empty)
-                players[initializerIndex].InitializePlayer(inputField.text);
+                Players[initializerIndex].InitializePlayer(inputField.text);
             else
                 throw new System.Exception("Add text to input field");
         }
@@ -174,7 +176,7 @@ namespace TexasHoldem.MonoScripts
         public void LeaveTable(int index)
         {
             Player.DecrementCount();
-            Destroy(players[index].gameObject);
+            Destroy(Players[index].gameObject);
         }
     }
 }
