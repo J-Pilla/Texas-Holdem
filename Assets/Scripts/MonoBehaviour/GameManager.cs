@@ -224,6 +224,11 @@ namespace TexasHoldem.MonoScripts
         }
 
         // event methods
+        public void SetPlayerReference(int index)
+        {
+            Players[index] = objectManager.Players[index].Player;
+        }
+
         public void RoundStart()
         {
             hasRoundStarted = Player.Count >= Player.MIN;
