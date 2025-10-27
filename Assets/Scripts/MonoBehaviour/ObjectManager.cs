@@ -173,7 +173,8 @@ namespace TexasHoldem.MonoScripts
         /// <param name="index"></param>
         public void LeaveTable(int index)
         {
-            Destroy(players[index]);
+            Player.DecrementCount();
+            Destroy(players[index].gameObject);
         }
     }
 }
