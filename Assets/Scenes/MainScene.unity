@@ -1040,6 +1040,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 704968192}
@@ -1047,6 +1051,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
       value: 
       objectReference: {fileID: 704968192}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Target
+      value: 
+      objectReference: {fileID: 1173276124}
     - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetInitializerIndex
@@ -1056,8 +1064,24 @@ PrefabInstance:
       value: SitAtTable
       objectReference: {fileID: 0}
     - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_MethodName
+      value: SetPlayerReference
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_TargetAssemblyTypeName
+      value: TexasHoldem.MonoScripts.GameManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_IntArgument
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6963659878531246707, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_Name
@@ -1262,6 +1286,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 704968192}
@@ -1269,6 +1297,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
       value: 
       objectReference: {fileID: 704968192}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Target
+      value: 
+      objectReference: {fileID: 1173276124}
     - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetInitializerIndex
@@ -1278,8 +1310,24 @@ PrefabInstance:
       value: SitAtTable
       objectReference: {fileID: 0}
     - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_MethodName
+      value: SetPlayerReference
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_TargetAssemblyTypeName
+      value: TexasHoldem.MonoScripts.GameManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_IntArgument
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6963659878531246707, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_Name
@@ -2138,6 +2186,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 704968192}
@@ -2145,6 +2197,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
       value: 
       objectReference: {fileID: 704968192}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Target
+      value: 
+      objectReference: {fileID: 1173276124}
     - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetInitializerIndex
@@ -2154,8 +2210,24 @@ PrefabInstance:
       value: SitAtTable
       objectReference: {fileID: 0}
     - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_MethodName
+      value: SetPlayerReference
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_TargetAssemblyTypeName
+      value: TexasHoldem.MonoScripts.GameManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_IntArgument
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6963659878531246707, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_Name
@@ -2296,6 +2368,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 704968192}
@@ -2303,6 +2379,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
       value: 
       objectReference: {fileID: 704968192}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Target
+      value: 
+      objectReference: {fileID: 1173276124}
     - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetInitializerIndex
@@ -2312,8 +2392,24 @@ PrefabInstance:
       value: SitAtTable
       objectReference: {fileID: 0}
     - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_MethodName
+      value: SetPlayerReference
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_TargetAssemblyTypeName
+      value: TexasHoldem.MonoScripts.GameManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_IntArgument
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6963659878531246707, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_Name
@@ -3529,6 +3625,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 704968192}
@@ -3536,6 +3636,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
       value: 
       objectReference: {fileID: 704968192}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Target
+      value: 
+      objectReference: {fileID: 1173276124}
     - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetInitializerIndex
@@ -3545,8 +3649,24 @@ PrefabInstance:
       value: SitAtTable
       objectReference: {fileID: 0}
     - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_MethodName
+      value: SetPlayerReference
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_TargetAssemblyTypeName
+      value: TexasHoldem.MonoScripts.GameManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_IntArgument
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6963659878531246707, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_Name
@@ -3682,6 +3802,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 704968192}
@@ -3689,6 +3813,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
       value: 
       objectReference: {fileID: 704968192}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Target
+      value: 
+      objectReference: {fileID: 1173276124}
     - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetInitializerIndex
@@ -3698,8 +3826,24 @@ PrefabInstance:
       value: SitAtTable
       objectReference: {fileID: 0}
     - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_MethodName
+      value: SetPlayerReference
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_TargetAssemblyTypeName
+      value: TexasHoldem.MonoScripts.GameManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_IntArgument
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6963659878531246707, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_Name
@@ -3970,6 +4114,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 704968192}
@@ -3977,6 +4125,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
       value: 
       objectReference: {fileID: 704968192}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Target
+      value: 
+      objectReference: {fileID: 1173276124}
     - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetInitializerIndex
@@ -3986,8 +4138,24 @@ PrefabInstance:
       value: SitAtTable
       objectReference: {fileID: 0}
     - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_MethodName
+      value: SetPlayerReference
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_TargetAssemblyTypeName
+      value: TexasHoldem.MonoScripts.GameManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_IntArgument
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6963659878531246707, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_Name
@@ -4123,6 +4291,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 704968192}
@@ -4130,6 +4302,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
       value: 
       objectReference: {fileID: 704968192}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Target
+      value: 
+      objectReference: {fileID: 1173276124}
     - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetInitializerIndex
@@ -4139,8 +4315,24 @@ PrefabInstance:
       value: SitAtTable
       objectReference: {fileID: 0}
     - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_MethodName
+      value: SetPlayerReference
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_TargetAssemblyTypeName
+      value: TexasHoldem.MonoScripts.GameManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6963659878531246707, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_Name
@@ -4276,6 +4468,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 704968192}
@@ -4283,6 +4479,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
       value: 
       objectReference: {fileID: 704968192}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Target
+      value: 
+      objectReference: {fileID: 1173276124}
     - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetInitializerIndex
@@ -4292,8 +4492,24 @@ PrefabInstance:
       value: SitAtTable
       objectReference: {fileID: 0}
     - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_MethodName
+      value: SetPlayerReference
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_TargetAssemblyTypeName
+      value: TexasHoldem.MonoScripts.GameManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_IntArgument
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6963659878531246707, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_Name
@@ -4556,6 +4772,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 704968192}
@@ -4563,6 +4783,22 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
       value: 
       objectReference: {fileID: 704968192}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Target
+      value: 
+      objectReference: {fileID: 1173276124}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_MethodName
+      value: SetPlayerReference
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_TargetAssemblyTypeName
+      value: TexasHoldem.MonoScripts.GameManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101888867745358084, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 6963659878531246707, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
       propertyPath: m_Name
       value: Add Remove Controls
