@@ -40,8 +40,17 @@ namespace TexasHoldem
 
         // methods
         /// <summary>
-        /// resets Count and DealerIndex to 0, only needed for testing
+        /// decrements Count
         /// </summary>
+        public static void DecrementCount()
+        {
+            Count--;
+        }
+
+        /// <summary>
+        /// resets Count, for testing
+        /// </summary>
+        [System.Obsolete]
         public static void ResetCount()
         {
             Count = 0;
@@ -524,13 +533,12 @@ namespace TexasHoldem
         }
 
         /// <summary>
-        /// default constructor used for testing
+        /// default constructor used for testing or by the compiler,
+        /// does not increment Count
         /// </summary>
-        [System.Obsolete]
         public Player()
         {
-            Count++;
-            Name = $"Player {Count}";
+            Name = string.Empty;
             Chips = 0;
             Bet = 0;
             HasBestHand = false;
