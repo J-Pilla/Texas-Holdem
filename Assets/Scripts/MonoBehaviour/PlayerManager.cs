@@ -6,7 +6,7 @@ namespace TexasHoldem.MonoScripts
     {
         // non-static members
         // fields
-        [SerializeField] Player player;
+        [SerializeField] Player player = new();
         GameObject[] cards = new GameObject[Hole.SIZE];
 
         // properties
