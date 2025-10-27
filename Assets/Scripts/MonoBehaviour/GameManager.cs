@@ -22,7 +22,7 @@ namespace TexasHoldem.MonoScripts
         [SerializeField] TMP_Text kicker;
         InputAction nextState;
         readonly Card[] board = new Card[BOARD_SIZE];
-        bool roundStart = false;
+        bool hasRoundStarted = false;
 
         // properties
         public static State State { get; private set; } = State.Start;
@@ -63,7 +63,7 @@ namespace TexasHoldem.MonoScripts
             switch (State)
             {
                 case State.OpeningDeal:
-                    if (!roundStart)
+                    if (!hasRoundStarted)
                     {
                         State--;
                         break;
@@ -209,7 +209,7 @@ namespace TexasHoldem.MonoScripts
         void NextRound()
         {
             State = State.RoundStart;
-            roundStart = false;
+            hasRoundStarted = false;
 
             foreach (Player player in Players)
                 player.Discard();
@@ -226,9 +226,9 @@ namespace TexasHoldem.MonoScripts
         // event methods
         public void RoundStart()
         {
-            roundStart = Player.Count >= Player.MIN;
-            print($"{roundStart} : {Player.Count}");
-            if (!roundStart)
+            hasRoundStarted = Player.Count >= Player.MIN;
+            print($"{hasRoundStarted} : {Player.Count}");
+            if (!hasRoundStarted)
                 throw new System.Exception("Add at least two players");
 
             //NextState();
