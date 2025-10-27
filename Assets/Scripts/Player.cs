@@ -532,10 +532,6 @@ namespace TexasHoldem
             Hand = Hand.NoPair;
         }
 
-        /// <summary>
-        /// default constructor used for testing or by the compiler,
-        /// does not increment Count
-        /// </summary>
         public Player()
         {
             Name = string.Empty;
