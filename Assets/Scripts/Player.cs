@@ -35,27 +35,18 @@ namespace TexasHoldem
         /// <summary>
         /// increments Count
         /// </summary>
-        public static void IncrementCount()
-        {
-            Count++;
-        }
+        public static void IncrementCount() { Count++; }
 
         /// <summary>
         /// decrements Count
         /// </summary>
-        public static void DecrementCount()
-        {
-            Count--;
-        }
+        public static void DecrementCount() { Count--; }
 
         /// <summary>
         /// sets the initial dealer, should only be called on the first round
         /// </summary>
         /// <param name="dealerIndex"></param>
-        public static void SetInitialDealer(int dealerIndex)
-        {
-            DealerIndex = dealerIndex;
-        }
+        public static void SetInitialDealer(int dealerIndex) { DealerIndex = dealerIndex; }
 
         /// <summary>
         /// increments DealerIndex

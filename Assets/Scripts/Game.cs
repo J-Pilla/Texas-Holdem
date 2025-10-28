@@ -14,17 +14,22 @@ namespace TexasHoldem
         public static State State
         {
             get { return state; }
-            set
-            {
-                state = value < State.NextRound ? value : state = State.Start;
+            private set
+            { 
+                state = value >= State.Start && value < State.NextRound ?
+                    value : state = State.Start;
             }
         }
 
         // methods
-        public static void NextState()
-        {
-            State++;
-        }
+        /// <summary>
+        /// increments state
+        /// </summary>
+        public static void NextState() { State++; }
+        /// <summary>
+        /// decrements state
+        /// </summary>
+        public static void PreviousState() { State--; }
     }
 
     // enums

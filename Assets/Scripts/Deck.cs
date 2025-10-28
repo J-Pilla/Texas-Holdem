@@ -88,9 +88,6 @@ namespace TexasHoldem
         /// <summary>
         /// increments CardIndex
         /// </summary>
-        public static void NextCard()
-        {
-            CardIndex++;
-        }
+        public static void NextCard() { CardIndex++; }
     }
 }
