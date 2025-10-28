@@ -20,7 +20,7 @@ namespace TexasHoldem.MonoScripts
 
         // non-static members
         // fields
-        readonly Player player = new();
+        readonly PlayerScript player = new();
         readonly Card[] board = new Card[BOARD_SIZE];
         readonly string[] holeCards = new string[Hole.SIZE];
         readonly string[] boardCards = new string[BOARD_SIZE];
@@ -53,7 +53,7 @@ namespace TexasHoldem.MonoScripts
                     }
                     else
                     {
-                        board[CardIndex - Hole.SIZE] = new Card(CardIds[CardIndex], false);
+                        board[CardIndex - Hole.SIZE] = new Card(CardIds[CardIndex]);
                         boardCards[CardIndex - Hole.SIZE] = board[CardIndex - Hole.SIZE].Name;
                     }
                 }

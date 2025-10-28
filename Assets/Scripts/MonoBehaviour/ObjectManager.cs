@@ -27,7 +27,7 @@ namespace TexasHoldem.MonoScripts
         Transform[] boardTargets = new Transform[BOARD_SIZE];
 
         // properties
-        public PlayerManager[] Players { get; private set; } = new PlayerManager[Player.MAX];
+        public PlayerScript[] Players { get; private set; } = new PlayerScript[Player.MAX];
 
         // unity messages
         void Start()
@@ -133,50 +133,5 @@ namespace TexasHoldem.MonoScripts
         }
 
         // event methods
-        /// <summary>
-        /// event called by "Add Player" buttons,
-        /// instantiates a player game object
-        /// </summary>
-        /// <param name="seatIndex"></param>
-        public void AddPlayer(int index)
-        {
-            Players[index] = Instantiate(playerPrefab, seatTargets[index]).GetComponent<PlayerManager>();
-        }
-
-        /// <summary>
-        /// event called by "Sit" buttons,
-        /// initializes a C# Player object inside a Player Manager component,
-        /// call AFTER SetInitializerIndex() event method
-        /// </summary>
-        /// <param name="name"></param>
-        public void SitAtTable(TMPro.TMP_InputField inputField)
-        {
-            if (inputField.text != string.Empty)
-                Players[initializerIndex].InitializePlayer(inputField.text);
-            else
-                throw new System.Exception("Add text to input field");
-        }
-
-        /// <summary>
-        /// event called by "Sit" buttons,
-        /// assignes value to initilizerIndex,
-        /// call BEFORE SitAtTable() event method
-        /// </summary>
-        /// <param name="index"></param>
-        public void SetInitializerIndex(int index)
-        {
-            initializerIndex = index;
-        }
-
-        /// <summary>
-        /// event called by "Leave Table" and "Cancel" buttons,
-        /// destroys a player game object
-        /// </summary>
-        /// <param name="index"></param>
-        public void LeaveTable(int index)
-        {
-            Player.DecrementCount();
-            Destroy(Players[index].gameObject);
-        }
     }
 }

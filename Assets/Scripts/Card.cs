@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Text.RegularExpressions;
 
 namespace TexasHoldem
 {
@@ -7,15 +6,13 @@ namespace TexasHoldem
     /// class representing a card, uses CardIds
     /// from Deck.cs to initialize unique cards
     /// </summary>
-    [System.Serializable]
     public class Card
     {
         // fields
-        [SerializeField] GameObject cardPrefab;
         int id;
 
         // properties
-        public GameObject CardPrefab { get { return cardPrefab; } }
+        public GameObject CardObject { get; private set; }
         public int Id
         {
             get { return id; }
@@ -27,9 +24,9 @@ namespace TexasHoldem
                     id = 0;
             }
         }
-        public Rank Rank { get; }
-        public Suit Suit { get; }
-        public bool InPlayerHand { get; }
+        public Rank Rank { get; private set; }
+        public Suit Suit { get; private set; }
+        public bool InPlayerHand { get; private set; }
         public string Name { get { return $"{Rank} of {Suit}"; } }
         public string File
         {
@@ -45,15 +42,46 @@ namespace TexasHoldem
             return $"Card: {Name}, Id: {Id}, Player Card: {InPlayerHand}";
         }
 
+        public void OffSetPlayerCard(int index)
+        {
+            Vector3 cardOffset = new(.2f, -.02f);
+            CardObject.transform.localPosition += index == 0 ? cardOffset : -cardOffset;
+            CardObject.GetComponent<SpriteRenderer>().sortingOrder = index == 0 ? 1 : 0;
+        }
+
+        public void FlipCard()
+        {
+            SpriteRenderer spriteRenderer = CardObject.GetComponent<SpriteRenderer>();
+            spriteRenderer.sprite = Resources.Load($"{File}", typeof(Sprite)) as Sprite;
+            spriteRenderer.sortingOrder = spriteRenderer.sortingOrder == 0 ? 1 : 0;
+        }
+
+        public void Discard()
+        {
+            GameObject.Destroy(CardObject);
+        }
+
         // constructors
+        public Card(int id, bool inPlayerHand, GameObject cardPrefab, Transform parent)
+        {
+            Initialize(id, inPlayerHand);
+
+            CardObject = GameObject.Instantiate(cardPrefab, parent);
+        }
+
         public Card(int id, bool inPlayerHand = false)
+        {
+            Initialize(id, inPlayerHand);
+        }
+
+        // constructor helper
+        void Initialize(int id, bool inPlayerHand)
         {
             Id = id;
             Rank = (Rank)(Id % 13 + 2);
             Suit = (Suit)(Id % 4);
             InPlayerHand = inPlayerHand;
         }
-
         /// <summary>
         /// used to force cards for testing purposes
         /// </summary>
@@ -89,37 +117,6 @@ namespace TexasHoldem
         Queen,
         King,
         Ace
-    }
-
-    /// <summary>
-    /// entensions for Rank enum
-    /// </summary>
-    public static class RankExtensions
-    {
-        public static string GetName(this Hand hand)
-        {
-            string name = hand.ToString();
-
-            switch (hand)
-            {
-                case Hand.NoPair:
-                case Hand.OnePair:
-                case Hand.TwoPair:
-                case Hand.FullHouse:
-                case Hand.StraightFlush:
-                case Hand.RoyalFlush:
-                    string pattern = @"([a-z])([A-Z])";
-                    string replacement = "$1 $2";
-                    name = Regex.Replace(name, pattern, replacement);
-                    break;
-                case Hand.ThreeOAK:
-                case Hand.FourOAK:
-                    name = name.Replace("OAK", " of a Kind");
-                    break;
-            }
-
-            return name;
-        }
     }
 
     /// <summary>

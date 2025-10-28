@@ -15,16 +15,12 @@ namespace TexasHoldem.MonoScripts
         SpriteRenderer spriteRenderer;
         InputAction checkState;
         readonly string cardFile = new Card(CardIds[CardIndex]).File;
-        readonly bool isFirstCard = CardIndex < Player.Count;
 
         // unity messages
         void Start()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
             checkState = InputSystem.actions.FindAction("Jump");
-
-            spriteRenderer.sortingLayerName = "Card";
-            spriteRenderer.sortingOrder = isFirstCard ? 0 : 1;
         }
 
         void LateUpdate()
@@ -53,7 +49,7 @@ namespace TexasHoldem.MonoScripts
         /// <summary>
         /// changes the appearance of the card to display the face
         /// </summary>
-        void FlipCard()
+        public void FlipCard()
         {
             spriteRenderer.sprite = Resources.Load($"{cardFile}", typeof(Sprite)) as Sprite;
             spriteRenderer.sortingOrder = spriteRenderer.sortingOrder == 0 ? 1 : 0;

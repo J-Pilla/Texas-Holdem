@@ -1,11 +1,11 @@
-using UnityEngine;
-using UnityEngine.InputSystem;
 using TMPro;
+using UnityEngine;
 
 namespace TexasHoldem.MonoScripts
 {
-    using static Game;
     using static Deck;
+    using static Game;
+    using static UnityEngine.Rendering.DebugUI;
 
     /// <summary>
     /// MonoBehaviour in charge of moving the game
@@ -14,19 +14,22 @@ namespace TexasHoldem.MonoScripts
     /// </summary>
     public class GameManager : MonoBehaviour
     {
+        // static members
+        // properties
+        public static State State { get; private set; } = State.Start;
+
         // non-static members
         // fields
+        [SerializeField] GameObject seatTarget;
+        [SerializeField] GameObject playerPrefab;
         [SerializeField] ObjectManager objectManager;
         [SerializeField] TMP_Text hand;
         [SerializeField] TMP_Text highCard;
         [SerializeField] TMP_Text kicker;
-        InputAction nextState;
+        Transform[] seats = new Transform[Player.MAX];
+        PlayerScript[] players = new PlayerScript[Player.MAX];
         readonly Card[] board = new Card[BOARD_SIZE];
         bool hasRoundStarted = false;
-
-        // properties
-        public static State State { get; private set; } = State.Start;
-        public Player[] Players { get; private set; } = new Player[Player.MAX];
 
         // unity messages
         void Awake()
@@ -36,22 +39,33 @@ namespace TexasHoldem.MonoScripts
 
         void Start()
         {
-            nextState = InputSystem.actions.FindAction("Jump");
-
-            Shuffle();
-            DetermineOpeningDealer();
+            SetSeats();
         }
 
         void Update()
         {
             if (State == State.NextRound)
                 NextRound();
-
-            if (nextState.WasPressedThisFrame())
-                NextState();
         }
 
         // methods
+        /// <summary>
+        /// initializes all the elements of seats array
+        /// </summary>
+        void SetSeats()
+        {
+            Transform[] transforms = seatTarget.GetComponentsInChildren<Transform>();
+            int index = 0;
+            foreach (Transform transform in transforms)
+            {
+                if (transform.gameObject != seatTarget)
+                {
+                    seats[index] = transform;
+                    index++;
+                }
+            }
+        }
+
         /// <summary>
         /// moves the game into the next state and calls functions dependaning on the state
         /// </summary>
@@ -90,20 +104,29 @@ namespace TexasHoldem.MonoScripts
         /// </summary>
         void DetermineOpeningDealer()
         {
-            Card[] cards = new Card[Player.Count];
-
             Shuffle();
 
             for (; CardIndex < Player.Count; NextCard())
-                cards[CardIndex] = new Card(CardIds[CardIndex]);
+            {
+                players[CardIndex].AddCard(CardIds[CardIndex], seats[CardIndex]);
+                players[CardIndex].Cards[0].FlipCard();
+            }
 
             for (int index = 1; index < Player.Count; index++)
             {
-                if (cards[index].Rank > cards[Player.DealerIndex].Rank ||
-                    cards[index].Rank == cards[Player.DealerIndex].Rank &&
-                    cards[index].Suit > cards[Player.DealerIndex].Suit)
+                if (players[index].Cards[0].Rank > players[Player.DealerIndex].Cards[0].Rank ||
+                    players[index].Cards[0].Rank == players[Player.DealerIndex].Cards[0].Rank &&
+                    players[index].Cards[0].Suit > players[Player.DealerIndex].Cards[0].Suit)
                     Player.SetInitialDealer(index);
             }
+
+            Invoke("Discard", 2f);
+        }
+
+        void Discard()
+        {
+            for (int index = 0; index < Player.Count; index++)
+                players[index].Discard();
         }
 
         /// <summary>
@@ -111,9 +134,9 @@ namespace TexasHoldem.MonoScripts
         /// </summary>
         void SetBlindStates()
         {
-            Players[Player.DealerIndex].Blind = Blind.Dealer;
-            Players[Player.SmallBlindIndex].Blind = Blind.Small;
-            Players[Player.BigBlindIndex].Blind = Blind.Big;
+            players[Player.DealerIndex].Blind = Blind.Dealer;
+            players[Player.SmallBlindIndex].Blind = Blind.Small;
+            players[Player.BigBlindIndex].Blind = Blind.Big;
         }
 
         /// <summary>
@@ -132,8 +155,8 @@ namespace TexasHoldem.MonoScripts
                     if (playerIndex == Player.Count)
                         playerIndex = 0;
 
-                    Players[playerIndex].AddCard(CardIds[CardIndex]);
-                    objectManager.InstantiatePlayerCard(playerIndex, Players[playerIndex].CardCount == 1);
+                    players[playerIndex].AddCard(CardIds[CardIndex], seats[playerIndex]);
+                    objectManager.InstantiatePlayerCard(playerIndex, players[playerIndex].CardCount == 1);
                     playerIndex++;
                 }
                 else
@@ -153,34 +176,34 @@ namespace TexasHoldem.MonoScripts
             Rank highCard, kicker;
             int potDivision = 0;
 
-            Players[0].SetHand(board);
-            //print($"{Players[0].Name}: {Players[0].Hand.GetName()} : {Players[0].HighCard} : {Players[0].Kicker}");
+            players[0].SetHand(board);
+            //print($"{players[0].Name}: {players[0].Hand.GetName()} : {players[0].HighCard} : {players[0].Kicker}");
 
-            bestHand = Players[0].Hand;
-            highCard = Players[0].HighCard;
-            kicker = Players[0].Kicker;
+            bestHand = players[0].Hand;
+            highCard = players[0].HighCard;
+            kicker = players[0].Kicker;
 
             for (int index = 1; index < Player.Count; index++)
             {
-                Players[index].SetHand(board);
-                //print($"{Players[index].Name}: {Players[index].Hand.GetName()}");
+                players[index].SetHand(board);
+                //print($"{players[index].Name}: {players[index].Hand.GetName()}");
 
-                if (Players[index].Hand > bestHand)
+                if (players[index].Hand > bestHand)
                 {
-                    bestHand = Players[index].Hand;
-                    highCard = Players[index].HighCard;
-                    kicker = Players[index].Kicker;
+                    bestHand = players[index].Hand;
+                    highCard = players[index].HighCard;
+                    kicker = players[index].Kicker;
                 }
-                else if (Players[index].Hand == bestHand)
+                else if (players[index].Hand == bestHand)
                 {
-                    if (Players[index].HighCard > highCard)
+                    if (players[index].HighCard > highCard)
                     {
-                        highCard = Players[index].HighCard;
-                        kicker = Players[index].Kicker;
+                        highCard = players[index].HighCard;
+                        kicker = players[index].Kicker;
                     }
-                    else if (Players[index].HighCard == highCard &&
-                        Players[index].Kicker > kicker)
-                        kicker = Players[index].Kicker;
+                    else if (players[index].HighCard == highCard &&
+                        players[index].Kicker > kicker)
+                        kicker = players[index].Kicker;
                 }
             }
 
@@ -190,13 +213,13 @@ namespace TexasHoldem.MonoScripts
 
             for (int index = 0; index < Player.Count; index++)
             {
-                if (Players[index].Hand == bestHand &&
-                    Players[index].HighCard == highCard &&
-                    Players[index].Kicker == kicker)
+                if (players[index].Hand == bestHand &&
+                    players[index].HighCard == highCard &&
+                    players[index].Kicker == kicker)
                 {
-                    Players[index].HasBestHand = true;
+                    players[index].HasBestHand = true;
                     potDivision++;
-                    //print($"{Players[index].Name} has the best hand");
+                    //print($"{players[index].Name} has the best hand");
                 }
             }
 
@@ -211,7 +234,7 @@ namespace TexasHoldem.MonoScripts
             State = State.RoundStart;
             hasRoundStarted = false;
 
-            foreach (Player player in Players)
+            foreach (PlayerScript player in players)
                 player.Discard();
 
             objectManager.DestroyButtons();
@@ -224,19 +247,52 @@ namespace TexasHoldem.MonoScripts
         }
 
         // event methods
-        public void SetPlayerReference(int index)
+        // "Sit" button events
+        /// <summary>
+        /// instantiates a player game object, call BEFORE SetPlayerName
+        /// </summary>
+        /// <param name="seat"></param>
+        public void AddPlayer(int seat)
         {
-            Players[index] = objectManager.Players[index].Player;
+            players[Player.Count] = Instantiate(playerPrefab, seats[seat]).GetComponent<PlayerScript>();
         }
 
+        /// <summary>
+        /// sets the player's name, call AFTER AddPlayer
+        /// </summary>
+        /// <param name="inputField"></param>
+        public void SetPlayerName(TMP_InputField inputField)
+        {
+            if (inputField.text != string.Empty)
+                players[Player.Count - 1].Name = inputField.text;
+            else
+            {
+                Destroy(players[Player.Count - 1].gameObject);
+                throw new System.Exception("Add text to input field");
+            }
+        }
+
+        // Leave Table and Cancel event
+        /// <summary>
+        /// destroys a player game object
+        /// </summary>
+        /// <param name="seat"></param>
+        public void LeaveTable(int seat)
+        {
+            GameObject player = seats[seat].gameObject.GetComponentInChildren<PlayerScript>().gameObject;
+            Player.DecrementCount();
+            Destroy(player);
+        }
+
+        // Round Start Event
         public void RoundStart()
         {
             hasRoundStarted = Player.Count >= Player.MIN;
-            print($"{hasRoundStarted} : {Player.Count}");
+
             if (!hasRoundStarted)
                 throw new System.Exception("Add at least two players");
 
-            //NextState();
+            NextState();
         }
     }
 }
