@@ -11,7 +11,6 @@ namespace TexasHoldem.MonoScripts
     public class PlayerScript : MonoBehaviour
     {
         // fields
-        [SerializeField] GameObject cardPrefab;
         string _name;
         int seat;
 
@@ -69,7 +68,7 @@ namespace TexasHoldem.MonoScripts
         /// adds a Card to the Cards array
         /// </summary>
         /// <param name="cardId"></param>
-        public void AddCard(int cardId, Transform parent)
+        public void AddCard(int cardId, GameObject cardPrefab, Transform parent)
         {
             Hole.AddCard(cardId, cardPrefab, parent);
         }
