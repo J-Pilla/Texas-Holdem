@@ -35,6 +35,9 @@ namespace TexasHoldem.MonoScripts
         [Header("Round Start")]
         [SerializeField] GameObject roundStartError;
         [Header("UI Components")]
+        [Header("Player Display")]
+        [SerializeField] TMP_Text[] nameDisplays = new TMP_Text[Player.MAX];
+        [SerializeField] TMP_Text[] chipDisplays = new TMP_Text[Player.MAX];
         [Header("Round Start")]
         [SerializeField] TMP_Text dealer;
         [Header("Win Display")]
