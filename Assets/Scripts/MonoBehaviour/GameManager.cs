@@ -18,18 +18,23 @@ namespace TexasHoldem.MonoScripts
         [Header("Prefabs")]
         [SerializeField] GameObject playerPrefab;
         [SerializeField] GameObject cardPrefab;
+        [SerializeField] GameObject dealerButtonPrefab;
+        [SerializeField] GameObject smallBlindButtonPrefab;
+        [SerializeField] GameObject bigBlindButtonPrefab;
+        // game objects instantiated from prefabs
+        GameObject dealerButton;
+        GameObject smallBlindButton;
+        GameObject bigBlindButton;
         // prefab component storage
         readonly PlayerScript[] players = new PlayerScript[Player.MAX];
         readonly Card[] board = new Card[BOARD_SIZE];
         [Header("Game Objects")]
         [SerializeField] GameObject seatTargets;
-        [SerializeField] ObjectManager objectManager;
         // game object component storage
         readonly Transform[] seats = new Transform[Player.MAX];
         [Header("UI Containers")]
         [SerializeField] GameObject uISeats;
         [SerializeField] GameObject roundStart;
-        [SerializeField] GameObject deal;
         [SerializeField] GameObject winDisplay;
         [Header("UI Objects")]
         [Header("Round Start")]
@@ -85,7 +90,7 @@ namespace TexasHoldem.MonoScripts
         /// </summary>
         public void NextState()
         {
-            State++;
+            NextState();
 
 
             switch (State)
@@ -96,13 +101,18 @@ namespace TexasHoldem.MonoScripts
                     if (!isDealerDetermined)
                         DetermineOpeningDealer();
                     else
+                    {
+                        DestroyButtons();
                         Player.NextDealer();
-                    
+                    }
+
+                    dealer.text = $"{players[Player.DealerIndex].Name}'s turn to deal!";
                     SetBlinds();
-                    objectManager.InstantiateButtons();
-                    State++;
                     break;
                 case State.Deal:
+                    roundStart.SetActive(false);
+                    dealer.text = string.Empty;
+                    Discard();
                     Shuffle();
                     Deal();
                     break;
@@ -125,12 +135,11 @@ namespace TexasHoldem.MonoScripts
 
             if (!hasRoundStarted)
             {
-                State--;
+                PreviousState();
                 throw new System.Exception("Add at least two players");
             }
 
             uISeats.SetActive(false);
-            roundStart.GetComponentInChildren<Button>().gameObject.SetActive(false);
         }
 
         /// <summary>
@@ -143,7 +152,12 @@ namespace TexasHoldem.MonoScripts
 
             for (; CardIndex < Player.Count; NextCard())
             {
-                players[CardIndex].AddCard(CardIds[CardIndex], cardPrefab, players[CardIndex].gameObject.transform);
+                players[CardIndex].AddCard(
+                    CardIds[CardIndex],
+                    cardPrefab,
+                    players[CardIndex].gameObject.transform,
+                    true);
+
                 players[CardIndex].Cards[0].FlipCard();
             }
 
@@ -156,7 +170,6 @@ namespace TexasHoldem.MonoScripts
             }
 
             isDealerDetermined = true;
-            dealer.text = $"{players[Player.DealerIndex].Name}'s turn to deal!";
         }
 
         /// <summary>
@@ -167,10 +180,58 @@ namespace TexasHoldem.MonoScripts
             Player.SetBlinds();
 
             players[Player.DealerIndex].Blind = Blind.Dealer;
+            InstantiateButton(Blind.Dealer);
+
             players[Player.SmallBlindIndex].Blind = Blind.Small;
+            InstantiateButton(Blind.Small);
 
             if (Player.Count > Player.MIN)
+            {
                 players[Player.BigBlindIndex].Blind = Blind.Big;
+                InstantiateButton(Blind.Big);
+            }
+        }
+
+        /// <summary>
+        /// instantiates the daeler and blind buttons
+        /// </summary>
+        /// <param name="blind"></param>
+        void InstantiateButton(Blind blind)
+        {
+            (int index, GameObject buttonPrefab) = blind switch
+            {
+                Blind.Small => (Player.SmallBlindIndex, smallBlindButtonPrefab),
+                Blind.Big => (Player.BigBlindIndex, bigBlindButtonPrefab),
+                _ => (Player.DealerIndex, dealerButtonPrefab)
+            };
+            GameObject button = Instantiate(
+                buttonPrefab,
+                seats[players[index].Seat]);
+
+            button.transform.localPosition += new Vector3(-.9f, .3f);
+
+            switch (blind)
+            {
+                case Blind.Small:
+                    smallBlindButton = button;
+                    break;
+                case Blind.Big:
+                    bigBlindButton = button;
+                    break;
+                default:
+                    dealerButton = button;
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// destroys the dealer and blind buttons
+        /// </summary>
+        public void DestroyButtons()
+        {
+            Destroy(dealerButton);
+            Destroy(smallBlindButton);
+            Destroy(bigBlindButton);
         }
 
         void Discard()
@@ -196,12 +257,11 @@ namespace TexasHoldem.MonoScripts
                         playerIndex = 0;
 
                     players[playerIndex].AddCard(CardIds[CardIndex], cardPrefab, players[playerIndex].gameObject.transform);
-                    objectManager.InstantiatePlayerCard(playerIndex, players[playerIndex].CardCount == 1);
                     playerIndex++;
                 }
                 else
                 {
-                    objectManager.InstantiateBoardCard(CardIndex - playerCardCount);
+                    //objectManager.InstantiateBoardCard(CardIndex - playerCardCount);
                     board[CardIndex - playerCardCount] = new Card(CardIds[CardIndex]);
                 }
             }
@@ -271,15 +331,10 @@ namespace TexasHoldem.MonoScripts
         /// </summary>
         void NextRound()
         {
-            State = State.RoundStart;
+            NextState();
             hasRoundStarted = false;
 
-            foreach (PlayerScript player in players)
-                player.Discard();
-
-            objectManager.DestroyButtons();
-            Player.NextDealer();
-            objectManager.InstantiateButtons();
+            Discard();
 
             hand.text = string.Empty;
             highCard.text = string.Empty;
@@ -305,7 +360,11 @@ namespace TexasHoldem.MonoScripts
         public void SetPlayerName(TMP_InputField inputField)
         {
             if (inputField.text != string.Empty)
+            {
                 players[Player.Count - 1].Name = inputField.text;
+                nameDisplays[players[Player.Count - 1].Seat].text = inputField.text;
+                chipDisplays[players[Player.Count - 1].Seat].text = players[Player.Count - 1].Chips.ToString();
+            }
             else
             {
                 Destroy(players[Player.Count - 1].gameObject);
@@ -313,7 +372,7 @@ namespace TexasHoldem.MonoScripts
             }
         }
 
-        // Leave Table and Cancel event
+        // Leave Table event
         /// <summary>
         /// destroys a player game object
         /// </summary>
