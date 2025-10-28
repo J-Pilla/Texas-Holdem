@@ -5,7 +5,6 @@ namespace TexasHoldem.MonoScripts
 {
     using static Deck;
     using static Game;
-    using static UnityEngine.Rendering.DebugUI;
 
     /// <summary>
     /// MonoBehaviour in charge of moving the game
@@ -255,6 +254,7 @@ namespace TexasHoldem.MonoScripts
         public void AddPlayer(int seat)
         {
             players[Player.Count] = Instantiate(playerPrefab, seats[seat]).GetComponent<PlayerScript>();
+            players[Player.Count - 1].Seat = seat;
         }
 
         /// <summary>

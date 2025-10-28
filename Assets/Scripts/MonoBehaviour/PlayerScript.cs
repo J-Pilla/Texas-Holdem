@@ -10,11 +10,23 @@ namespace TexasHoldem.MonoScripts
     /// </summary>
     public class PlayerScript : MonoBehaviour
     {
-        // field
+        // fields
         [SerializeField] GameObject cardPrefab;
         string _name;
+        int seat;
 
         // properties
+        public int Seat
+        {
+            get { return seat; }
+            set
+            {
+                if (value >= 0 && value < MAX)
+                    seat = value;
+                else
+                    throw new System.Exception($"Seat must between 0 and {MAX}");
+            }
+        }
         public string Name
         {
             get { return _name; }
@@ -31,7 +43,7 @@ namespace TexasHoldem.MonoScripts
         public bool HasBestHand { get; set; } = false;
         public Hand Hand { get; private set; } = Hand.NoPair;
         public Blind Blind { get; set; } = Blind.None;
-        [field: SerializeField] public Hole Hole { get; set; } = new();
+        public Hole Hole { get; set; } = new();
         public Card[] Cards { get { return Hole.Cards; } }
         public int CardCount { get { return Hole.CardCount; } }
         public Rank HighCard
