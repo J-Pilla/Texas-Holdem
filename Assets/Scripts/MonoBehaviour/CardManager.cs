@@ -35,7 +35,7 @@ namespace TexasHoldem.MonoScripts
         /// </summary>
         void CheckState()
         {
-            switch (GameManager.State)
+            switch (State)
             {
                 case State.Flip:
                     FlipCard();

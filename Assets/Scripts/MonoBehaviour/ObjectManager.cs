@@ -19,7 +19,6 @@ namespace TexasHoldem.MonoScripts
         [SerializeField] GameObject cardPrefab;
         [SerializeField] GameObject seats;
         [SerializeField] GameObject board;
-        int initializerIndex;
         GameObject dealerButton;
         GameObject smallBlindButton;
         GameObject bigBlindButton;

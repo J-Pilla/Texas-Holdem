@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace TexasHoldem.MonoScripts
 {
@@ -7,28 +8,39 @@ namespace TexasHoldem.MonoScripts
     using static Game;
 
     /// <summary>
-    /// MonoBehaviour in charge of moving the game
-    /// forward and executing game play logic,
-    /// this class also contains enumeration types
+    /// MonoBehaviour in charge of moving the game forward and executing game play logic
     /// </summary>
     public class GameManager : MonoBehaviour
     {
-        // static members
-        // properties
-        public static State State { get; private set; } = State.Start;
-
-        // non-static members
         // fields
-        [SerializeField] GameObject seatTarget;
+        bool hasRoundStarted = false;
+        bool isDealerDetermined = false;
+        [Header("Prefabs")]
         [SerializeField] GameObject playerPrefab;
+        [SerializeField] GameObject cardPrefab;
+        // prefab component storage
+        readonly PlayerScript[] players = new PlayerScript[Player.MAX];
+        readonly Card[] board = new Card[BOARD_SIZE];
+        [Header("Game Objects")]
+        [SerializeField] GameObject seatTargets;
         [SerializeField] ObjectManager objectManager;
+        // game object component storage
+        readonly Transform[] seats = new Transform[Player.MAX];
+        [Header("UI Containers")]
+        [SerializeField] GameObject uISeats;
+        [SerializeField] GameObject roundStart;
+        [SerializeField] GameObject deal;
+        [SerializeField] GameObject winDisplay;
+        [Header("UI Objects")]
+        [Header("Round Start")]
+        [SerializeField] GameObject roundStartError;
+        [Header("UI Components")]
+        [Header("Round Start")]
+        [SerializeField] TMP_Text dealer;
+        [Header("Win Display")]
         [SerializeField] TMP_Text hand;
         [SerializeField] TMP_Text highCard;
         [SerializeField] TMP_Text kicker;
-        Transform[] seats = new Transform[Player.MAX];
-        PlayerScript[] players = new PlayerScript[Player.MAX];
-        readonly Card[] board = new Card[BOARD_SIZE];
-        bool hasRoundStarted = false;
 
         // unity messages
         void Awake()
@@ -53,11 +65,11 @@ namespace TexasHoldem.MonoScripts
         /// </summary>
         void SetSeats()
         {
-            Transform[] transforms = seatTarget.GetComponentsInChildren<Transform>();
+            Transform[] transforms = seatTargets.GetComponentsInChildren<Transform>();
             int index = 0;
             foreach (Transform transform in transforms)
             {
-                if (transform.gameObject != seatTarget)
+                if (transform.gameObject != seatTargets)
                 {
                     seats[index] = transform;
                     index++;
@@ -68,22 +80,22 @@ namespace TexasHoldem.MonoScripts
         /// <summary>
         /// moves the game into the next state and calls functions dependaning on the state
         /// </summary>
-        void NextState()
+        public void NextState()
         {
             State++;
 
 
             switch (State)
             {
-                case State.OpeningDeal:
-                    if (!hasRoundStarted)
-                    {
-                        State--;
-                        break;
-                    }
-                    DetermineOpeningDealer();
-                    Player.SetBlinds();
-                    SetBlindStates();
+                case State.RoundStart:
+                    RoundStart();
+
+                    if (!isDealerDetermined)
+                        DetermineOpeningDealer();
+                    else
+                        Player.NextDealer();
+                    
+                    SetBlinds();
                     objectManager.InstantiateButtons();
                     State++;
                     break;
@@ -98,6 +110,27 @@ namespace TexasHoldem.MonoScripts
         }
 
         /// <summary>
+        /// attempts to start the round, if their is enough players,
+        /// deactivate the UI Seats container and the Round Start UI Object
+        /// </summary>
+        /// <exception cref="System.Exception"></exception>
+        public void RoundStart()
+        {
+            hasRoundStarted = Player.Count >= Player.MIN;
+
+            roundStartError.SetActive(!hasRoundStarted);
+
+            if (!hasRoundStarted)
+            {
+                State--;
+                throw new System.Exception("Add at least two players");
+            }
+
+            uISeats.SetActive(false);
+            roundStart.GetComponentInChildren<Button>().gameObject.SetActive(false);
+        }
+
+        /// <summary>
         /// determine the opening dealer by dealing out a card
         /// to each player, the high card is the dealer
         /// </summary>
@@ -107,7 +140,7 @@ namespace TexasHoldem.MonoScripts
 
             for (; CardIndex < Player.Count; NextCard())
             {
-                players[CardIndex].AddCard(CardIds[CardIndex], seats[CardIndex]);
+                players[CardIndex].AddCard(CardIds[CardIndex], cardPrefab, players[CardIndex].gameObject.transform);
                 players[CardIndex].Cards[0].FlipCard();
             }
 
@@ -119,23 +152,28 @@ namespace TexasHoldem.MonoScripts
                     Player.SetInitialDealer(index);
             }
 
-            Invoke("Discard", 2f);
+            isDealerDetermined = true;
+            dealer.text = $"{players[Player.DealerIndex].Name}'s turn to deal!";
+        }
+
+        /// <summary>
+        /// sets blinds
+        /// </summary>
+        void SetBlinds()
+        {
+            Player.SetBlinds();
+
+            players[Player.DealerIndex].Blind = Blind.Dealer;
+            players[Player.SmallBlindIndex].Blind = Blind.Small;
+
+            if (Player.Count > Player.MIN)
+                players[Player.BigBlindIndex].Blind = Blind.Big;
         }
 
         void Discard()
         {
             for (int index = 0; index < Player.Count; index++)
                 players[index].Discard();
-        }
-
-        /// <summary>
-        /// sets blind states
-        /// </summary>
-        void SetBlindStates()
-        {
-            players[Player.DealerIndex].Blind = Blind.Dealer;
-            players[Player.SmallBlindIndex].Blind = Blind.Small;
-            players[Player.BigBlindIndex].Blind = Blind.Big;
         }
 
         /// <summary>
@@ -154,7 +192,7 @@ namespace TexasHoldem.MonoScripts
                     if (playerIndex == Player.Count)
                         playerIndex = 0;
 
-                    players[playerIndex].AddCard(CardIds[CardIndex], seats[playerIndex]);
+                    players[playerIndex].AddCard(CardIds[CardIndex], cardPrefab, players[playerIndex].gameObject.transform);
                     objectManager.InstantiatePlayerCard(playerIndex, players[playerIndex].CardCount == 1);
                     playerIndex++;
                 }
@@ -282,17 +320,6 @@ namespace TexasHoldem.MonoScripts
             GameObject player = seats[seat].gameObject.GetComponentInChildren<PlayerScript>().gameObject;
             Player.DecrementCount();
             Destroy(player);
-        }
-
-        // Round Start Event
-        public void RoundStart()
-        {
-            hasRoundStarted = Player.Count >= Player.MIN;
-
-            if (!hasRoundStarted)
-                throw new System.Exception("Add at least two players");
-
-            NextState();
         }
     }
 }
