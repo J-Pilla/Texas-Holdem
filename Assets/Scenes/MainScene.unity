@@ -2005,59 +2005,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3325111887066220947, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
   m_PrefabInstance: {fileID: 1870066643}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &704968190
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 704968191}
-  - component: {fileID: 704968192}
-  m_Layer: 0
-  m_Name: Object Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &704968191
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 704968190}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1624398786}
-  - {fileID: 1239136932}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &704968192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 704968190}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32d7ff3f88876c04a978fd874a05f603, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CardDealer
-  playerPrefab: {fileID: 7258533110922151062, guid: 29065687ff9516947bb1996c5c2bf140, type: 3}
-  dealerButtonPrefab: {fileID: 8663871844464161540, guid: 536fe146565d1e6499c125a4c4b41f8d, type: 3}
-  smallBlindButtonPrefab: {fileID: 8663871844464161540, guid: ea4a06af8c45a834ba2560f6dce7ed53, type: 3}
-  bigBlindButtonPrefab: {fileID: 8663871844464161540, guid: 2fc59d25400c95649a7887374d430540, type: 3}
-  cardPrefab: {fileID: 8199653303839364018, guid: 71861fd840ce9f9429c459872afe4c85, type: 3}
-  seats: {fileID: 1624398785}
-  board: {fileID: 1239136931}
 --- !u!224 &710607153 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3325111887066220947, guid: ae80b121e79b6c04fbfeec804037e6f4, type: 3}
@@ -3652,11 +3599,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   playerPrefab: {fileID: 7258533110922151062, guid: 29065687ff9516947bb1996c5c2bf140, type: 3}
   cardPrefab: {fileID: 8199653303839364018, guid: 71861fd840ce9f9429c459872afe4c85, type: 3}
+  dealerButtonPrefab: {fileID: 8663871844464161540, guid: 536fe146565d1e6499c125a4c4b41f8d, type: 3}
+  smallBlindButtonPrefab: {fileID: 8663871844464161540, guid: ea4a06af8c45a834ba2560f6dce7ed53, type: 3}
+  bigBlindButtonPrefab: {fileID: 8663871844464161540, guid: 2fc59d25400c95649a7887374d430540, type: 3}
   seatTargets: {fileID: 1624398785}
-  objectManager: {fileID: 704968192}
   uISeats: {fileID: 1354513068}
   roundStart: {fileID: 504615184}
-  deal: {fileID: 786645651}
   winDisplay: {fileID: 390870686}
   roundStartError: {fileID: 1052947100}
   nameDisplays:
@@ -4084,7 +4032,7 @@ Transform:
   - {fileID: 56328314}
   - {fileID: 2136954625}
   - {fileID: 1444544798}
-  m_Father: {fileID: 704968191}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1261467093
 GameObject:
@@ -4875,6 +4823,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1430816020}
+        m_TargetAssemblyTypeName: TMPro.TextMeshProUGUI, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Deal
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1614399919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4952,7 +4912,7 @@ Transform:
   - {fileID: 2011043178}
   - {fileID: 869523811}
   - {fileID: 1559196507}
-  m_Father: {fileID: 704968191}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1755343322
 GameObject:
@@ -6845,6 +6805,7 @@ SceneRoots:
   - {fileID: 1836828908}
   - {fileID: 293449908}
   - {fileID: 1173276125}
-  - {fileID: 704968191}
+  - {fileID: 1624398786}
+  - {fileID: 1239136932}
   - {fileID: 1207270173}
   - {fileID: 155411340}
