@@ -68,9 +68,9 @@ namespace TexasHoldem.MonoScripts
         /// adds a Card to the Cards array
         /// </summary>
         /// <param name="cardId"></param>
-        public void AddCard(int cardId, GameObject cardPrefab, Transform parent)
+        public void AddCard(int cardId, GameObject cardPrefab, Transform parent, bool isOpeningDeal = false)
         {
-            Hole.AddCard(cardId, cardPrefab, parent);
+            Hole.AddCard(cardId, cardPrefab, parent, isOpeningDeal);
         }
 
         /// <summary>

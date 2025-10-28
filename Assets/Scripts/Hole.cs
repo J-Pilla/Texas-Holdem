@@ -29,12 +29,15 @@ namespace TexasHoldem
         /// adds a Card to the Cards array
         /// </summary>
         /// <param name="cardId"></param>
-        public void AddCard(int cardId, GameObject cardPrefab, Transform parent)
+        public void AddCard(int cardId, GameObject cardPrefab, Transform parent, bool openingDeal)
         {
             if (CardCount < SIZE)
             {
                 Cards[CardCount] = new Card(cardId, true, cardPrefab, parent);
-                Cards[CardCount].OffSetPlayerCard(CardCount);
+
+                if (!openingDeal)
+                    Cards[CardCount].OffSetPlayerCard(CardCount);
+                
                 CardCount++;
             }
         }
