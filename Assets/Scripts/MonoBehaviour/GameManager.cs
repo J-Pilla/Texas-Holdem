@@ -14,32 +14,40 @@ namespace TexasHoldem.MonoScripts
         // fields
         bool hasRoundStarted = false;
         bool isDealerDetermined = false;
+
         [Header("Prefabs")]
         [SerializeField] GameObject playerPrefab;
         [SerializeField] GameObject cardPrefab;
         [SerializeField] GameObject dealerButtonPrefab;
         [SerializeField] GameObject smallBlindButtonPrefab;
         [SerializeField] GameObject bigBlindButtonPrefab;
+
         // game objects instantiated from prefabs
         GameObject dealerButton;
         GameObject smallBlindButton;
         GameObject bigBlindButton;
+
         // prefab component storage
         readonly PlayerScript[] players = new PlayerScript[Player.MAX];
         readonly Card[] board = new Card[BOARD_SIZE];
+
         [Header("Game Object Containers")]
         [SerializeField] GameObject seatTargets;
         [SerializeField] GameObject boardTargets;
+
         // game object component storage
         readonly Transform[] seatTransforms = new Transform[Player.MAX];
         readonly Transform[] boardTransforms = new Transform[Player.MAX];
+
         [Header("UI Containers")]
         [SerializeField] GameObject seats;
         [SerializeField] GameObject roundStart;
         [SerializeField] GameObject winDisplay;
+
         [Header("UI Objects")]
         [Header("Round Start")]
         [SerializeField] GameObject roundStartError;
+
         [Header("UI Components")]
         [Header("Player Display")]
         [SerializeField] TMP_Text[] nameDisplays = new TMP_Text[Player.MAX];
@@ -104,7 +112,7 @@ namespace TexasHoldem.MonoScripts
             {
                 case State.RoundStart:
                     RoundStart();
-
+                    SortPlayersBySeat();
                     if (!isDealerDetermined)
                         DetermineOpeningDealer();
                     else
@@ -146,6 +154,24 @@ namespace TexasHoldem.MonoScripts
             }
 
             seats.SetActive(false);
+        }
+
+        /// <summary>
+        /// sorts players array by the seat the players are at
+        /// so blinds are posted correctly and cards are dealt in order
+        /// </summary>
+        void SortPlayersBySeat()
+        {
+            for (int index = 0; index < Player.Count; index++)
+                print($"{index} : {players[index].Name} : {players[index].Seat}");
+
+            for (int index1 = 0; index1 < Player.Count - 1; index1++)
+                for (int index2 = index1 + 1; index2 < Player.Count; index2++)
+                    if (players[index1].Seat > players[index2].Seat)
+                        (players[index1], players[index2]) = (players[index2], players[index1]);
+
+            for (int index = 0; index < Player.Count; index++)
+                print($"{index} : {players[index].Name} : {players[index].Seat}");
         }
 
         /// <summary>
