@@ -45,7 +45,7 @@ namespace TexasHoldem
         public void FlipCards()
         {
             for (int index = 0; index < CardCount; index++)
-                Cards = new Card[SIZE];
+                Cards[index].FlipCard();
         }
 
         /// <summary>
