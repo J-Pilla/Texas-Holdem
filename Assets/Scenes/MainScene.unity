@@ -3603,7 +3603,8 @@ MonoBehaviour:
   smallBlindButtonPrefab: {fileID: 8663871844464161540, guid: ea4a06af8c45a834ba2560f6dce7ed53, type: 3}
   bigBlindButtonPrefab: {fileID: 8663871844464161540, guid: 2fc59d25400c95649a7887374d430540, type: 3}
   seatTargets: {fileID: 1624398785}
-  uISeats: {fileID: 1354513068}
+  boardTargets: {fileID: 1239136931}
+  seats: {fileID: 1354513068}
   roundStart: {fileID: 504615184}
   winDisplay: {fileID: 390870686}
   roundStartError: {fileID: 1052947100}
