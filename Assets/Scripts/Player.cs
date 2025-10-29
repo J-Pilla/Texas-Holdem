@@ -62,7 +62,7 @@ namespace TexasHoldem
         /// </summary>
         public static void SetBlinds()
         {
-            SmallBlindIndex = DealerIndex + 1;
+            SmallBlindIndex = Count > 2 ? DealerIndex + 1 : DealerIndex;
             BigBlindIndex = SmallBlindIndex + 1;
         }
     }
