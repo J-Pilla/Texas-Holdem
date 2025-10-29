@@ -41,6 +41,7 @@ namespace TexasHoldem
         Start,
         RoundStart,
         Deal,
+        Play,
         Flip,
         NextRound
     }
