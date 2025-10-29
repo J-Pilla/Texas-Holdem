@@ -63,7 +63,6 @@ namespace TexasHoldem.MonoScripts
         }
 
         // methods
-
         /// <summary>
         /// adds a Card to the Cards array
         /// </summary>
@@ -81,6 +80,9 @@ namespace TexasHoldem.MonoScripts
             hole.Discard();
         }
 
+        /// <summary>
+        /// exposes hole.FlipCards();
+        /// </summary>
         public void FlipCards()
         {
             hole.FlipCards();
