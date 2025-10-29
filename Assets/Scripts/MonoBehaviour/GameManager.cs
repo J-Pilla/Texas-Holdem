@@ -14,6 +14,8 @@ namespace TexasHoldem.MonoScripts
         // fields
         bool hasRoundStarted = false;
         bool isDealerDetermined = false;
+        int round = 0;
+        int pot = 0;
 
         [Header("Prefabs")]
         [SerializeField] GameObject playerPrefab;
@@ -107,7 +109,6 @@ namespace TexasHoldem.MonoScripts
         {
             Game.NextState();
 
-
             switch (State)
             {
                 case State.RoundStart:
@@ -118,16 +119,21 @@ namespace TexasHoldem.MonoScripts
                     else
                     {
                         DestroyButtons();
-                        Player.NextDealer();
+                        NextDealer();
                     }
+                    InstantiateButton();
                     SetBlinds();
                     SetRoundStartToDeal();
                     break;
                 case State.Deal:
                     HideRoundStart();
-                    Discard();
+                    if (round < 2)
+                        Discard();
                     Deal();
                     NextState();
+                    break;
+                case State.Play:
+                    // butting UI activate!
                     break;
                 case State.Flip:
                     FlipCards();
@@ -153,6 +159,7 @@ namespace TexasHoldem.MonoScripts
                 throw new System.Exception("Add at least two players");
             }
 
+            round++;
             seats.SetActive(false);
         }
 
@@ -162,16 +169,10 @@ namespace TexasHoldem.MonoScripts
         /// </summary>
         void SortPlayersBySeat()
         {
-            for (int index = 0; index < Player.Count; index++)
-                print($"{index} : {players[index].Name} : {players[index].Seat}");
-
             for (int index1 = 0; index1 < Player.Count - 1; index1++)
                 for (int index2 = index1 + 1; index2 < Player.Count; index2++)
                     if (players[index1].Seat > players[index2].Seat)
                         (players[index1], players[index2]) = (players[index2], players[index1]);
-
-            for (int index = 0; index < Player.Count; index++)
-                print($"{index} : {players[index].Name} : {players[index].Seat}");
         }
 
         /// <summary>
@@ -195,10 +196,10 @@ namespace TexasHoldem.MonoScripts
 
             for (int index = 1; index < Player.Count; index++)
             {
-                if (players[index].Cards[0].Rank > players[Player.DealerIndex].Cards[0].Rank ||
-                    players[index].Cards[0].Rank == players[Player.DealerIndex].Cards[0].Rank &&
-                    players[index].Cards[0].Suit > players[Player.DealerIndex].Cards[0].Suit)
-                    Player.SetInitialDealer(index);
+                if (players[index].Cards[0].Rank > players[Dealer].Cards[0].Rank ||
+                    players[index].Cards[0].Rank == players[Dealer].Cards[0].Rank &&
+                    players[index].Cards[0].Suit > players[Dealer].Cards[0].Suit)
+                    SetInitialDealer(index);
             }
 
             isDealerDetermined = true;
@@ -209,42 +210,39 @@ namespace TexasHoldem.MonoScripts
         /// </summary>
         void SetBlinds()
         {
-            Player.SetBlinds();
+            Game.SetBlinds();
 
-            players[Player.DealerIndex].Blind = Blind.Dealer;
-            InstantiateButton(Blind.Dealer);
-
-            players[Player.SmallBlindIndex].Blind = Blind.Small;
+            players[SmallBlind].Blind = Blind.Small;
             InstantiateButton(Blind.Small);
+            PlaceBet(players[SmallBlind], SMALL_BLIND);
 
-            if (Player.Count > Player.MIN)
-            {
-                players[Player.BigBlindIndex].Blind = Blind.Big;
-                InstantiateButton(Blind.Big);
-            }
+            players[BigBlind].Blind = Blind.Big;
+            InstantiateButton(Blind.Big);
+            PlaceBet(players[BigBlind], BIG_BLIND);
         }
 
         /// <summary>
         /// instantiates the daeler and blind buttons
         /// </summary>
         /// <param name="blind"></param>
-        void InstantiateButton(Blind blind)
+        void InstantiateButton(Blind blind = Blind.None)
         {
             (int index, GameObject buttonPrefab) = blind switch
             {
-                Blind.Small => (Player.SmallBlindIndex, smallBlindButtonPrefab),
-                Blind.Big => (Player.BigBlindIndex, bigBlindButtonPrefab),
-                _ => (Player.DealerIndex, dealerButtonPrefab)
+                Blind.Small => (SmallBlind, smallBlindButtonPrefab),
+                Blind.Big => (BigBlind, bigBlindButtonPrefab),
+                _ => (Dealer, dealerButtonPrefab)
             };
             GameObject button = Instantiate(
                 buttonPrefab,
                 seatTransforms[players[index].Seat]);
 
             button.transform.localPosition += new Vector3(-.9f, .3f);
-
             switch (blind)
             {
                 case Blind.Small:
+                    if (SmallBlind == Dealer)
+                        button.transform.localPosition += new Vector3(0f, -.6f);
                     smallBlindButton = button;
                     break;
                 case Blind.Big:
@@ -272,7 +270,7 @@ namespace TexasHoldem.MonoScripts
         void SetRoundStartToDeal()
         {
             roundStartText.text = "Deal";
-            dealer.text = $"{players[Player.DealerIndex].Name}'s turn to deal!";
+            dealer.text = $"{players[Dealer].Name}'s turn to deal!";
         }
 
         /// <summary>
@@ -303,7 +301,7 @@ namespace TexasHoldem.MonoScripts
 
             Shuffle();
 
-            for (int playerIndex = Player.DealerIndex + 1; CardIndex < BOARD_SIZE + playerCardCount; NextCard())
+            for (int playerIndex = Dealer + 1; CardIndex < BOARD_SIZE + playerCardCount; NextCard())
             {
                 if (CardIndex < playerCardCount)
                 {
@@ -322,6 +320,20 @@ namespace TexasHoldem.MonoScripts
                             boardTransforms[CardIndex - playerCardCount]);
                 }
             }
+        }
+
+        void PlaceBet(PlayerScript player, int bet)
+        {
+            player.PlaceBet(bet);
+            chipDisplays[player.Seat].text = player.Chips.ToString();
+
+            UpdatePot(bet);
+        }
+
+        void UpdatePot(int bet)
+        {
+            pot += bet;
+            // ui pot.text = pot tostring
         }
 
         /// <summary>
