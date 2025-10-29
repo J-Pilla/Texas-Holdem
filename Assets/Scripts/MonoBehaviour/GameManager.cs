@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace TexasHoldem.MonoScripts
 {
@@ -44,6 +43,7 @@ namespace TexasHoldem.MonoScripts
         [SerializeField] TMP_Text[] nameDisplays = new TMP_Text[Player.MAX];
         [SerializeField] TMP_Text[] chipDisplays = new TMP_Text[Player.MAX];
         [Header("Round Start")]
+        [SerializeField] TMP_Text roundStartText;
         [SerializeField] TMP_Text dealer;
         [Header("Win Display")]
         [SerializeField] TMP_Text hand;
@@ -105,9 +105,8 @@ namespace TexasHoldem.MonoScripts
                         DestroyButtons();
                         Player.NextDealer();
                     }
-
-                    dealer.text = $"{players[Player.DealerIndex].Name}'s turn to deal!";
                     SetBlinds();
+                    SetUIToDeal();
                     break;
                 case State.Deal:
                     roundStart.SetActive(false);
@@ -232,6 +231,12 @@ namespace TexasHoldem.MonoScripts
             Destroy(dealerButton);
             Destroy(smallBlindButton);
             Destroy(bigBlindButton);
+        }
+
+        void SetUIToDeal()
+        {
+            roundStartText.text = "Deal";
+            dealer.text = $"{players[Player.DealerIndex].Name}'s turn to deal!";
         }
 
         void Discard()
