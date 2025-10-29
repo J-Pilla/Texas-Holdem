@@ -13,6 +13,7 @@ namespace TexasHoldem.MonoScripts
         // fields
         string _name;
         int seat;
+        readonly Hole hole = new();
 
         // properties
         public int Seat
@@ -42,18 +43,17 @@ namespace TexasHoldem.MonoScripts
         public bool HasBestHand { get; set; } = false;
         public Hand Hand { get; private set; } = Hand.NoPair;
         public Blind Blind { get; set; } = Blind.None;
-        public Hole Hole { get; set; } = new();
-        public Card[] Cards { get { return Hole.Cards; } }
-        public int CardCount { get { return Hole.CardCount; } }
+        public Card[] Cards { get { return hole.Cards; } }
+        public int CardCount { get { return hole.CardCount; } }
         public Rank HighCard
         {
-            get { return Hole.HighCard; }
-            private set { Hole.HighCard = value; }
+            get { return hole.HighCard; }
+            private set { hole.HighCard = value; }
         }
         public Rank Kicker
         {
-            get { return Hole.Kicker; }
-            private set { Hole.Kicker = value; }
+            get { return hole.Kicker; }
+            private set { hole.Kicker = value; }
         }
 
         // unity messages
@@ -70,7 +70,7 @@ namespace TexasHoldem.MonoScripts
         /// <param name="cardId"></param>
         public void AddCard(int cardId, GameObject cardPrefab, Transform parent, bool isOpeningDeal = false)
         {
-            Hole.AddCard(cardId, cardPrefab, parent, isOpeningDeal);
+            hole.AddCard(cardId, cardPrefab, parent, isOpeningDeal);
         }
 
         /// <summary>
@@ -78,12 +78,12 @@ namespace TexasHoldem.MonoScripts
         /// </summary>
         public void Discard()
         {
-            Hole.Discard();
+            hole.Discard();
         }
 
         public void FlipCards()
         {
-            Hole.FlipCards();
+            hole.FlipCards();
         }
 
         /// <summary>
