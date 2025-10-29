@@ -10,9 +10,9 @@ namespace TexasHoldem
     {
         // fields
         int id;
+        readonly GameObject cardObject;
 
         // properties
-        public GameObject CardObject { get; private set; }
         public int Id
         {
             get { return id; }
@@ -49,8 +49,8 @@ namespace TexasHoldem
         public void OffSetPlayerCard(int index)
         {
             Vector3 cardOffset = new(-.2f, .02f);
-            CardObject.transform.localPosition += index == 0 ? cardOffset : -cardOffset;
-            CardObject.GetComponent<SpriteRenderer>().sortingOrder = index == 0 ? 0 : 1;
+            cardObject.transform.localPosition += index == 0 ? cardOffset : -cardOffset;
+            cardObject.GetComponent<SpriteRenderer>().sortingOrder = index == 0 ? 0 : 1;
         }
 
         /// <summary>
@@ -58,17 +58,17 @@ namespace TexasHoldem
         /// </summary>
         public void FlipCard()
         {
-            SpriteRenderer spriteRenderer = CardObject.GetComponent<SpriteRenderer>();
+            SpriteRenderer spriteRenderer = cardObject.GetComponent<SpriteRenderer>();
             spriteRenderer.sprite = Resources.Load($"{File}", typeof(Sprite)) as Sprite;
             spriteRenderer.sortingOrder = spriteRenderer.sortingOrder == 0 ? 1 : 0;
         }
 
         /// <summary>
-        /// destroys CardObject
+        /// destroys cardObject
         /// </summary>
         public void Discard()
         {
-            GameObject.Destroy(CardObject);
+            GameObject.Destroy(cardObject);
         }
 
         // constructors
@@ -76,7 +76,7 @@ namespace TexasHoldem
         {
             Initialize(id, inPlayerHand);
 
-            CardObject = GameObject.Instantiate(cardPrefab, parent);
+            cardObject = GameObject.Instantiate(cardPrefab, parent);
         }
 
         public Card(int id, bool inPlayerHand = false)
@@ -85,25 +85,16 @@ namespace TexasHoldem
         }
 
         // constructor helper
+        /// <summary>
+        /// initialize the 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="inPlayerHand"></param>
         void Initialize(int id, bool inPlayerHand)
         {
             Id = id;
             Rank = (Rank)(Id % 13 + 2);
             Suit = (Suit)(Id % 4);
-            InPlayerHand = inPlayerHand;
-        }
-        /// <summary>
-        /// used to force cards for testing purposes
-        /// </summary>
-        /// <param name="rank"></param>
-        /// <param name="suit"></param>
-        /// <param name="inPlayerHand"></param>
-        [System.Obsolete]
-        public Card(Rank rank, Suit suit, bool inPlayerHand)
-        {
-            Id += ((int)rank - 2) * ((int)suit + 1);
-            Rank = rank;
-            Suit = suit;
             InPlayerHand = inPlayerHand;
         }
     }
