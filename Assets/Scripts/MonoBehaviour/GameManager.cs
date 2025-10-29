@@ -72,7 +72,7 @@ namespace TexasHoldem.MonoScripts
 
         // methods
         /// <summary>
-        /// initializes all the elements of seatTransforms array
+        /// initializes all the elements of the transform arrays
         /// </summary>
         void SetTransforms(Transform[] targetTransforms)
         {
@@ -122,6 +122,7 @@ namespace TexasHoldem.MonoScripts
                     NextState();
                     break;
                 case State.Flip:
+                    FlipCards();
                     DetermineWinner();
                     break;
             }
@@ -239,12 +240,18 @@ namespace TexasHoldem.MonoScripts
             Destroy(bigBlindButton);
         }
 
+        /// <summary>
+        /// changes the text of the Round Start UI elements to show it's time to deal
+        /// </summary>
         void SetRoundStartToDeal()
         {
             roundStartText.text = "Deal";
             dealer.text = $"{players[Player.DealerIndex].Name}'s turn to deal!";
         }
 
+        /// <summary>
+        /// reverts and hides the Round Start UI elements
+        /// </summary>
         void HideRoundStart()
         {
             roundStart.SetActive(false);
@@ -252,6 +259,9 @@ namespace TexasHoldem.MonoScripts
             dealer.text = string.Empty;
         }
 
+        /// <summary>
+        /// discards each players cards
+        /// </summary>
         void Discard()
         {
             for (int index = 0; index < Player.Count; index++)
@@ -286,6 +296,18 @@ namespace TexasHoldem.MonoScripts
                             boardTransforms[CardIndex - playerCardCount]);
                 }
             }
+        }
+
+        /// <summary>
+        /// flips all the cards on the table
+        /// </summary>
+        void FlipCards()
+        {
+            for (int index = 0; index < Player.Count; index++)
+                players[index].FlipCards();
+
+            foreach (Card card in board)
+                card.FlipCard();
         }
 
         /// <summary>
