@@ -49,6 +49,9 @@ namespace TexasHoldem.MonoScripts
         [Header("UI Containers")]
         [SerializeField] GameObject seats;
         [SerializeField] GameObject roundStart;
+        [SerializeField] GameObject focusControls;
+        [SerializeField] GameObject fCRControls;
+        [SerializeField] GameObject cBControls;
         [SerializeField] GameObject winDisplay;
 
         [Header("UI Objects")]
