@@ -39,7 +39,7 @@ namespace TexasHoldem.MonoScripts
             }
         }
         public int Chips { get; private set; } = 500;
-        public int Bet { get; set; } = 0;
+        public int Bet { get; private set; } = 0;
         public bool HasBestHand { get; set; } = false;
         public Hand Hand { get; private set; } = Hand.NoPair;
         public Blind Blind { get; set; } = Blind.None;
@@ -86,6 +86,12 @@ namespace TexasHoldem.MonoScripts
         public void FlipCards()
         {
             hole.FlipCards();
+        }
+
+        public void PlaceBet(int bet)
+        {
+            Bet += bet;
+            Chips -= bet;
         }
 
         /// <summary>
