@@ -42,13 +42,20 @@ namespace TexasHoldem
             return $"Card: {Name}, Id: {Id}, Player Card: {InPlayerHand}";
         }
 
+        /// <summary>
+        /// sets the variation in position for the hole cards
+        /// </summary>
+        /// <param name="index"></param>
         public void OffSetPlayerCard(int index)
         {
-            Vector3 cardOffset = new(-.2f, -.02f);
+            Vector3 cardOffset = new(-.2f, .02f);
             CardObject.transform.localPosition += index == 0 ? cardOffset : -cardOffset;
             CardObject.GetComponent<SpriteRenderer>().sortingOrder = index == 0 ? 0 : 1;
         }
 
+        /// <summary>
+        /// displays the sprite for the face of the card
+        /// </summary>
         public void FlipCard()
         {
             SpriteRenderer spriteRenderer = CardObject.GetComponent<SpriteRenderer>();
@@ -56,6 +63,9 @@ namespace TexasHoldem
             spriteRenderer.sortingOrder = spriteRenderer.sortingOrder == 0 ? 1 : 0;
         }
 
+        /// <summary>
+        /// destroys CardObject
+        /// </summary>
         public void Discard()
         {
             GameObject.Destroy(CardObject);
