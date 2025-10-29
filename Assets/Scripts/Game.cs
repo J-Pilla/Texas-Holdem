@@ -9,6 +9,9 @@ namespace TexasHoldem
         // constants
         public const int BOARD_SIZE = 5;
         public const int HAND_SIZE = BOARD_SIZE + Hole.SIZE;
+        public const int SMALL_BLIND = 10;
+        public const int BIG_BLIND = 25;
+
 
         // properties
         public static State State
@@ -26,6 +29,7 @@ namespace TexasHoldem
         /// increments state
         /// </summary>
         public static void NextState() { State++; }
+
         /// <summary>
         /// decrements state
         /// </summary>
