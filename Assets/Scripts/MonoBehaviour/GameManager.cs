@@ -12,6 +12,13 @@ namespace TexasHoldem.MonoScripts
     public class GameManager : MonoBehaviour
     {
         // fields
+        Vector3 cameraStartPosition;
+        float cameraStartZoom;
+        float cameraMoveStartTime = 0f;
+        float cameraZoomStartTime = 0f;
+        bool isCameraMoving = false;
+        bool isCameraZooming = false;
+
         [Header("Prefabs")]
         [SerializeField] GameObject playerPrefab;
         [SerializeField] GameObject cardPrefab;
@@ -32,8 +39,8 @@ namespace TexasHoldem.MonoScripts
         [SerializeField] GameObject seatTargets;
         [SerializeField] GameObject boardTargets;
 
-        [Header("Game Components")]
-        [SerializeField] Camera mainCamera;
+        [Header("Game Object Components")]
+        [SerializeField] Camera boardCamera;
 
         // game object component storage
         readonly Transform[] seatTransforms = new Transform[Player.MAX];
@@ -68,18 +75,22 @@ namespace TexasHoldem.MonoScripts
 
         void Start()
         {
-            CameraProjectionSize = Camera.main.orthographicSize;
+            SetInitialProjectionSize(Camera.main.orthographicSize);
+            SetCameraStartFields();
             SetTransforms(seatTransforms);
             SetTransforms(boardTransforms);
         }
 
-        void Update()
+        // start methods
+        /// <summary>
+        /// initializes game dependant camera fields
+        /// </summary>
+        void SetCameraStartFields()
         {
-            if (State == State.NextRound)
-                NextRound();
+            cameraStartPosition = Camera.main.transform.position;
+            cameraStartZoom = Camera.main.orthographicSize;
         }
 
-        // methods
         /// <summary>
         /// initializes all the elements of the transform arrays
         /// </summary>
@@ -89,7 +100,7 @@ namespace TexasHoldem.MonoScripts
                 seatTargets : boardTargets;
 
             Transform[] childTransforms = targets.GetComponentsInChildren<Transform>();
-            
+
             int index = 0;
             foreach (Transform transform in childTransforms)
             {
@@ -98,6 +109,73 @@ namespace TexasHoldem.MonoScripts
                     targetTransforms[index] = transform;
                     index++;
                 }
+            }
+        }
+
+        void Update()
+        {
+            if (isCameraMoving)
+                MoveCamera(seatTransforms[0].position);
+
+            if (isCameraZooming)
+                ZoomCamera();
+
+            if (State == State.NextRound)
+                NextRound();
+        }
+
+        // update methods
+        /// <summary>
+        /// move the camera using lerp
+        /// </summary>
+        /// <param name="target"></param>
+        void MoveCamera(Vector3 target)
+        {
+            float cameraMoveDuration = 1f;
+            target.z = cameraStartPosition.z;
+
+            if (cameraMoveStartTime == 0f)
+                cameraMoveStartTime = Time.time;
+
+            Camera.main.transform.position =
+                Vector3.Lerp(
+                    cameraStartPosition,
+                    target,
+                    (Time.time - cameraMoveStartTime) / cameraMoveDuration);
+
+            if (Camera.main.transform.position == target)
+            {
+                cameraStartPosition = Camera.main.transform.position;
+                cameraMoveStartTime = 0f;
+                isCameraMoving = false;
+            }
+        }
+
+        /// <summary>
+        /// zoom the camera in a 
+        /// </summary>
+        void ZoomCamera()
+        {
+            float target = cameraStartZoom == InitialProjectionSize ?
+                    FocusProjectionSize : InitialProjectionSize;
+            float cameraZoomDuration = 1f;
+
+            if (cameraZoomStartTime == 0f)
+            {
+                cameraZoomStartTime = Time.time;
+                boardCamera.gameObject.SetActive(target == FocusProjectionSize);
+            }
+
+            Camera.main.orthographicSize = Mathf.Lerp(
+                cameraStartZoom,
+                target,
+                (Time.time - cameraZoomStartTime) / cameraZoomDuration);
+
+            if (Camera.main.orthographicSize == target)
+            { 
+                cameraStartZoom = Camera.main.orthographicSize;
+                cameraZoomStartTime = 0f;
+                isCameraZooming = false;
             }
         }
 
@@ -132,6 +210,8 @@ namespace TexasHoldem.MonoScripts
                     NextState();
                     break;
                 case State.Play:
+                    isCameraMoving = true;
+                    isCameraZooming = true;
                     // butting UI activate!
                     break;
                 case State.Flip:

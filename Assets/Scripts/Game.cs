@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 namespace TexasHoldem
 {
     public static class Game
@@ -5,13 +7,11 @@ namespace TexasHoldem
         // static members
         // fields
         static State state = State.Start;
-        static float cameraProjectionSize = 0;
         static int round = 1;
-        static int pot = 0;
         static int dealer = 0;
         static int smallBlind = 0;
         static int bigBlind = 0;
-
+        static int pot = 0;
 
         // constants
         public const int BOARD_SIZE = 5;
@@ -19,8 +19,9 @@ namespace TexasHoldem
         public const int SMALL_BLIND = 10;
         public const int BIG_BLIND = 25;
 
-
         // properties
+        public static float InitialProjectionSize { get; private set; }
+        public static float FocusProjectionSize { get; } = 2.5f;
         public static State State
         {
             get { return state; }
@@ -30,22 +31,13 @@ namespace TexasHoldem
                     value : state = State.Start;
             }
         }
-        public static float CameraProjectionSize
-        {
-            get { return cameraProjectionSize; }
-            set
-            {
-                if (cameraProjectionSize == 0)
-                    cameraProjectionSize = value;
-            }
-        }
-        public static bool IsDealerDetermined { get; set; } = false;
-        public static bool HasRoundStarted { get; set; } = false;
         public static int Round
         {
             get { return round; }
-            private set {  round = value < int.MaxValue ? value : 2; }
+            private set { round = value < int.MaxValue ? value : 2; }
         }
+        public static bool IsDealerDetermined { get; set; } = false;
+        public static bool HasRoundStarted { get; set; } = false;
         public static int Pot
         {
             get { return pot; }
@@ -68,6 +60,18 @@ namespace TexasHoldem
         }
 
         // methods
+        /// <summary>
+        /// sets the inizial projection size of the main camera
+        /// </summary>
+        /// <param name="size"></param>
+        /// <exception cref="System.InvalidOperationException"></exception>
+        public static void SetInitialProjectionSize(float size)
+        {
+            if (InitialProjectionSize != 0f)
+                throw new System.InvalidOperationException("This method can only be called once.");
+
+            InitialProjectionSize = size;
+        }
         /// <summary>
         /// increments state
         /// </summary>
