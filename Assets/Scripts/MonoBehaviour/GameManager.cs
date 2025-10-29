@@ -379,6 +379,7 @@ namespace TexasHoldem.MonoScripts
             hand.text = $"Winning Hand:\n{bestHand.GetName()}";
             this.highCard.text = $"High Card:\n{highCard}";
             this.kicker.text = $"Kicker:\n{kicker}";
+            winDisplay.SetActive(true);
 
             for (int index = 0; index < Player.Count; index++)
             {
@@ -405,6 +406,7 @@ namespace TexasHoldem.MonoScripts
 
             Discard();
 
+            winDisplay.SetActive(true);
             hand.text = string.Empty;
             highCard.text = string.Empty;
             kicker.text = string.Empty;
