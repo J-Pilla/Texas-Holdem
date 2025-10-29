@@ -12,11 +12,6 @@ namespace TexasHoldem.MonoScripts
     public class GameManager : MonoBehaviour
     {
         // fields
-        bool hasRoundStarted = false;
-        bool isDealerDetermined = false;
-        int round = 0;
-        int pot = 0;
-
         [Header("Prefabs")]
         [SerializeField] GameObject playerPrefab;
         [SerializeField] GameObject cardPrefab;
@@ -36,6 +31,9 @@ namespace TexasHoldem.MonoScripts
         [Header("Game Object Containers")]
         [SerializeField] GameObject seatTargets;
         [SerializeField] GameObject boardTargets;
+
+        [Header("Game Components")]
+        [SerializeField] Camera mainCamera;
 
         // game object component storage
         readonly Transform[] seatTransforms = new Transform[Player.MAX];
@@ -70,6 +68,7 @@ namespace TexasHoldem.MonoScripts
 
         void Start()
         {
+            CameraProjectionSize = Camera.main.orthographicSize;
             SetTransforms(seatTransforms);
             SetTransforms(boardTransforms);
         }
@@ -114,7 +113,7 @@ namespace TexasHoldem.MonoScripts
                 case State.RoundStart:
                     RoundStart();
                     SortPlayersBySeat();
-                    if (!isDealerDetermined)
+                    if (!IsDealerDetermined)
                         DetermineOpeningDealer();
                     else
                     {
@@ -127,7 +126,7 @@ namespace TexasHoldem.MonoScripts
                     break;
                 case State.Deal:
                     HideRoundStart();
-                    if (round < 2)
+                    if (Round < 2)
                         Discard();
                     Deal();
                     NextState();
@@ -149,17 +148,16 @@ namespace TexasHoldem.MonoScripts
         /// <exception cref="System.Exception"></exception>
         public void RoundStart()
         {
-            hasRoundStarted = Player.Count >= Player.MIN;
+            HasRoundStarted = Player.Count >= Player.MIN;
 
-            roundStartError.SetActive(!hasRoundStarted);
+            roundStartError.SetActive(!HasRoundStarted);
 
-            if (!hasRoundStarted)
+            if (!HasRoundStarted)
             {
                 PreviousState();
                 throw new System.Exception("Add at least two players");
             }
 
-            round++;
             seats.SetActive(false);
         }
 
@@ -202,7 +200,7 @@ namespace TexasHoldem.MonoScripts
                     SetInitialDealer(index);
             }
 
-            isDealerDetermined = true;
+            IsDealerDetermined = true;
         }
 
         /// <summary>
@@ -332,7 +330,7 @@ namespace TexasHoldem.MonoScripts
 
         void UpdatePot(int bet)
         {
-            pot += bet;
+            AddToPot(bet);
             // ui pot.text = pot tostring
         }
 
@@ -413,8 +411,10 @@ namespace TexasHoldem.MonoScripts
         /// </summary>
         void NextRound()
         {
-            NextState();
-            hasRoundStarted = false;
+            Game.NextState();
+            Game.NextRound();
+
+            HasRoundStarted = false;
 
             Discard();
 

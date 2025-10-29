@@ -5,9 +5,13 @@ namespace TexasHoldem
         // static members
         // fields
         static State state = State.Start;
+        static float cameraProjectionSize = 0;
+        static int round = 1;
+        static int pot = 0;
         static int dealer = 0;
         static int smallBlind = 0;
         static int bigBlind = 0;
+
 
         // constants
         public const int BOARD_SIZE = 5;
@@ -25,6 +29,27 @@ namespace TexasHoldem
                 state = value >= State.Start && value < State.NextRound ?
                     value : state = State.Start;
             }
+        }
+        public static float CameraProjectionSize
+        {
+            get { return cameraProjectionSize; }
+            set
+            {
+                if (cameraProjectionSize == 0)
+                    cameraProjectionSize = value;
+            }
+        }
+        public static bool IsDealerDetermined { get; set; } = false;
+        public static bool HasRoundStarted { get; set; } = false;
+        public static int Round
+        {
+            get { return round; }
+            private set {  round = value < int.MaxValue ? value : 2; }
+        }
+        public static int Pot
+        {
+            get { return pot; }
+            private set { pot = value; }
         }
         public static int Dealer
         {
@@ -52,6 +77,22 @@ namespace TexasHoldem
         /// decrements state
         /// </summary>
         public static void PreviousState() { State--; }
+
+        /// <summary>
+        /// increments round
+        /// </summary>
+        public static void NextRound() { Round++; }
+
+        /// <summary>
+        /// adds the sum of bets to the pot
+        /// </summary>
+        /// <param name="betSum"></param>
+        public static void AddToPot(int betSum) { Pot += betSum; }
+
+        /// <summary>
+        /// clears the pot during payout
+        /// </summary>
+        public static void ClearPot() { Pot = 0; }
 
         /// <summary>
         /// sets the initial dealer, should only be called on the first round
