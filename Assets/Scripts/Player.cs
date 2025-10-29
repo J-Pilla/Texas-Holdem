@@ -4,32 +4,12 @@ namespace TexasHoldem
 {
     public static class Player
     {
-        // fields
-        static int dealerIndex = 0;
-        static int smallBlindIndex = 0;
-        static int bigBlindIndex = 0;
-
         // constants
         public const int MAX = 10;
         public const int MIN = 2;
 
         // properties
         public static int Count { get; private set; } = 0;
-        public static int DealerIndex
-        {
-            get { return dealerIndex; }
-            private set { dealerIndex = value < Count ? value : 0; }
-        }
-        public static int SmallBlindIndex
-        {
-            get { return smallBlindIndex; }
-            private set { smallBlindIndex = value < Count ? value : 0; }
-        }
-        public static int BigBlindIndex
-        {
-            get { return bigBlindIndex; }
-            private set { bigBlindIndex = value < Count ? value : 0; }
-        }
 
         // methods
         /// <summary>
@@ -41,26 +21,6 @@ namespace TexasHoldem
         /// decrements Count
         /// </summary>
         public static void DecrementCount() { Count--; }
-
-        /// <summary>
-        /// sets the initial dealer, should only be called on the first round
-        /// </summary>
-        /// <param name="dealerIndex"></param>
-        public static void SetInitialDealer(int dealerIndex) { DealerIndex = dealerIndex; }
-
-        /// <summary>
-        /// increments DealerIndex
-        /// </summary>
-        public static void NextDealer() { DealerIndex++; }
-
-        /// <summary>
-        /// set blinds
-        /// </summary>
-        public static void SetBlinds()
-        {
-            SmallBlindIndex = Count > 2 ? DealerIndex + 1 : DealerIndex;
-            BigBlindIndex = SmallBlindIndex + 1;
-        }
     }
 
     /// <summary>
@@ -117,7 +77,6 @@ namespace TexasHoldem
     /// </summary>
     public enum Blind
     {
-        Dealer = -1,
         None,
         Small,
         Big

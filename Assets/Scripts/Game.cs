@@ -5,6 +5,9 @@ namespace TexasHoldem
         // static members
         // fields
         static State state = State.Start;
+        static int dealer = 0;
+        static int smallBlind = 0;
+        static int bigBlind = 0;
 
         // constants
         public const int BOARD_SIZE = 5;
@@ -23,6 +26,21 @@ namespace TexasHoldem
                     value : state = State.Start;
             }
         }
+        public static int Dealer
+        {
+            get { return dealer; }
+            private set { dealer = value < Player.Count ? value : 0; }
+        }
+        public static int SmallBlind
+        {
+            get { return smallBlind; }
+            private set { smallBlind = value < Player.Count ? value : 0; }
+        }
+        public static int BigBlind
+        {
+            get { return bigBlind; }
+            private set { bigBlind = value < Player.Count ? value : 0; }
+        }
 
         // methods
         /// <summary>
@@ -34,6 +52,26 @@ namespace TexasHoldem
         /// decrements state
         /// </summary>
         public static void PreviousState() { State--; }
+
+        /// <summary>
+        /// sets the initial dealer, should only be called on the first round
+        /// </summary>
+        /// <param name="dealerIndex"></param>
+        public static void SetInitialDealer(int dealerIndex) { Dealer = dealerIndex; }
+
+        /// <summary>
+        /// increments DealerIndex
+        /// </summary>
+        public static void NextDealer() { Dealer++; }
+
+        /// <summary>
+        /// set blinds
+        /// </summary>
+        public static void SetBlinds()
+        {
+            SmallBlind = Player.Count > 2 ? Dealer + 1 : Dealer;
+            BigBlind = SmallBlind + 1;
+        }
     }
 
     // enums
