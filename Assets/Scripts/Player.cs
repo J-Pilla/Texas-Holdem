@@ -51,11 +51,7 @@ namespace TexasHoldem
         /// <summary>
         /// increments DealerIndex
         /// </summary>
-        public static void NextDealer()
-        {
-            DealerIndex++;
-            SetBlinds();
-        }
+        public static void NextDealer() { DealerIndex++; }
 
         /// <summary>
         /// set blinds
