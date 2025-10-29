@@ -44,9 +44,9 @@ namespace TexasHoldem
 
         public void OffSetPlayerCard(int index)
         {
-            Vector3 cardOffset = new(.2f, -.02f);
+            Vector3 cardOffset = new(-.2f, -.02f);
             CardObject.transform.localPosition += index == 0 ? cardOffset : -cardOffset;
-            CardObject.GetComponent<SpriteRenderer>().sortingOrder = index == 0 ? 1 : 0;
+            CardObject.GetComponent<SpriteRenderer>().sortingOrder = index == 0 ? 0 : 1;
         }
 
         public void FlipCard()
