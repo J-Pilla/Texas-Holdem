@@ -450,9 +450,19 @@ namespace TexasHoldem.MonoScripts
         /// <param name="seat"></param>
         public void LeaveTable(int seat)
         {
-            GameObject player = seatTransforms[seat].gameObject.GetComponentInChildren<PlayerScript>().gameObject;
+            int index = 0;
+
+            for (; index < Player.Count; index++)
+                if (players[index].Seat == seat)
+                    break;
+
+            Destroy(players[index].gameObject);
             Player.DecrementCount();
-            Destroy(player);
+
+            for (; index < Player.Count; index++)
+                players[index] = players[index + 1];
+
+            players[index] = null;
         }
     }
 }
