@@ -27,12 +27,14 @@ namespace TexasHoldem.MonoScripts
         // prefab component storage
         readonly PlayerScript[] players = new PlayerScript[Player.MAX];
         readonly Card[] board = new Card[BOARD_SIZE];
-        [Header("Game Objects")]
+        [Header("Game Object Containers")]
         [SerializeField] GameObject seatTargets;
+        [SerializeField] GameObject boardTargets;
         // game object component storage
-        readonly Transform[] seats = new Transform[Player.MAX];
+        readonly Transform[] seatTransforms = new Transform[Player.MAX];
+        readonly Transform[] boardTransforms = new Transform[Player.MAX];
         [Header("UI Containers")]
-        [SerializeField] GameObject uISeats;
+        [SerializeField] GameObject seats;
         [SerializeField] GameObject roundStart;
         [SerializeField] GameObject winDisplay;
         [Header("UI Objects")]
@@ -58,7 +60,8 @@ namespace TexasHoldem.MonoScripts
 
         void Start()
         {
-            SetSeats();
+            SetTransforms(seatTransforms);
+            SetTransforms(boardTransforms);
         }
 
         void Update()
@@ -69,17 +72,21 @@ namespace TexasHoldem.MonoScripts
 
         // methods
         /// <summary>
-        /// initializes all the elements of seats array
+        /// initializes all the elements of seatTransforms array
         /// </summary>
-        void SetSeats()
+        void SetTransforms(Transform[] targetTransforms)
         {
-            Transform[] transforms = seatTargets.GetComponentsInChildren<Transform>();
+            GameObject targets = targetTransforms == seatTransforms ?
+                seatTargets : boardTargets;
+
+            Transform[] childTransforms = targets.GetComponentsInChildren<Transform>();
+            
             int index = 0;
-            foreach (Transform transform in transforms)
+            foreach (Transform transform in childTransforms)
             {
-                if (transform.gameObject != seatTargets)
+                if (transform.gameObject != targets)
                 {
-                    seats[index] = transform;
+                    targetTransforms[index] = transform;
                     index++;
                 }
             }
@@ -90,7 +97,7 @@ namespace TexasHoldem.MonoScripts
         /// </summary>
         public void NextState()
         {
-            NextState();
+            Game.NextState();
 
 
             switch (State)
@@ -106,14 +113,13 @@ namespace TexasHoldem.MonoScripts
                         Player.NextDealer();
                     }
                     SetBlinds();
-                    SetUIToDeal();
+                    SetRoundStartToDeal();
                     break;
                 case State.Deal:
-                    roundStart.SetActive(false);
-                    dealer.text = string.Empty;
+                    HideRoundStart();
                     Discard();
-                    Shuffle();
                     Deal();
+                    NextState();
                     break;
                 case State.Flip:
                     DetermineWinner();
@@ -138,7 +144,7 @@ namespace TexasHoldem.MonoScripts
                 throw new System.Exception("Add at least two players");
             }
 
-            uISeats.SetActive(false);
+            seats.SetActive(false);
         }
 
         /// <summary>
@@ -205,7 +211,7 @@ namespace TexasHoldem.MonoScripts
             };
             GameObject button = Instantiate(
                 buttonPrefab,
-                seats[players[index].Seat]);
+                seatTransforms[players[index].Seat]);
 
             button.transform.localPosition += new Vector3(-.9f, .3f);
 
@@ -233,10 +239,17 @@ namespace TexasHoldem.MonoScripts
             Destroy(bigBlindButton);
         }
 
-        void SetUIToDeal()
+        void SetRoundStartToDeal()
         {
             roundStartText.text = "Deal";
             dealer.text = $"{players[Player.DealerIndex].Name}'s turn to deal!";
+        }
+
+        void HideRoundStart()
+        {
+            roundStart.SetActive(false);
+            roundStartText.text = "Round\nStart";
+            dealer.text = string.Empty;
         }
 
         void Discard()
@@ -266,8 +279,11 @@ namespace TexasHoldem.MonoScripts
                 }
                 else
                 {
-                    //objectManager.InstantiateBoardCard(CardIndex - playerCardCount);
-                    board[CardIndex - playerCardCount] = new Card(CardIds[CardIndex]);
+                    board[CardIndex - playerCardCount] =
+                        new Card(CardIds[CardIndex],
+                            false,
+                            cardPrefab,
+                            boardTransforms[CardIndex - playerCardCount]);
                 }
             }
         }
@@ -354,7 +370,7 @@ namespace TexasHoldem.MonoScripts
         /// <param name="seat"></param>
         public void AddPlayer(int seat)
         {
-            players[Player.Count] = Instantiate(playerPrefab, seats[seat]).GetComponent<PlayerScript>();
+            players[Player.Count] = Instantiate(playerPrefab, seatTransforms[seat]).GetComponent<PlayerScript>();
             players[Player.Count - 1].Seat = seat;
         }
 
@@ -384,7 +400,7 @@ namespace TexasHoldem.MonoScripts
         /// <param name="seat"></param>
         public void LeaveTable(int seat)
         {
-            GameObject player = seats[seat].gameObject.GetComponentInChildren<PlayerScript>().gameObject;
+            GameObject player = seatTransforms[seat].gameObject.GetComponentInChildren<PlayerScript>().gameObject;
             Player.DecrementCount();
             Destroy(player);
         }
