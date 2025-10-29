@@ -81,6 +81,11 @@ namespace TexasHoldem.MonoScripts
             Hole.Discard();
         }
 
+        public void FlipCards()
+        {
+            Hole.FlipCards();
+        }
+
         /// <summary>
         /// run through algorithms to find the value of the hand
         /// </summary>
