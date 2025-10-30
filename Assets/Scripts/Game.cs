@@ -23,6 +23,7 @@ namespace TexasHoldem
         // properties
         public static float InitialProjectionSize { get; private set; }
         public static float FocusProjectionSize { get; } = 2.5f;
+        public static float[] CameraAngles { get; } = { 30f, 90f };
         public static State State
         {
             get { return state; }
