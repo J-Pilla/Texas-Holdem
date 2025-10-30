@@ -5115,7 +5115,7 @@ MonoBehaviour:
   - {fileID: 1583131453}
   roundStartText: {fileID: 1430816020}
   dealer: {fileID: 829463435}
-  betInput: {fileID: 0}
+  betInput: {fileID: 2042544281}
   hand: {fileID: 1095699964}
   highCard: {fileID: 274683055}
   kicker: {fileID: 978640701}
