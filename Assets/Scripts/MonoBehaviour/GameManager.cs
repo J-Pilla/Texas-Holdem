@@ -263,13 +263,10 @@ namespace TexasHoldem.MonoScripts
                     Deal();
                     NextState();
                     break;
-                case State.Play:
-                    isCameraMoving = true;
-                    isCameraZooming = true;
-                    isCameraRotating = true;
-                    // butting UI activate!
+                case State.PreFlop:
+                    StartCameraTransform();
                     break;
-                case State.Flip:
+                case State.Showdown:
                     FlipCards();
                     DetermineWinner();
                     break;
@@ -454,6 +451,13 @@ namespace TexasHoldem.MonoScripts
                             boardTransforms[CardIndex - playerCardCount]);
                 }
             }
+        }
+
+        void StartCameraTransform()
+        {
+            isCameraMoving = true;
+            isCameraZooming = true;
+            isCameraRotating = true;
         }
 
         void PlaceBet(PlayerScript player, int bet)
