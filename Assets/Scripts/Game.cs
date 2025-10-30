@@ -141,8 +141,11 @@ namespace TexasHoldem
         Start,
         RoundStart,
         Deal,
-        Play,
-        Flip,
+        PreFlop,
+        Flop,
+        Turn,
+        River,
+        Showdown,
         NextRound
     }
 }
