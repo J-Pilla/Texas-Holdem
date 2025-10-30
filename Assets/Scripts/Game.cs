@@ -11,6 +11,7 @@ namespace TexasHoldem
         static int dealer = 0;
         static int smallBlind = 0;
         static int bigBlind = 0;
+        static int turn = 0;
         static int pot = 0;
 
         // constants
@@ -57,6 +58,11 @@ namespace TexasHoldem
         {
             get { return bigBlind; }
             private set { bigBlind = value < Player.Count ? value : 0; }
+        }
+        public static int Turn
+        {
+            get { return turn; }
+            private set { turn = value < Player.Count ? value : 0; }
         }
 
         // methods
@@ -105,7 +111,7 @@ namespace TexasHoldem
         public static void SetInitialDealer(int dealerIndex) { Dealer = dealerIndex; }
 
         /// <summary>
-        /// increments DealerIndex
+        /// increments dealer
         /// </summary>
         public static void NextDealer() { Dealer++; }
 
@@ -116,7 +122,13 @@ namespace TexasHoldem
         {
             SmallBlind = Player.Count > 2 ? Dealer + 1 : Dealer;
             BigBlind = SmallBlind + 1;
+            Turn = BigBlind + 1;
         }
+
+        /// <summary>
+        /// increments turn
+        /// </summary>
+        public static void NextTurn() { Turn++; }
     }
 
     // enums
