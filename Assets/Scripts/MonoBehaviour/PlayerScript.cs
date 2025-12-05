@@ -62,6 +62,11 @@ namespace TexasHoldem.MonoScripts
             IncrementCount();
         }
 
+        private void OnDestroy()
+        {
+            DecrementCount();
+        }
+
         // methods
         /// <summary>
         /// adds a Card to the Cards array
