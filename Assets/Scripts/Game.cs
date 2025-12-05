@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 
 namespace TexasHoldem
 {
@@ -24,6 +25,8 @@ namespace TexasHoldem
         public static float InitialProjectionSize { get; private set; }
         public static float FocusProjectionSize { get; } = 2.5f;
         public static float[] CameraAngles { get; } = { 30f, 90f };
+        public static float BoardCamaraTop { get; } = .75f;
+        public static float BoardCamaraBottom { get; } = 0f;
         public static State State
         {
             get { return state; }
