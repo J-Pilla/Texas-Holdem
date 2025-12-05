@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -13,15 +14,7 @@ namespace TexasHoldem.MonoScripts
     {
         // fields
         // camera controllers
-        Vector3 cameraStartPosition;
-        float cameraStartZoom;
-        Vector3 cameraStartRotation;
-        float cameraMoveStartTime = 0f;
-        float cameraZoomStartTime = 0f;
-        float cameraRotateStartTime = 0f;
-        bool isCameraMoving = false;
-        bool isCameraZooming = false;
-        bool isCameraRotating = false;
+        readonly float cameraTransformDuration = 1f;
 
         // bet validation
         int highestBet;
@@ -88,22 +81,11 @@ namespace TexasHoldem.MonoScripts
         void Start()
         {
             SetInitialProjectionSize(Camera.main.orthographicSize);
-            SetCameraStartFields();
             SetTransforms(seatTransforms);
             SetTransforms(boardTransforms);
         }
 
         // start methods
-        /// <summary>
-        /// initializes game dependant camera fields
-        /// </summary>
-        void SetCameraStartFields()
-        {
-            cameraStartPosition = Camera.main.transform.position;
-            cameraStartZoom = Camera.main.orthographicSize;
-            cameraStartRotation = Camera.main.transform.eulerAngles;
-        }
-
         /// <summary>
         /// initializes all the elements of the transform arrays
         /// </summary>
@@ -127,15 +109,6 @@ namespace TexasHoldem.MonoScripts
 
         void Update()
         {
-            if (isCameraMoving)
-                MoveCamera(seatTransforms[players[Turn].Seat].position);
-
-            if (isCameraZooming)
-                ZoomCamera();
-
-            if (isCameraRotating)
-                RotateCamera(players[Turn].Seat);
-
             if (State == State.NextRound)
                 NextRound();
         }
@@ -144,93 +117,96 @@ namespace TexasHoldem.MonoScripts
         /// <summary>
         /// move the camera using lerp
         /// </summary>
-        /// <param name="target"></param>
-        void MoveCamera(Vector3 target)
+        /// <param name="destination"></param>
+        IEnumerator MoveCamera(Vector3 destination)
         {
-            target.z = cameraStartPosition.z;
+            Vector3 origin = Camera.main.transform.position;
+            float startTime = Time.time;
 
-            if (cameraMoveStartTime == 0f)
+            destination.z = origin.z;
+
+            focusControls.SetActive(false);
+
+            while (Time.time - startTime < cameraTransformDuration)
             {
-                cameraMoveStartTime = Time.time;
-                focusControls.SetActive(false);
+                Camera.main.transform.position =
+                Vector3.Lerp(
+                    origin,
+                    destination,
+                    (Time.time - startTime) / cameraTransformDuration);
+
+                yield return null;
             }
 
-            Camera.main.transform.position =
-                Vector3.Lerp(
-                    cameraStartPosition,
-                    target,
-                    (Time.time - cameraMoveStartTime) / 1f);
+            Camera.main.transform.position = destination;
 
-            if (Camera.main.transform.position == target)
+            destination.z = 0f;
+
+            if (destination != Vector3.zero)
             {
-                if (target != Vector3.zero)
-                {
-                    betInput.text = highestBet.ToString();
-                    betInput.ActivateInputField();
-                    focusControls.SetActive(true);
-                }
-
-                cameraStartPosition = Camera.main.transform.position;
-                cameraMoveStartTime = 0f;
-                isCameraMoving = false;
+                betInput.text = highestBet.ToString();
+                betInput.ActivateInputField();
+                focusControls.SetActive(true);
             }
         }
 
         /// <summary>
         /// zoom the camera using lerp 
         /// </summary>
-        void ZoomCamera()
+        IEnumerator ZoomCamera()
         {
-            float target = cameraStartZoom == InitialProjectionSize ?
-                    FocusProjectionSize : InitialProjectionSize;
+            float origin = Camera.main.orthographicSize;
+            float destination = origin == InitialProjectionSize ?
+                FocusProjectionSize : InitialProjectionSize;
+            float startTime = Time.time;
 
-            if (cameraZoomStartTime == 0f)
+            boardCamera.gameObject.SetActive(destination == FocusProjectionSize);
+
+            while (Time.time - startTime < cameraTransformDuration)
             {
-                cameraZoomStartTime = Time.time;
-                boardCamera.gameObject.SetActive(target == FocusProjectionSize);
+                Camera.main.orthographicSize = Mathf.Lerp(
+                    origin,
+                    destination,
+                    (Time.time - startTime) / cameraTransformDuration);
+
+                yield return null;
             }
 
-            Camera.main.orthographicSize = Mathf.Lerp(
-                cameraStartZoom,
-                target,
-                (Time.time - cameraZoomStartTime) / 1f);
-
-            if (Camera.main.orthographicSize == target)
-            { 
-                cameraStartZoom = Camera.main.orthographicSize;
-                cameraZoomStartTime = 0f;
-                isCameraZooming = false;
-            }
+            Camera.main.orthographicSize = destination;
         }
 
         /// <summary>
         /// rotate the camera using lerp 
         /// </summary>
-        void RotateCamera(int seat)
+        IEnumerator RotateCamera(int seat)
         {
-            Vector3 target = Vector3.zero;
-            target.z = seat switch
+            float origin = Camera.main.transform.eulerAngles.z switch
+            {
+                270f => -90f,
+                330f => -30f,
+                _ => Camera.main.transform.eulerAngles.z
+            };
+            float destination = seat switch
             {
                 2 or 7 => -CameraAngles[0],
-                3  => -CameraAngles[1],
+                3 => -CameraAngles[1],
                 4 or 9 => CameraAngles[0],
                 8 => CameraAngles[1],
                 _ => 0f
             };
+            float startTime = Time.time;
 
-            if (cameraRotateStartTime == 0f)
-                cameraRotateStartTime = Time.time;
-
-            Camera.main.transform.eulerAngles = Vector3.Lerp(
-                cameraStartRotation,
-                target,
-                (Time.time - cameraZoomStartTime) / 1f);
-
-            if (Camera.main.transform.eulerAngles == target)
+            while (Time.time - startTime < cameraTransformDuration)
             {
-                cameraRotateStartTime = 0f;
-                isCameraRotating = false;
+                Camera.main.transform.eulerAngles = Vector3.Lerp(
+                    Vector3.forward * origin,
+                    Vector3.forward * destination,
+                    (Time.time - startTime) / cameraTransformDuration);
+
+                yield return null;
             }
+
+            Camera.main.transform.eulerAngles = Vector3.forward * destination;
         }
 
         /// <summary>
@@ -453,11 +429,14 @@ namespace TexasHoldem.MonoScripts
             }
         }
 
-        void StartCameraTransform()
+        void StartCameraTransform(bool isZooming = true)
         {
-            isCameraMoving = true;
-            isCameraZooming = true;
-            isCameraRotating = true;
+            StartCoroutine(MoveCamera(seatTransforms[players[Turn].Seat].position));
+            
+            if (isZooming)
+                StartCoroutine(ZoomCamera());
+
+            StartCoroutine(RotateCamera(players[Turn].Seat));
         }
 
         void PlaceBet(PlayerScript player, int bet)
@@ -546,6 +525,12 @@ namespace TexasHoldem.MonoScripts
             //print("pot is divided " + potDivision + (potDivision == 1 ? " way" : " ways"));
         }
 
+        void NextTurn()
+        {
+            Game.NextTurn();
+            StartCameraTransform(false);
+        }
+
         /// <summary>
         /// resets gameState to RoundStart
         /// </summary>
@@ -564,7 +549,6 @@ namespace TexasHoldem.MonoScripts
             kicker.text = string.Empty;
         }
 
-        // event methods
         // "Sit" button events
         /// <summary>
         /// instantiates a player game object, call BEFORE SetPlayerName
@@ -609,12 +593,21 @@ namespace TexasHoldem.MonoScripts
                     break;
 
             Destroy(players[index].gameObject);
-            Player.DecrementCount();
 
             for (; index < Player.Count; index++)
                 players[index] = players[index + 1];
 
             players[index] = null;
+        }
+
+        // All In event
+        /// <summary>
+        /// sets a players bet to the maximum
+        /// </summary>
+        public void AllIn()
+        {
+            PlaceBet(players[Turn], players[Turn].Chips);
+            NextTurn();
         }
     }
 }
