@@ -13,8 +13,8 @@ namespace TexasHoldem.MonoScripts
     public class GameManager : MonoBehaviour
     {
         // fields
-        // camera controllers
         readonly float cameraTransformDuration = 1f;
+        float focusContolsXCoordinate;
 
         // bet validation
         int highestBet;
@@ -83,6 +83,7 @@ namespace TexasHoldem.MonoScripts
             SetInitialProjectionSize(Camera.main.orthographicSize);
             SetTransforms(seatTransforms);
             SetTransforms(boardTransforms);
+            focusContolsXCoordinate = focusControls.transform.localPosition.x;
         }
 
         // start methods
@@ -114,101 +115,6 @@ namespace TexasHoldem.MonoScripts
         }
 
         // update methods
-        /// <summary>
-        /// move the camera using lerp
-        /// </summary>
-        /// <param name="destination"></param>
-        IEnumerator MoveCamera(Vector3 destination)
-        {
-            Vector3 origin = Camera.main.transform.position;
-            float startTime = Time.time;
-
-            destination.z = origin.z;
-
-            focusControls.SetActive(false);
-
-            while (Time.time - startTime < cameraTransformDuration)
-            {
-                Camera.main.transform.position =
-                Vector3.Lerp(
-                    origin,
-                    destination,
-                    (Time.time - startTime) / cameraTransformDuration);
-
-                yield return null;
-            }
-
-            Camera.main.transform.position = destination;
-
-            destination.z = 0f;
-
-            if (destination != Vector3.zero)
-            {
-                betInput.text = highestBet.ToString();
-                betInput.ActivateInputField();
-                focusControls.SetActive(true);
-            }
-        }
-
-        /// <summary>
-        /// zoom the camera using lerp 
-        /// </summary>
-        IEnumerator ZoomCamera()
-        {
-            float origin = Camera.main.orthographicSize;
-            float destination = origin == InitialProjectionSize ?
-                FocusProjectionSize : InitialProjectionSize;
-            float startTime = Time.time;
-
-            boardCamera.gameObject.SetActive(destination == FocusProjectionSize);
-
-            while (Time.time - startTime < cameraTransformDuration)
-            {
-                Camera.main.orthographicSize = Mathf.Lerp(
-                    origin,
-                    destination,
-                    (Time.time - startTime) / cameraTransformDuration);
-
-                yield return null;
-            }
-
-            Camera.main.orthographicSize = destination;
-        }
-
-        /// <summary>
-        /// rotate the camera using lerp 
-        /// </summary>
-        IEnumerator RotateCamera(int seat)
-        {
-            float origin = Camera.main.transform.eulerAngles.z switch
-            {
-                270f => -90f,
-                330f => -30f,
-                _ => Camera.main.transform.eulerAngles.z
-            };
-            float destination = seat switch
-            {
-                2 or 7 => -CameraAngles[0],
-                3 => -CameraAngles[1],
-                4 or 9 => CameraAngles[0],
-                8 => CameraAngles[1],
-                _ => 0f
-            };
-            float startTime = Time.time;
-
-            while (Time.time - startTime < cameraTransformDuration)
-            {
-                Camera.main.transform.eulerAngles = Vector3.Lerp(
-                    Vector3.forward * origin,
-                    Vector3.forward * destination,
-                    (Time.time - startTime) / cameraTransformDuration);
-
-                yield return null;
-            }
-
-            Camera.main.transform.eulerAngles = Vector3.forward * destination;
-        }
-
         /// <summary>
         /// moves the game into the next state and calls functions dependaning on the state
         /// </summary>
@@ -431,12 +337,151 @@ namespace TexasHoldem.MonoScripts
 
         void StartCameraTransform(bool isZooming = true)
         {
-            StartCoroutine(MoveCamera(seatTransforms[players[Turn].Seat].position));
+            StartCoroutine(MoveCamera());
             
             if (isZooming)
                 StartCoroutine(ZoomCamera());
 
-            StartCoroutine(RotateCamera(players[Turn].Seat));
+            StartCoroutine(RotateCamera());
+            StartCoroutine(MoveBoardCamera());
+        }
+
+        /// <summary>
+        /// move the camera using lerp
+        /// </summary>
+        IEnumerator MoveCamera()
+        {
+            Vector3 origin = Camera.main.transform.position;
+            Vector3 destination = seatTransforms[players[Turn].Seat].position;
+            destination.z = origin.z;
+
+            if (destination != origin)
+            {
+                float startTime = Time.time;
+
+                focusControls.SetActive(false);
+
+                while (Time.time - startTime < cameraTransformDuration)
+                {
+                    Camera.main.transform.position =
+                    Vector3.Lerp(
+                        origin,
+                        destination,
+                        (Time.time - startTime) / cameraTransformDuration);
+
+                    yield return null;
+                }
+
+                Camera.main.transform.position = destination;
+
+                destination.z = 0f;
+
+                if (destination != Vector3.zero)
+                {
+                    betInput.text = highestBet.ToString();
+                    betInput.ActivateInputField();
+
+                    focusControls.transform.localPosition = new(
+                        players[Turn].Seat < 4 || players[Turn].Seat > 7 ?
+                            focusContolsXCoordinate : -focusContolsXCoordinate,
+                        focusControls.transform.localPosition.y,
+                        focusControls.transform.localPosition.z);
+                    focusControls.SetActive(true);
+                }
+            }
+        }
+
+        /// <summary>
+        /// zoom the camera using lerp 
+        /// </summary>
+        IEnumerator ZoomCamera()
+        {
+            float origin = Camera.main.orthographicSize;
+            float destination = origin == InitialProjectionSize ?
+                FocusProjectionSize : InitialProjectionSize;
+            float startTime = Time.time;
+
+            boardCamera.gameObject.SetActive(destination == FocusProjectionSize);
+
+            while (Time.time - startTime < cameraTransformDuration)
+            {
+                Camera.main.orthographicSize = Mathf.Lerp(
+                    origin,
+                    destination,
+                    (Time.time - startTime) / cameraTransformDuration);
+
+                yield return null;
+            }
+
+            Camera.main.orthographicSize = destination;
+        }
+
+        /// <summary>
+        /// rotate the camera using lerp 
+        /// </summary>
+        IEnumerator RotateCamera()
+        {
+            float origin = Camera.main.transform.eulerAngles.z switch
+            {
+                270f => -CameraAngles[1],
+                330f => -CameraAngles[0],
+                _ => Camera.main.transform.eulerAngles.z
+            };
+            float destination = players[Turn].Seat switch
+            {
+                2 or 7 => -CameraAngles[0],
+                3 => -CameraAngles[1],
+                4 or 9 => CameraAngles[0],
+                8 => CameraAngles[1],
+                _ => 0f
+            };
+
+            if (destination != origin)
+            {
+                float startTime = Time.time;
+
+                while (Time.time - startTime < cameraTransformDuration)
+                {
+                    Camera.main.transform.eulerAngles = Vector3.Lerp(
+                        Vector3.forward * origin,
+                        Vector3.forward * destination,
+                        (Time.time - startTime) / cameraTransformDuration);
+
+                    yield return null;
+                }
+
+                Camera.main.transform.eulerAngles = Vector3.forward * destination;
+            }
+        }
+
+
+        /// <summary>
+        /// move the board camera using lerp
+        /// </summary>
+        IEnumerator MoveBoardCamera()
+        {
+            Vector2 origin = boardCamera.rect.position;
+            Vector2 destination = new(boardCamera.rect.x,
+                players[Turn].Seat < 4 || players[Turn].Seat > 7 ?
+                BoardCamaraTop : BoardCamaraBottom);
+
+            if (destination != origin)
+            {
+                float startTime = Time.time;
+
+                while (Time.time - startTime < cameraTransformDuration)
+                {
+                    boardCamera.rect = new(Vector2.Lerp(
+                        origin,
+                        destination,
+                        (Time.time - startTime) / cameraTransformDuration),
+                        boardCamera.rect.size);
+
+                    yield return null;
+                }
+
+                boardCamera.rect = new(destination, boardCamera.rect.size);
+            }
         }
 
         void PlaceBet(PlayerScript player, int bet)
