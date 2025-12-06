@@ -38,6 +38,7 @@ namespace TexasHoldem.MonoScripts
                     throw new System.Exception("Add text to input field");
             }
         }
+        public string Password { get; set; }
         public int Chips { get; private set; } = 500;
         public int Bet { get; private set; } = 0;
         public bool HasBestHand { get; set; } = false;
@@ -132,6 +133,12 @@ namespace TexasHoldem.MonoScripts
                 else
                     Kicker = Rank.Ace == Cards[0].Rank ? Cards[1].Rank : Cards[0].Rank;
             }
+        }
+
+        public void Fold()
+        {
+            Hand = Hand.Fold;
+            Discard();
         }
 
         /// <summary>
