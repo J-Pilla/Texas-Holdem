@@ -14,6 +14,8 @@ namespace TexasHoldem
         static int bigBlind = 0;
         static int turn = 0;
         static int pot = 0;
+        static int topBet = 0;
+        static int betsPlaced = 0;
 
         // constants
         public const int BOARD_SIZE = 5;
@@ -22,6 +24,7 @@ namespace TexasHoldem
         public const int BIG_BLIND = 25;
 
         // properties
+        public static float CameraTransformDuration { get; } = 1f;
         public static float InitialProjectionSize { get; private set; }
         public static float FocusProjectionSize { get; } = 2.5f;
         public static float[] CameraAngles { get; } = { 30f, 90f };
@@ -43,11 +46,6 @@ namespace TexasHoldem
         }
         public static bool IsDealerDetermined { get; set; } = false;
         public static bool HasRoundStarted { get; set; } = false;
-        public static int Pot
-        {
-            get { return pot; }
-            private set { pot = value; }
-        }
         public static int Dealer
         {
             get { return dealer; }
@@ -68,7 +66,25 @@ namespace TexasHoldem
             get { return turn; }
             private set { turn = value < Player.Count ? value : 0; }
         }
-
+        public static int Pot
+        {
+            get { return pot; }
+            private set { pot = value; }
+        }
+        public static int TopBet
+        {
+            get { return topBet; }
+            set
+            {
+                if (value > topBet || value == 0)
+                    topBet = value;
+            }
+        }
+        public static int BetsPlaced
+        {
+            get { return betsPlaced; }
+            private set { betsPlaced = value; }
+        }
         // methods
         /// <summary>
         /// sets the inizial projection size of the main camera
@@ -107,6 +123,17 @@ namespace TexasHoldem
         /// clears the pot during payout
         /// </summary>
         public static void ClearPot() { Pot = 0; }
+
+        /// <summary>
+        /// adds the sum of bets to the pot
+        /// </summary>
+        /// <param name="betSum"></param>
+        public static void IncrementBetsPlaced() { betsPlaced++; }
+
+        /// <summary>
+        /// clears the pot during payout
+        /// </summary>
+        public static void ResetBetsPlaced() { betsPlaced = 0; }
 
         /// <summary>
         /// sets the initial dealer, should only be called on the first round
