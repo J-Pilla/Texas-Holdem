@@ -3256,7 +3256,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 288, y: 3.6}
+  m_AnchoredPosition: {x: 288, y: 20}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &840994809
@@ -4843,10 +4843,10 @@ MonoBehaviour:
         - m_Target: {fileID: 1173276124}
           m_TargetAssemblyTypeName: TexasHoldem.MonoScripts.GameManager, Assembly-CSharp
           m_MethodName: ToggleCards
-          m_Mode: 2
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 206909080}
-            m_ObjectArgumentAssemblyTypeName: TMPro.TMP_InputField, Unity.TextMeshPro
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -4859,10 +4859,10 @@ MonoBehaviour:
         - m_Target: {fileID: 1173276124}
           m_TargetAssemblyTypeName: TexasHoldem.MonoScripts.GameManager, Assembly-CSharp
           m_MethodName: ToggleCards
-          m_Mode: 2
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 206909080}
-            m_ObjectArgumentAssemblyTypeName: TMPro.TMP_InputField, Unity.TextMeshPro
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -4950,6 +4950,7 @@ MonoBehaviour:
   roundStartText: {fileID: 1430816020}
   dealer: {fileID: 829463435}
   betInput: {fileID: 2042544281}
+  passwordInput: {fileID: 206909080}
   hand: {fileID: 1095699964}
   highCard: {fileID: 274683055}
   kicker: {fileID: 978640701}
