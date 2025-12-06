@@ -1,7 +1,6 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace TexasHoldem.MonoScripts
 {
@@ -14,12 +13,6 @@ namespace TexasHoldem.MonoScripts
     public class GameManager : MonoBehaviour
     {
         // fields
-        readonly float cameraTransformDuration = 1f;
-        float focusContolsXCoordinate;
-
-        // bet validation
-        int highestBet;
-
         [Header("Prefabs")]
         [SerializeField] GameObject playerPrefab;
         [SerializeField] GameObject cardPrefab;
@@ -48,12 +41,20 @@ namespace TexasHoldem.MonoScripts
         readonly Transform[] boardTransforms = new Transform[Player.MAX];
 
         [Header("UI Containers")]
-        [SerializeField] GameObject seats;
+        [Header("Main UI")]
+        [SerializeField] GameObject[] addLeaveControls = new GameObject[Player.MAX];
         [SerializeField] GameObject roundStart;
+        [SerializeField] GameObject winDisplay;
+        [Header("Focus UI")]
+        [SerializeField] GameObject pTLabels;
+        [SerializeField] GameObject betLabel;
         [SerializeField] GameObject focusControls;
         [SerializeField] GameObject fCRControls;
         [SerializeField] GameObject cBControls;
-        [SerializeField] GameObject winDisplay;
+
+        // ui container coordinates
+        float betLabelYCoordinate;
+        float focusContolsXCoordinate;
 
         [Header("UI Objects")]
         [Header("Round Start")]
@@ -64,19 +65,25 @@ namespace TexasHoldem.MonoScripts
         [SerializeField] GameObject betButton;
 
         [Header("UI Components")]
+        [Header("Main UI")]
         [Header("Player Display")]
         [SerializeField] TMP_Text[] nameDisplays = new TMP_Text[Player.MAX];
         [SerializeField] TMP_Text[] chipDisplays = new TMP_Text[Player.MAX];
         [Header("Round Start")]
         [SerializeField] TMP_Text roundStartText;
         [SerializeField] TMP_Text dealer;
-        [Header("Focus Controls")]
-        [SerializeField] TMP_InputField betInput;
-        [SerializeField] TMP_InputField passwordInput;
         [Header("Win Display")]
         [SerializeField] TMP_Text hand;
         [SerializeField] TMP_Text highCard;
         [SerializeField] TMP_Text kicker;
+        [Header("Focus UI")]
+        [Header("Focus Display")]
+        [SerializeField] TMP_Text potDisplay;
+        [SerializeField] TMP_Text topBetDisplay;
+        [SerializeField] TMP_Text betDisplay;
+        [Header("Focus Controls")]
+        [SerializeField] TMP_InputField betInput;
+        [SerializeField] TMP_InputField passwordInput;
 
         // unity messages
         void Awake()
@@ -89,7 +96,7 @@ namespace TexasHoldem.MonoScripts
             SetInitialProjectionSize(Camera.main.orthographicSize);
             SetTransforms(seatTransforms);
             SetTransforms(boardTransforms);
-            focusContolsXCoordinate = focusControls.transform.localPosition.x;
+            SetUICoordinates();
         }
 
         // start methods
@@ -112,6 +119,12 @@ namespace TexasHoldem.MonoScripts
                     index++;
                 }
             }
+        }
+
+        void SetUICoordinates()
+        {
+            betLabelYCoordinate = betLabel.transform.localPosition.y;
+            focusContolsXCoordinate = focusControls.transform.localPosition.x;
         }
 
         void Update()
@@ -178,7 +191,8 @@ namespace TexasHoldem.MonoScripts
                 throw new System.Exception("Add at least two players");
             }
 
-            seats.SetActive(false);
+            foreach (GameObject control in addLeaveControls)
+                control.SetActive(false);
         }
 
         /// <summary>
@@ -237,7 +251,7 @@ namespace TexasHoldem.MonoScripts
             players[BigBlind].Blind = Blind.Big;
             InstantiateButton(Blind.Big);
             PlaceBet(players[BigBlind], BIG_BLIND);
-            highestBet = BIG_BLIND;
+
         }
 
         /// <summary>
@@ -365,25 +379,32 @@ namespace TexasHoldem.MonoScripts
             {
                 float startTime = Time.time;
 
-                DeactivateFocusControls();
+                if (origin != new Vector3(0f, 0f, origin.z))
+                {
+                    betLabel.SetActive(false);
+                    DeactivateFocusControls();
+                }
 
-                while (Time.time - startTime < cameraTransformDuration)
+                while (Time.time - startTime < CameraTransformDuration)
                 {
                     Camera.main.transform.position =
                     Vector3.Lerp(
                         origin,
                         destination,
-                        (Time.time - startTime) / cameraTransformDuration);
+                        (Time.time - startTime) / CameraTransformDuration);
 
                     yield return null;
                 }
 
                 Camera.main.transform.position = destination;
 
-                destination.z = 0f;
+                if (origin == new Vector3(0f, 0f, origin.z))
+                    pTLabels.SetActive(true);
 
-                if (destination != Vector3.zero)
-                    SetFocusControls();
+                if (destination != new Vector3(0f, 0f, destination.z))
+                    SetFocusUI();
+                else
+                    pTLabels.SetActive(false);
             }
         }
 
@@ -397,18 +418,27 @@ namespace TexasHoldem.MonoScripts
         /// <summary>
         /// sets up focus controls for a players turn
         /// </summary>
-        void SetFocusControls()
+        void SetFocusUI()
         {
+            int multiplier =
+                players[Turn].Seat < 4 || players[Turn].Seat > 7 ? 1 : -1;
+
+            betLabel.transform.localPosition = new(
+                betLabel.transform.localPosition.x,
+                betLabelYCoordinate * multiplier,
+                betLabel.transform.localPosition.z);
+
             focusControls.transform.localPosition = new(
-                players[Turn].Seat < 4 || players[Turn].Seat > 7 ?
-                    focusContolsXCoordinate : -focusContolsXCoordinate,
+                focusContolsXCoordinate * multiplier,
                 focusControls.transform.localPosition.y,
                 focusControls.transform.localPosition.z);
 
-            if (highestBet - players[Turn].Bet < players[Turn].Chips)
+            betDisplay.text = players[Turn].Bet.ToString();
+
+            if (TopBet - players[Turn].Bet < players[Turn].Chips)
             {
                 betInput.gameObject.SetActive(true);
-                betInput.text = (highestBet + SMALL_BLIND).ToString();
+                betInput.text = (TopBet + SMALL_BLIND).ToString();
                 betInput.ActivateInputField();
 
                 raiseButton.SetActive(true);
@@ -421,7 +451,7 @@ namespace TexasHoldem.MonoScripts
                 betButton.SetActive(false);
             }
 
-            if (players[Turn].Bet == highestBet)
+            if (players[Turn].Bet == TopBet)
                 cBControls.SetActive(true);
             else
                 fCRControls.SetActive(true);
@@ -429,6 +459,7 @@ namespace TexasHoldem.MonoScripts
             passwordInput.gameObject.SetActive(players[Turn].Password != string.Empty);
             passwordInput.text = string.Empty;
 
+            betLabel.SetActive(true);
             focusControls.SetActive(true);
         }
 
@@ -444,12 +475,12 @@ namespace TexasHoldem.MonoScripts
 
             boardCamera.gameObject.SetActive(destination == FocusProjectionSize);
 
-            while (Time.time - startTime < cameraTransformDuration)
+            while (Time.time - startTime < CameraTransformDuration)
             {
                 Camera.main.orthographicSize = Mathf.Lerp(
                     origin,
                     destination,
-                    (Time.time - startTime) / cameraTransformDuration);
+                    (Time.time - startTime) / CameraTransformDuration);
 
                 yield return null;
             }
@@ -481,12 +512,12 @@ namespace TexasHoldem.MonoScripts
             {
                 float startTime = Time.time;
 
-                while (Time.time - startTime < cameraTransformDuration)
+                while (Time.time - startTime < CameraTransformDuration)
                 {
                     Camera.main.transform.eulerAngles = Vector3.Lerp(
                         Vector3.forward * origin,
                         Vector3.forward * destination,
-                        (Time.time - startTime) / cameraTransformDuration);
+                        (Time.time - startTime) / CameraTransformDuration);
 
                     yield return null;
                 }
@@ -510,12 +541,12 @@ namespace TexasHoldem.MonoScripts
             {
                 float startTime = Time.time;
 
-                while (Time.time - startTime < cameraTransformDuration)
+                while (Time.time - startTime < CameraTransformDuration)
                 {
                     boardCamera.rect = new(Vector2.Lerp(
                         origin,
                         destination,
-                        (Time.time - startTime) / cameraTransformDuration),
+                        (Time.time - startTime) / CameraTransformDuration),
                         boardCamera.rect.size);
 
                     yield return null;
@@ -531,14 +562,20 @@ namespace TexasHoldem.MonoScripts
             chipDisplays[player.Seat].text = player.Chips.ToString();
 
             UpdatePot(bet);
+            if (player.Bet > TopBet)
+                UpdateTopBet(player.Bet);
         }
 
         void UpdatePot(int bet)
         {
             AddToPot(bet);
-            if (bet > highestBet)
-                highestBet = bet;
-            // ui pot.text = pot tostring
+            potDisplay.text = Pot.ToString();
+        }
+
+        void UpdateTopBet(int bet)
+        {
+            TopBet = bet;
+            topBetDisplay.text = TopBet.ToString();
         }
 
         /// <summary>
@@ -715,7 +752,7 @@ namespace TexasHoldem.MonoScripts
         /// </summary>
         public void Bet()
         {
-            int minimumBet = highestBet + SMALL_BLIND;
+            int minimumBet = TopBet + SMALL_BLIND;
             int bet = betInput.text != string.Empty ?
                 int.Parse(betInput.text) : minimumBet;
 
@@ -736,7 +773,7 @@ namespace TexasHoldem.MonoScripts
         /// </summary>
         public void Call()
         {
-            PlaceBet(players[Turn], highestBet - players[Turn].Bet);
+            PlaceBet(players[Turn], TopBet - players[Turn].Bet);
             NextTurn();
         }
 
