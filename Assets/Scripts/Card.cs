@@ -8,8 +8,14 @@ namespace TexasHoldem
     /// </summary>
     public class Card
     {
+        // static members
+        // constants
+        const string BackFile = "card-back1";
+
+        // non-static members
         // fields
         int id;
+        bool isFlipped = false;
         readonly GameObject cardObject;
 
         // properties
@@ -59,8 +65,13 @@ namespace TexasHoldem
         public void FlipCard()
         {
             SpriteRenderer spriteRenderer = cardObject.GetComponent<SpriteRenderer>();
-            spriteRenderer.sprite = Resources.Load($"{File}", typeof(Sprite)) as Sprite;
+            
+            spriteRenderer.sprite = !isFlipped ?
+                Resources.Load(File, typeof(Sprite)) as Sprite :
+                Resources.Load(BackFile, typeof(Sprite)) as Sprite;
             spriteRenderer.sortingOrder = spriteRenderer.sortingOrder == 0 ? 1 : 0;
+
+            isFlipped = !isFlipped;
         }
 
         /// <summary>
