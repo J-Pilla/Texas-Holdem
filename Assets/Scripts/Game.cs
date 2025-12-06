@@ -1,6 +1,3 @@
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
-
 namespace TexasHoldem
 {
     public static class Game
@@ -15,7 +12,8 @@ namespace TexasHoldem
         static int turn = 0;
         static int pot = 0;
         static int topBet = 0;
-        static int betsPlaced = 0;
+        static int activePlayers = 0;
+        static int actionsTaken = 0;
 
         // constants
         public const int BOARD_SIZE = 5;
@@ -80,10 +78,15 @@ namespace TexasHoldem
                     topBet = value;
             }
         }
-        public static int BetsPlaced
+        public static int ActivePlayers
         {
-            get { return betsPlaced; }
-            private set { betsPlaced = value; }
+            get { return activePlayers; }
+            private set { activePlayers = value >= 0 ? value : 0; }
+        }
+        public static int ActionsTaken
+        {
+            get { return actionsTaken; }
+            private set { actionsTaken = value; }
         }
         // methods
         /// <summary>
@@ -114,28 +117,6 @@ namespace TexasHoldem
         public static void NextRound() { Round++; }
 
         /// <summary>
-        /// adds the sum of bets to the pot
-        /// </summary>
-        /// <param name="betSum"></param>
-        public static void AddToPot(int betSum) { Pot += betSum; }
-
-        /// <summary>
-        /// clears the pot during payout
-        /// </summary>
-        public static void ClearPot() { Pot = 0; }
-
-        /// <summary>
-        /// adds the sum of bets to the pot
-        /// </summary>
-        /// <param name="betSum"></param>
-        public static void IncrementBetsPlaced() { betsPlaced++; }
-
-        /// <summary>
-        /// clears the pot during payout
-        /// </summary>
-        public static void ResetBetsPlaced() { betsPlaced = 0; }
-
-        /// <summary>
         /// sets the initial dealer, should only be called on the first round
         /// </summary>
         /// <param name="dealerIndex"></param>
@@ -160,6 +141,42 @@ namespace TexasHoldem
         /// increments turn
         /// </summary>
         public static void NextTurn() { Turn++; }
+
+        /// <summary>
+        /// adds the sum of bets to the pot
+        /// </summary>
+        /// <param name="betSum"></param>
+        public static void AddToPot(int betSum) { Pot += betSum; }
+
+        /// <summary>
+        /// clears the pot during payout
+        /// </summary>
+        public static void ClearPot() { Pot = 0; }
+
+        /// <summary>
+        /// sets active players to the amount of players
+        /// </summary>
+        public static void SetActivePlayers() { ActivePlayers = Player.Count; }
+
+        /// <summary>
+        /// decrements active players
+        /// </summary>
+        public static void DecrementActivePlayers() { ActivePlayers--; }
+
+        /// <summary>
+        /// sets active players to 0
+        /// </summary>
+        public static void ResetActivePlayers() { ActivePlayers = 0; }
+
+        /// <summary>
+        /// increments bets placed
+        /// </summary>
+        public static void IncrementActionsTaken() { ActionsTaken++; }
+
+        /// <summary>
+        /// clears the pot during payout
+        /// </summary>
+        public static void ResetActionsTaken() { ActionsTaken = 0; }
     }
 
     // enums
