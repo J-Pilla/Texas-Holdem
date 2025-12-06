@@ -167,6 +167,12 @@ namespace TexasHoldem.MonoScripts
                 case State.PreFlop:
                     StartCameraTransform();
                     break;
+                case State.Flop:
+                    print("You made it to the flop finally");
+                    // flip the flop;
+                    // whos turn?
+                    // move camera and play
+                    break;
                 case State.Showdown:
                     FlipCards();
                     DetermineWinner();
@@ -193,6 +199,8 @@ namespace TexasHoldem.MonoScripts
 
             foreach (GameObject control in addLeaveControls)
                 control.SetActive(false);
+
+            SetActivePlayers();
         }
 
         /// <summary>
@@ -252,6 +260,7 @@ namespace TexasHoldem.MonoScripts
             InstantiateButton(Blind.Big);
             PlaceBet(players[BigBlind], BIG_BLIND);
 
+            ResetActionsTaken();
         }
 
         /// <summary>
@@ -564,6 +573,8 @@ namespace TexasHoldem.MonoScripts
             UpdatePot(bet);
             if (player.Bet > TopBet)
                 UpdateTopBet(player.Bet);
+
+            IncrementActionsTaken();
         }
 
         void UpdatePot(int bet)
@@ -652,7 +663,25 @@ namespace TexasHoldem.MonoScripts
 
         void NextTurn()
         {
+            if (ActionsTaken >= ActivePlayers)
+            {
+                int nextStateTally = 0;
+
+                for (int index = 0; index < Player.Count; index++)
+                    if (players[index].Bet == TopBet || players[index].Chips == 0 || players[index].Hand == Hand.Fold)
+                        nextStateTally++;
+
+                if (nextStateTally == Player.Count)
+                {
+                    NextState();
+                    return;
+                }
+            }
+
             Game.NextTurn();
+
+            if (players[Turn].Chips == 0)
+                IncrementActionsTaken();
 
             if (players[Turn].Chips == 0 || players[Turn].Hand == Hand.Fold)
                 NextTurn();
@@ -759,10 +788,12 @@ namespace TexasHoldem.MonoScripts
             bet -= players[Turn].Bet;
 
             if (bet >= players[Turn].Chips)
-                PlaceBet(players[Turn], players[Turn].Chips);
-            else
-                PlaceBet(players[Turn],
-                    bet >= minimumBet ? bet : minimumBet);
+            {
+                AllIn();
+                return;
+            }
+            
+            PlaceBet(players[Turn], bet >= minimumBet ? bet : minimumBet);
 
             NextTurn();
         }
@@ -784,11 +815,16 @@ namespace TexasHoldem.MonoScripts
         public void Fold()
         {
             players[Turn].Fold();
+            DecrementActivePlayers();
             NextTurn();
         }
 
         // Check event
-        public void Check() { NextTurn(); }
+        public void Check()
+        {
+            IncrementActionsTaken();
+            NextTurn();
+        }
 
         // Toggle Cards event
         /// <summary>
