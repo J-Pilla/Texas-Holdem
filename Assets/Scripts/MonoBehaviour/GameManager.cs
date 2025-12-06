@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace TexasHoldem.MonoScripts
 {
@@ -57,6 +58,10 @@ namespace TexasHoldem.MonoScripts
         [Header("UI Objects")]
         [Header("Round Start")]
         [SerializeField] GameObject roundStartError;
+        [Header("FCR Controls")]
+        [SerializeField] GameObject raiseButton;
+        [Header("CB Controls")]
+        [SerializeField] GameObject betButton;
 
         [Header("UI Components")]
         [Header("Player Display")]
@@ -67,6 +72,7 @@ namespace TexasHoldem.MonoScripts
         [SerializeField] TMP_Text dealer;
         [Header("Focus Controls")]
         [SerializeField] TMP_InputField betInput;
+        [SerializeField] TMP_InputField passwordInput;
         [Header("Win Display")]
         [SerializeField] TMP_Text hand;
         [SerializeField] TMP_Text highCard;
@@ -359,7 +365,7 @@ namespace TexasHoldem.MonoScripts
             {
                 float startTime = Time.time;
 
-                focusControls.SetActive(false);
+                DeactivateFocusControls();
 
                 while (Time.time - startTime < cameraTransformDuration)
                 {
@@ -377,18 +383,53 @@ namespace TexasHoldem.MonoScripts
                 destination.z = 0f;
 
                 if (destination != Vector3.zero)
-                {
-                    betInput.text = highestBet.ToString();
-                    betInput.ActivateInputField();
-
-                    focusControls.transform.localPosition = new(
-                        players[Turn].Seat < 4 || players[Turn].Seat > 7 ?
-                            focusContolsXCoordinate : -focusContolsXCoordinate,
-                        focusControls.transform.localPosition.y,
-                        focusControls.transform.localPosition.z);
-                    focusControls.SetActive(true);
-                }
+                    SetFocusControls();
             }
+        }
+
+        void DeactivateFocusControls()
+        {
+            focusControls.SetActive(false);
+            fCRControls.SetActive(false);
+            cBControls.SetActive(false);
+        }
+
+        /// <summary>
+        /// sets up focus controls for a players turn
+        /// </summary>
+        void SetFocusControls()
+        {
+            focusControls.transform.localPosition = new(
+                players[Turn].Seat < 4 || players[Turn].Seat > 7 ?
+                    focusContolsXCoordinate : -focusContolsXCoordinate,
+                focusControls.transform.localPosition.y,
+                focusControls.transform.localPosition.z);
+
+            if (highestBet - players[Turn].Bet < players[Turn].Chips)
+            {
+                betInput.gameObject.SetActive(true);
+                betInput.text = (highestBet + SMALL_BLIND).ToString();
+                betInput.ActivateInputField();
+
+                raiseButton.SetActive(true);
+                betButton.SetActive(true);
+            }
+            else
+            {
+                betInput.gameObject.SetActive(false);
+                raiseButton.SetActive(false);
+                betButton.SetActive(false);
+            }
+
+            if (players[Turn].Bet == highestBet)
+                cBControls.SetActive(true);
+            else
+                fCRControls.SetActive(true);
+
+            passwordInput.gameObject.SetActive(players[Turn].Password != string.Empty);
+            passwordInput.text = string.Empty;
+
+            focusControls.SetActive(true);
         }
 
         /// <summary>
@@ -495,6 +536,8 @@ namespace TexasHoldem.MonoScripts
         void UpdatePot(int bet)
         {
             AddToPot(bet);
+            if (bet > highestBet)
+                highestBet = bet;
             // ui pot.text = pot tostring
         }
 
@@ -573,6 +616,10 @@ namespace TexasHoldem.MonoScripts
         void NextTurn()
         {
             Game.NextTurn();
+
+            if (players[Turn].Chips == 0 || players[Turn].Hand == Hand.Fold)
+                NextTurn();
+
             StartCameraTransform(false);
         }
 
@@ -611,17 +658,24 @@ namespace TexasHoldem.MonoScripts
         /// <param name="inputField"></param>
         public void SetPlayerName(TMP_InputField inputField)
         {
-            if (inputField.text != string.Empty)
-            {
-                players[Player.Count - 1].Name = inputField.text;
-                nameDisplays[players[Player.Count - 1].Seat].text = inputField.text;
-                chipDisplays[players[Player.Count - 1].Seat].text = players[Player.Count - 1].Chips.ToString();
-            }
-            else
+            if (inputField.text == string.Empty)
             {
                 Destroy(players[Player.Count - 1].gameObject);
                 throw new System.Exception("Add text to input field");
             }
+
+            players[Player.Count - 1].Name = inputField.text;
+            nameDisplays[players[Player.Count - 1].Seat].text = inputField.text;
+            chipDisplays[players[Player.Count - 1].Seat].text = players[Player.Count - 1].Chips.ToString();
+        }
+
+        /// <summary>
+        /// sets the player's password, call AFTER AddPlayer
+        /// </summary>
+        /// <param name="inputField"></param>
+        public void SetPlayerPassword(TMP_InputField inputField)
+        {
+            players[Player.Count - 1].Password = inputField.text;
         }
 
         // Leave Table event
@@ -653,6 +707,62 @@ namespace TexasHoldem.MonoScripts
         {
             PlaceBet(players[Turn], players[Turn].Chips);
             NextTurn();
+        }
+
+        // Bet and Raise event
+        /// <summary>
+        /// increases the players bet beyond the current highest bet
+        /// </summary>
+        public void Bet()
+        {
+            int minimumBet = highestBet + SMALL_BLIND;
+            int bet = betInput.text != string.Empty ?
+                int.Parse(betInput.text) : minimumBet;
+
+            bet -= players[Turn].Bet;
+
+            if (bet >= players[Turn].Chips)
+                PlaceBet(players[Turn], players[Turn].Chips);
+            else
+                PlaceBet(players[Turn],
+                    bet >= minimumBet ? bet : minimumBet);
+
+            NextTurn();
+        }
+
+        // Call event
+        /// <summary>
+        /// increases the players bet to match the current highest bet
+        /// </summary>
+        public void Call()
+        {
+            PlaceBet(players[Turn], highestBet - players[Turn].Bet);
+            NextTurn();
+        }
+
+        // Fold event
+        /// <summary>
+        /// sets the players hand to fold
+        /// </summary>
+        public void Fold()
+        {
+            players[Turn].Fold();
+            NextTurn();
+        }
+
+        // Check event
+        public void Check() { NextTurn(); }
+
+        // Toggle Cards event
+        /// <summary>
+        /// flips player cards until button is released
+        /// </summary>
+        /// <param name="inputField"></param>
+        public void ToggleCards()
+        {
+            if (players[Turn].Password == string.Empty ||
+                passwordInput.text == players[Turn].Password)
+                players[Turn].FlipCards();
         }
     }
 }
