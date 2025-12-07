@@ -17,6 +17,9 @@ namespace TexasHoldem
 
         // constants
         public const int BOARD_SIZE = 5;
+        public const int FLOP = 2;
+        public const int TURN = 3;
+        public const int RIVER = 4;
         public const int HAND_SIZE = BOARD_SIZE + Hole.SIZE;
         public const int SMALL_BLIND = 10;
         public const int BIG_BLIND = 25;
@@ -67,7 +70,7 @@ namespace TexasHoldem
         public static int Pot
         {
             get { return pot; }
-            private set { pot = value; }
+            private set { pot = value > 0 ? value : 0; }
         }
         public static int TopBet
         {
@@ -101,6 +104,7 @@ namespace TexasHoldem
 
             InitialProjectionSize = size;
         }
+
         /// <summary>
         /// increments state
         /// </summary>
@@ -110,6 +114,11 @@ namespace TexasHoldem
         /// decrements state
         /// </summary>
         public static void PreviousState() { State--; }
+
+        /// <summary>
+        /// sets the games state to the state before showdown
+        /// </summary>
+        public static void SkipToShowdown() { State = State.Showdown - 1; }
 
         /// <summary>
         /// increments round
@@ -143,15 +152,20 @@ namespace TexasHoldem
         public static void NextTurn() { Turn++; }
 
         /// <summary>
+        /// sets turn after the pre flop
+        /// </summary>
+        public static void SetTurn() { Turn = Dealer; }
+
+        /// <summary>
         /// adds the sum of bets to the pot
         /// </summary>
         /// <param name="betSum"></param>
         public static void AddToPot(int betSum) { Pot += betSum; }
 
         /// <summary>
-        /// clears the pot during payout
+        /// reduces the pot during payout
         /// </summary>
-        public static void ClearPot() { Pot = 0; }
+        public static void ReducePot(int payout) { Pot -= payout; }
 
         /// <summary>
         /// sets active players to the amount of players
