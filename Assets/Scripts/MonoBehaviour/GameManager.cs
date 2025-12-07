@@ -1,8 +1,7 @@
-using System;
 using System.Collections;
-using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace TexasHoldem.MonoScripts
@@ -88,10 +87,24 @@ namespace TexasHoldem.MonoScripts
         [SerializeField] TMP_InputField betInput;
         [SerializeField] TMP_InputField passwordInput;
 
+        // controls
+        InputAction escape;
+        InputAction quit;
+
         // unity messages
         void Awake()
         {
             Application.targetFrameRate = 60;
+            escape = InputSystem.actions.FindAction("Escape");
+            quit = InputSystem.actions.FindAction("Quit");
+        }
+
+        private void Update()
+        {
+            if (escape.IsPressed())
+                if (quit.WasPressedThisFrame())
+                    Application.Quit();
+
         }
 
         void Start()
