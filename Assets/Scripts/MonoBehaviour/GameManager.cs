@@ -64,7 +64,7 @@ namespace TexasHoldem.MonoScripts
         [SerializeField] GameObject roundStartError;
         [Header("Focus UI")]
         [SerializeField] GameObject raiseButton;
-        [SerializeField] GameObject betButton;
+        [SerializeField] GameObject callButton;
 
         [Header("UI Components")]
         [Header("Main UI")]
@@ -196,15 +196,15 @@ namespace TexasHoldem.MonoScripts
 
             destination.z = origin.z;
 
+            if (origin != new Vector3(0f, 0f, origin.z))
+            {
+                betLabel.SetActive(false);
+                DeactivateFocusControls();
+            }
+
             if (destination != origin)
             {
                 float startTime = Time.time;
-
-                if (origin != new Vector3(0f, 0f, origin.z))
-                {
-                    betLabel.SetActive(false);
-                    DeactivateFocusControls();
-                }
 
                 while (Time.time - startTime < CameraTransformDuration)
                 {
@@ -218,15 +218,17 @@ namespace TexasHoldem.MonoScripts
                 }
 
                 Camera.main.transform.position = destination;
-
-                if (origin == new Vector3(0f, 0f, origin.z))
-                    pTLabels.SetActive(true);
-
-                if (seat >= 0)
-                    SetFocusUI();
-                else
-                    pTLabels.SetActive(false);
             }
+            else
+                yield return new WaitForSeconds(CameraTransformDuration);
+
+            if (origin == new Vector3(0f, 0f, origin.z))
+                pTLabels.SetActive(true);
+
+            if (seat >= 0)
+                SetFocusUI();
+            else
+                pTLabels.SetActive(false);
         }
 
         /// <summary>
@@ -249,22 +251,22 @@ namespace TexasHoldem.MonoScripts
                 _ => 0f
             };
 
-            if (destination != origin)
+            if (destination == origin)
+                yield break;
+
+            float startTime = Time.time;
+
+            while (Time.time - startTime < CameraTransformDuration)
             {
-                float startTime = Time.time;
+                Camera.main.transform.eulerAngles = Vector3.Lerp(
+                    Vector3.forward * origin,
+                    Vector3.forward * destination,
+                    (Time.time - startTime) / CameraTransformDuration);
 
-                while (Time.time - startTime < CameraTransformDuration)
-                {
-                    Camera.main.transform.eulerAngles = Vector3.Lerp(
-                        Vector3.forward * origin,
-                        Vector3.forward * destination,
-                        (Time.time - startTime) / CameraTransformDuration);
-
-                    yield return null;
-                }
-
-                Camera.main.transform.eulerAngles = Vector3.forward * destination;
+                yield return null;
             }
+
+            Camera.main.transform.eulerAngles = Vector3.forward * destination;
         }
 
 
@@ -278,23 +280,23 @@ namespace TexasHoldem.MonoScripts
                 seat < 4 || seat > 7 ?
                 BoardCamaraTop : BoardCamaraBottom);
 
-            if (destination != origin)
+            if (destination == origin)
+                yield break;
+
+            float startTime = Time.time;
+
+            while (Time.time - startTime < CameraTransformDuration)
             {
-                float startTime = Time.time;
+                boardCamera.rect = new(Vector2.Lerp(
+                    origin,
+                    destination,
+                    (Time.time - startTime) / CameraTransformDuration),
+                    boardCamera.rect.size);
 
-                while (Time.time - startTime < CameraTransformDuration)
-                {
-                    boardCamera.rect = new(Vector2.Lerp(
-                        origin,
-                        destination,
-                        (Time.time - startTime) / CameraTransformDuration),
-                        boardCamera.rect.size);
-
-                    yield return null;
-                }
-
-                boardCamera.rect = new(destination, boardCamera.rect.size);
+                yield return null;
             }
+
+            boardCamera.rect = new(destination, boardCamera.rect.size);
         }
 
         // MoveCamera helper functions
@@ -313,8 +315,8 @@ namespace TexasHoldem.MonoScripts
         /// </summary>
         void SetFocusUI()
         {
-            int multiplier =
-                players[Turn].Seat < 4 || players[Turn].Seat > 7 ? 1 : -1;
+            float multiplier =
+                players[Turn].Seat < 4 || players[Turn].Seat > 7 ? 1f : -1f;
 
             betLabel.transform.localPosition = new(
                 betLabel.transform.localPosition.x,
@@ -335,13 +337,13 @@ namespace TexasHoldem.MonoScripts
                 betInput.ActivateInputField();
 
                 raiseButton.SetActive(true);
-                betButton.SetActive(true);
+                callButton.SetActive(true);
             }
             else
             {
                 betInput.gameObject.SetActive(false);
                 raiseButton.SetActive(false);
-                betButton.SetActive(false);
+                callButton.SetActive(false);
             }
 
             if (players[Turn].Bet == TopBet)
@@ -667,9 +669,6 @@ namespace TexasHoldem.MonoScripts
 
         void SetTurn()
         {
-            for (int index = 0; index < Player.Count; index++)
-                players[index].ResetBet();
-
             ResetActionsTaken();
             Game.SetTurn();
             NextTurn();
@@ -859,7 +858,6 @@ namespace TexasHoldem.MonoScripts
                 if (players[index] == null)
                     break;
 
-                players[index].ResetBet();
                 players[index].ResetHand();
 
                 if (players[index].Chips == 0)
@@ -933,7 +931,7 @@ namespace TexasHoldem.MonoScripts
 
             Destroy(players[index].gameObject);
 
-            for (; index < Player.Count; index++)
+            for (; index < Player.Count - 1; index++)
                 players[index] = players[index + 1];
 
             players[index] = null;
