@@ -109,11 +109,6 @@ namespace TexasHoldem.MonoScripts
             Chips -= bet;
         }
 
-        public void ResetBet()
-        {
-            Bet = 0;
-        }
-
         public void Payout(int pay)
         {
             Chips += pay;
@@ -121,6 +116,7 @@ namespace TexasHoldem.MonoScripts
 
         public void ResetHand()
         {
+            Bet = 0;
             HasBestHand = false;
             Hand = Hand.NoPair;
             HighCard = Rank.LowAce;
