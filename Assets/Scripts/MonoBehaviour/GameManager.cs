@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace TexasHoldem.MonoScripts
 {
@@ -405,7 +406,7 @@ namespace TexasHoldem.MonoScripts
                     UnfocusCamera();
                     break;
                 default:
-                    NextRound();
+                    RoundEnd();
                     break;
             }
         }
@@ -666,6 +667,9 @@ namespace TexasHoldem.MonoScripts
 
         void SetTurn()
         {
+            for (int index = 0; index < Player.Count; index++)
+                players[index].ResetBet();
+
             ResetActionsTaken();
             Game.SetTurn();
             NextTurn();
@@ -772,10 +776,12 @@ namespace TexasHoldem.MonoScripts
                     continue;
 
                 players[index].Payout(Pot / potDivision);
+                chipDisplays[players[index].Seat].text = players[index].Chips.ToString();
                 winners += $"\n{players[index].Name}";
             }
 
             ReducePot(Pot / potDivision * potDivision);
+            potDisplay.text = Pot.ToString(); 
 
             hand.text = $"Winning Hand:\n{bestHand.GetName()}";
             this.highCard.text = $"High Card:\n{highCard}";
@@ -832,15 +838,8 @@ namespace TexasHoldem.MonoScripts
         /// <summary>
         /// resets gameState to RoundStart
         /// </summary>
-        void NextRound()
+        void RoundEnd()
         {
-            Game.NextState();
-            Game.NextRound();
-
-            HasRoundStarted = false;
-
-            DestroyButtons();
-
             Discard();
 
             foreach (Card card in board)
@@ -856,13 +855,30 @@ namespace TexasHoldem.MonoScripts
             winners.text = string.Empty;
 
             for (int index = 0; index < Player.Count; index++)
+            {
+                if (players[index] == null)
+                    break;
+
+                players[index].ResetBet();
+                players[index].ResetHand();
+
                 if (players[index].Chips == 0)
-                    LeaveTable(players[index].Seat);
+                    foreach (Button button in addLeaveControls[players[index].Seat].GetComponentsInChildren<Button>())
+                        if (button.gameObject.name == "Leave Table")
+                        {
+                            button.onClick.Invoke();
+                            index--;
+                            break;
+                        }
+            }
 
             foreach (GameObject control in addLeaveControls)
                 control.SetActive(true);
 
             roundStart.SetActive(true);
+
+            NextRound();
+            HasRoundStarted = false;
         }
 
         // "Sit" button events
