@@ -48,6 +48,12 @@ namespace TexasHoldem
                 Cards[index].FlipCard();
         }
 
+        public void FlipCard(int index)
+        {
+            if (index < CardCount)
+                Cards[index].FlipCard();
+        }
+
         /// <summary>
         /// removes Cards from Cards array
         /// </summary>

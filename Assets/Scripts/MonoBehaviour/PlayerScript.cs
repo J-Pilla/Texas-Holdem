@@ -87,11 +87,20 @@ namespace TexasHoldem.MonoScripts
         }
 
         /// <summary>
-        /// exposes hole.FlipCards();
+        /// exposes hole.FlipCards()
         /// </summary>
         public void FlipCards()
         {
             hole.FlipCards();
+        }
+
+        /// <summary>
+        /// exposes hole.FlipCard()
+        /// </summary>
+        /// <param name="index"></param>
+        public void FlipCard(int index)
+        {
+            hole.FlipCard(index);
         }
 
         public void PlaceBet(int bet)
@@ -100,39 +109,44 @@ namespace TexasHoldem.MonoScripts
             Chips -= bet;
         }
 
+        public void Payout(int pay)
+        {
+            Chips += pay;
+        }
+
         /// <summary>
         /// run through algorithms to find the value of the hand
         /// </summary>
         /// <param name="board"></param>
         public void SetHand(Card[] board)
         {
+            if (Hand == Hand.Fold)
+                return;
+
             Card[] combined = new Card[HAND_SIZE]; // temporary "hand" with both the player's cards
             CombineCards(board, combined); // and the community cards
 
             SortCards(combined);
 
-            if (Hand != Hand.Fold)
-            {
-                Hand = Hand.NoPair;
-                CheckStraightFlush(combined);
+            Hand = Hand.NoPair;
+            CheckStraightFlush(combined);
 
-                if (Hand < Hand.FourOAK)
-                    CheckSets(combined);
+            if (Hand < Hand.FourOAK)
+                CheckSets(combined);
 
-                if (Hand < Hand.Flush)
-                    CheckFlush(combined);
+            if (Hand < Hand.Flush)
+                CheckFlush(combined);
 
-                if (Hand < Hand.Straight)
-                    CheckStraight(combined);
+            if (Hand < Hand.Straight)
+                CheckStraight(combined);
 
-                if (Hand == Hand.NoPair)
-                    HighCard = Cards[0].Rank >= Cards[1].Rank ? Cards[0].Rank : Cards[1].Rank;
+            if (Hand == Hand.NoPair)
+                HighCard = Cards[0].Rank >= Cards[1].Rank ? Cards[0].Rank : Cards[1].Rank;
 
-                if (HighCard > Rank.LowAce)
-                    Kicker = HighCard == Cards[0].Rank ? Cards[1].Rank : Cards[0].Rank;
-                else
-                    Kicker = Rank.Ace == Cards[0].Rank ? Cards[1].Rank : Cards[0].Rank;
-            }
+            if (HighCard > Rank.LowAce)
+                Kicker = HighCard == Cards[0].Rank ? Cards[1].Rank : Cards[0].Rank;
+            else
+                Kicker = Rank.Ace == Cards[0].Rank ? Cards[1].Rank : Cards[0].Rank;
         }
 
         public void Fold()
