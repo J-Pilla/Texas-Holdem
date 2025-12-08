@@ -883,6 +883,8 @@ namespace TexasHoldem.MonoScripts
                         }
             }
 
+            TopBet = 0;
+
             foreach (GameObject control in addLeaveControls)
                 control.SetActive(true);
 
@@ -970,6 +972,9 @@ namespace TexasHoldem.MonoScripts
             int bet = betInput.text != string.Empty ?
                 int.Parse(betInput.text) : minimumBet;
 
+            if (bet < minimumBet)
+                bet = minimumBet;
+
             bet -= players[Turn].Bet;
 
             if (bet >= players[Turn].Chips)
@@ -978,7 +983,7 @@ namespace TexasHoldem.MonoScripts
                 return;
             }
             
-            PlaceBet(players[Turn], bet >= minimumBet ? bet : minimumBet);
+            PlaceBet(players[Turn], bet);
 
             NextTurn();
         }
