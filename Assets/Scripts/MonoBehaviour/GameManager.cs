@@ -1026,5 +1026,10 @@ namespace TexasHoldem.MonoScripts
                 passwordInput.text == players[Turn].Password)
                 players[Turn].FlipCards();
         }
+
+        public void CentreMouse()
+        {
+            Mouse.current.WarpCursorPosition(new Vector2(Screen.width, Screen.height) / 2);
+        }
     }
 }
